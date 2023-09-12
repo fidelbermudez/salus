@@ -3,6 +3,7 @@
 ## Team and Project Overview:
 
 Project type: Open Project
+
 Project Info: Personal Finance Manager: "Salus"
 
 Team name: Finance Wizards
