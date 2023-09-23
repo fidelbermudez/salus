@@ -5,7 +5,7 @@ import User from "./pages/User";
 import Transactions from "./pages/Transactions.js";
 import Budget from "./pages/Budget";
 import Home from "./pages/Home";
-import Bills from "./pages/Bills"
+import Savings from "./pages/Savings"
 import Summary from "./pages/Summary"
 import Login from "./pages/Login"
 import "./App.css";
@@ -29,8 +29,8 @@ function App() {
     case "/user":
       page = <User />
       break
-    case "/bills":
-      page = <Bills />
+    case "/savings":
+      page = <Savings />
       break
     case "/summary":
       page = <Summary/>

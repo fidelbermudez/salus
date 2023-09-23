@@ -11,6 +11,7 @@ export default function Navbar() {
         <a href="/budget">Budget</a>
         <a href="/transactions">Transactions</a>
         <a href="/user">User</a>
+        <a href="/savings">Savings</a>
       </ul>
     </nav>
   )
