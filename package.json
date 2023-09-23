@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "react-hook-form": "^7.46.1",
+    "react-router-dom": "^6.16.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.6.0"
+  }
+}
