@@ -40,7 +40,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className ="App">
     <Navbar />
       <div className = "container">
       {page}
