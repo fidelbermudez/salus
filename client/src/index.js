@@ -19,8 +19,15 @@ root.render(
       <div className='index'>
         <Navbar />
         <Routes>
-
           <Route path='*' element={<Navigate to="/" />} />
+          <Route path='budget' element={Budget} />
+          <Route path='transactions' element={Transaction} />
+          <Route path='User' element={User} />
+          <Route path='Savings' element={Saving} />
+          <Route path='Summary' element={Summary} />
+          <Route path='Login' element={Login} />
+          <Route path='Home' element={Home} />
+
         </Routes>
       </div>
     </BrowserRouter>
