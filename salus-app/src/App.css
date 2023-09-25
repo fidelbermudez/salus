@@ -1,3 +1,11 @@
+* {
+  background-color: #c5e6ed;
+}
+
+body{
+  font-family: "Lexend", sans-serif 
+}
+
 .App {
   text-align: center;
 }

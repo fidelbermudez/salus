@@ -5,13 +5,13 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <a href="/" className="app-name">
-        Salus
+        S
       </a>
       <ul>
         <a href="/budget">Budget</a>
         <a href="/transactions">Transactions</a>
-        <a href="/user">User</a>
         <a href="/savings">Savings</a>
+        <a href="/user">User</a>
       </ul>
     </nav>
   )

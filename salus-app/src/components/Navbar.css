@@ -7,17 +7,19 @@ body{
 }
 
 .nav{
-    background-color: #0a2351;
-    color: white;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    align-items: stretch;
     gap: 2rem;
     padding: 15px 25px;
+    color: white;
 }
 
 .app-name{
     font-size: 2rem;
+    background-color: #023E8A;
+    border-radius: 100px;
+    margin: 5px
 }
 
 .nav ul {
@@ -25,18 +27,41 @@ body{
     margin: 0;
     list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
   }
   
 
 .nav a {
     color: inherit;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 5px 12px; /* Adjust padding for size */
+    background-color: #023E8A;
+    border-radius: 25px; /* Adjust the radius for the bubble shape */
+    margin: 5px; /* Adjust margin to control spacing between bubble
+     
+    /* color: inherit;
+    text-decoration: none;
     height: 100%;
     display: flex;
     align-items: center;
-    padding: .25rem;
+    padding: 5 5rem;
+    background-color: #023E8A;
+    border-radius: 25px;
+    height: 3rem;
+    text-align: center; */
   }
+
+.nav a.app-name{
+    padding: 10px 20px;
+    border-radius: 100px;
+    background-color: #032754;
+}
+
+.nav a:hover{
+    background-color: #22528f;
+}
 
 .nav li.active {
     background-color: #0a2351;
