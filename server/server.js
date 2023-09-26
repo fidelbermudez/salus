@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const uri = 'mongodb://root:password@localhost:27017/?authMechanism=DEFAULT&authSource=development'
+const uri = 'mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/'
 const app = express();
 const port = process.env.PORT || 8081;
 
@@ -23,6 +23,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next();
 });
+
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
