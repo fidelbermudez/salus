@@ -27,7 +27,6 @@ root.render(
           <Route path='Summary' element={Summary} />
           <Route path='Login' element={Login} />
           <Route path='Home' element={Home} />
-
         </Routes>
       </div>
     </BrowserRouter>
