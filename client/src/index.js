@@ -20,14 +20,13 @@ root.render(
         <Navbar />
         <Routes>
           <Route path='*' element={<Navigate to="/" />} />
-          <Route path='budget' element={Budget} />
-          <Route path='transactions' element={Transaction} />
-          <Route path='User' element={User} />
-          <Route path='Savings' element={Saving} />
-          <Route path='Summary' element={Summary} />
-          <Route path='Login' element={Login} />
-          <Route path='Home' element={Home} />
-
+          <Route path='/budget' element={<Budget />} />
+          <Route path='/transactions' element={<Transaction/>} />
+          <Route path='/user' element={<User/>} />
+          <Route path='/savings' element={<Saving/>} />
+          <Route path='/summary' element={<Summary/>} />
+          <Route path='/login' element={<Login/>} />
+          <Route path='/home' element={<Home/>} />
         </Routes>
       </div>
     </BrowserRouter>
