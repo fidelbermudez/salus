@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const uri = 'mongodb://root:password@localhost:27017/?authMechanism=DEFAULT&authSource=development'
+const uri = 'mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/'
 const app = express();
 const port = process.env.PORT || 8081;
 
