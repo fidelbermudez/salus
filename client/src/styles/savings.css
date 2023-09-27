@@ -1,12 +1,57 @@
-.total-savings{
-    background-color: pink;
+.Saving{
+    background-color: #E6FAFA;
+    height: 50rem;
 }
 
-.goals{
-    background-color: peru;
-}
 
-.add{
+.add button{
+    background-color: #023E8A;
+    outline-color: pink;
     position: absolute;
     left: 20px;
+}
+
+/* modal */
+
+.modal{
+    background-color: transparent !important;
+    color: white;
+}
+
+.modal-header{
+    background-color: #032754;
+    /* margin-bottom: 0.5rem; */
+}
+
+.modal-title{
+    margin: auto;
+}
+
+.modal-body{
+    background-color: #023E8A;
+}
+
+.modal-body p{
+    color: white;
+    background-color: #023E8A;
+    text-align: left;
+}
+
+.modal-body button{
+    background-color: #0077B6;
+    outline-color: white;
+}
+
+.modal-body button:hover{
+    background-color: #1385c2;
+}
+
+
+/* add new form */
+.mb-3{
+    background-color: #023E8A;
+}
+
+.mb-3 p{
+    background-color: #023E8A;
 }
