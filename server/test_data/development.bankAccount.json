@@ -1,0 +1,220 @@
+[{
+  "_id": {
+    "$oid": "65148dca024241803b3a6754"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54ad"
+  },
+  "id": 1,
+  "bankName": "Capital One",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6755"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54ae"
+  },
+  "id": 2,
+  "bankName": "Citibank",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6756"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54af"
+  },
+  "id": 3,
+  "bankName": "Bank of America",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6757"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b0"
+  },
+  "id": 4,
+  "bankName": "Bank of America",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6758"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b1"
+  },
+  "id": 5,
+  "bankName": "Capital One",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6759"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b2"
+  },
+  "id": 6,
+  "bankName": "Citibank",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a675a"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b3"
+  },
+  "id": 7,
+  "bankName": "Citibank",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a675b"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b4"
+  },
+  "id": 8,
+  "bankName": "Capital One",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a675c"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b5"
+  },
+  "id": 9,
+  "bankName": "Wells Fargo",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a675d"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b6"
+  },
+  "id": 10,
+  "bankName": "Chase",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a675e"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b7"
+  },
+  "id": 11,
+  "bankName": "Citibank",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a675f"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b8"
+  },
+  "id": 12,
+  "bankName": "Bank of America",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6760"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54b9"
+  },
+  "id": 13,
+  "bankName": "Citibank",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6761"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54ba"
+  },
+  "id": 14,
+  "bankName": "Wells Fargo",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6762"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54bb"
+  },
+  "id": 15,
+  "bankName": "Wells Fargo",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6763"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54bc"
+  },
+  "id": 16,
+  "bankName": "Capital One",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6764"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54bd"
+  },
+  "id": 17,
+  "bankName": "Bank of America",
+  "accountType": "savings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6765"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54be"
+  },
+  "id": 18,
+  "bankName": "Bank of America",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6766"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54bf"
+  },
+  "id": 19,
+  "bankName": "Capital One",
+  "accountType": "checkings"
+},
+{
+  "_id": {
+    "$oid": "65148dca024241803b3a6767"
+  },
+  "account_id": {
+    "$oid": "651489c6fc13ae70f9fd54c0"
+  },
+  "id": 20,
+  "bankName": "Wells Fargo",
+  "accountType": "savings"
+}]
