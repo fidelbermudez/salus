@@ -4,7 +4,7 @@ const BankAccount = require('../models/bankAccount');
 
 // Define bank account-related routes here
 
-router.get('/:userId/bankaccount', async (req, res) => {
+router.get('/:userId/bankAccount', async (req, res) => {
   try {
     const userId = req.params.userId;
     const bankAccount = await BankAccount.findOne({ id: userId });
