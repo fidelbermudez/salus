@@ -38,7 +38,7 @@ function NewGoalModal(props) {
       </Modal.Header>
       <Modal.Body>
         <NewGoalForm/>
-        <Button onClick={props.onHide}>Save Changes</Button>
+        <Button onClick={props.onHide}>Add Goal</Button>
       </Modal.Body>
     </Modal>
   );
