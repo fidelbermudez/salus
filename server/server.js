@@ -10,6 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
 const expensesRoutes = require('./routes/expensesRoutes');
 const incomeRoutes = require('./routes/incomeRoutes');
+const budgetRoute = require('./routes/budgetSummaryRoutes');
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -40,6 +41,7 @@ app.use('/api/bank', bankAccountRoutes);
 // app.use('/api/bankAccounts', bankAccountRoutes);
 app.use('/api/income', incomeRoutes);
 app.use('/api/expense', expensesRoutes);
+app.use('/api/budgetSummary', budgetRoute);
 
 // Start the server
 app.listen(port, () => {
