@@ -1,0 +1,56 @@
+table {
+    border-collapse: collapse;
+    border: 3px solid black;
+    float: left;
+    margin: 20px;
+}
+
+.incomeBody {
+    background-color: black;
+    border: 3px solid black;
+}
+
+.expenseBody {
+    background-color: black;
+    border: 3px solid black;
+}
+
+.incomeDate {
+    border-right: 2px solid black;
+}
+
+.incomeAmount {
+    border-right: 2px solid black;
+}
+
+.expenseDate {
+    border-right: 2px solid black;
+}
+
+.expenseAmount {
+    border-right: 2px solid black;
+}
+
+.expenseCategory {
+    border-right: 2px solid black;
+}
+
+.incDateHead {
+    border-right: 3px solid black;
+}
+
+.incAmountHead {
+    border-right: 3px solid black;
+}
+
+.expDateHead {
+    border-right: 3px solid black;
+}
+
+.expAmountHead {
+    border-right: 3px solid black;
+}
+
+.expCategoryHead {
+    border-right: 3px solid black;
+}
