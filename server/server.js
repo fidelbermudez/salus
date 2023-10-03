@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
-const uri = process.env.MONGO_URI;
+const {MONGO_URL} = process.env;
 const app = express();
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
 
-mongoose.connect('mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/development', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
 
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
   res.send('Hello, Salus');
 })
 app.use('/api/users', userRoutes);
-app.use('/api/bankAccounts', bankAccountRoutes);
+app.use('/api/bank', bankAccountRoutes);
 
 // Start the server
 app.listen(port, () => {
