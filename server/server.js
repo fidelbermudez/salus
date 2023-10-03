@@ -5,10 +5,12 @@ const cors = require('cors');
 require('dotenv').config();
 // const uri = process.env.MONGO_URI;
 const app = express();
+const {MONGO_URL} = process.env;
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
 const savingsRoutes = require('./routes/savingsRoutes');
+
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 

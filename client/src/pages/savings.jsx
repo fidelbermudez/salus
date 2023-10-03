@@ -158,3 +158,98 @@ export default Savings;
 //     const goal = { goalName, goalAmount };
 //     console.log(goal);
 //   }
+
+
+//code kelvin is providing... 
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// const SavingsForm = () => {
+//   const [formData, setFormData] = useState({
+//     user_id: '',
+//     goal_amount: '',
+//     amount_contributed: '',
+//     savings_category: ''
+//   });
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [error, setError] = useState(null);
+//   const [success, setSuccess] = useState(null);
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData({
+//       ...formData,
+//       [name]: value
+//     });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setIsSubmitting(true);
+//     setError(null);
+//     setSuccess(null);
+
+//     try {
+//       // Adjust the endpoint according to your server setup
+//       const response = await axios.post('http://localhost:8081/api/savings/insert', formData);
+      
+//       setIsSubmitting(false);
+//       setSuccess('Data successfully saved!');
+//       console.log('Data saved: ', response.data);
+//     } catch (err) {
+//       setIsSubmitting(false);
+//       setError('Something went wrong! Please try again.');
+//       console.error(err);
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <h1>Savings Entry</h1>
+//       {error && <p style={{color: 'red'}}>{error}</p>}
+//       {success && <p style={{color: 'green'}}>{success}</p>}
+      
+//       <div>
+//         <label htmlFor="goal_amount">Goal Amount:</label>
+//         <input 
+//           type="number" 
+//           id="goal_amount" 
+//           name="goal_amount" 
+//           value={formData.goal_amount}
+//           onChange={handleInputChange} 
+//           required
+//         />
+//       </div>
+      
+//       <div>
+//         <label htmlFor="amount_contributed">Amount Contributed:</label>
+//         <input 
+//           type="number" 
+//           id="amount_contributed" 
+//           name="amount_contributed" 
+//           value={formData.amount_contributed}
+//           onChange={handleInputChange} 
+//           required
+//         />
+//       </div>
+      
+//       <div>
+//         <label htmlFor="savings_category">Savings Category:</label>
+//         <input 
+//           type="text" 
+//           id="savings_category" 
+//           name="savings_category" 
+//           value={formData.savings_category}
+//           onChange={handleInputChange} 
+//           required
+//         />
+//       </div>
+      
+//       <button type="submit" disabled={isSubmitting}>
+//         {isSubmitting ? 'Submitting...' : 'Submit'}
+//       </button>
+//     </form>
+//   );
+// };
+
+// export default SavingsForm;

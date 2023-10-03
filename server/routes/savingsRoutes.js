@@ -41,24 +41,23 @@ router.get('/report', async (req, res) => {
 
 router.post('/insert', async (req, res) => {
   try {
-    // Extract data from the request body
 
-    let newDocument = {
+    // Extract data from the request body
+    let newDocument = new Savings({
       user_id: req.body.user_id,
       goal_amount: req.body.goal_amount,
       amount_contributed: req.body.amount_contributed,
       savings_category: req.body.savings_category
-    }
+    });
     
-    let newData = await Savings.insert(newDocument)
+    let newData = await newDocument.save(); // Saving the new document in the DB
     
-    res.send(newData).status(204)
-
     res.status(201).json(newData); // Respond with the created savings record
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
 
 module.exports = router;
