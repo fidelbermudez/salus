@@ -5,16 +5,6 @@ const Savings = require('../models/savings.js');
 // Define savings-related routes here
 
 
-router.get('/all', async (req, res) => {
-  try {
-    const allUsers = await Savings.find();
-    res.json(allUsers);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server Error' });
-  }
-});
-
 router.get('/show/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
@@ -49,69 +39,25 @@ router.get('/report', async (req, res) => {
   }
 });
 
-router.post('/create', async (req, res) => {
+router.post('/insert', async (req, res) => {
   try {
     // Extract data from the request body
-    const { user_id, goal_amount, amount_contributed, savings_category } = req.body;
 
-    // Create a new savings record
-    const newSavings = new Savings({
-      user_id,
-      goal_amount,
-      amount_contributed,
-      savings_category,
-    });
+    let newDocument = {
+      user_id: req.body.user_id,
+      goal_amount: req.body.goal_amount,
+      amount_contributed: req.body.amount_contributed,
+      savings_category: req.body.savings_category
+    }
+    
+    let newData = await Savings.insert(newDocument)
+    
+    res.send(newData).status(204)
 
-    // Save the new savings record to the database
-    await newSavings.save();
-
-    res.status(201).json(newSavings); // Respond with the created savings record
+    res.status(201).json(newData); // Respond with the created savings record
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
-  }
-});
-
-router.post('', async (req, res) => {
-  try {
-      // Handle POST request for submitting form data
-      // Extract data from the request body
-      const { user_id, goal_amount, amount_contributed, savings_category } = req.body;
-
-      // Create a new savings record
-      const newSavings = new Savings({
-        user_id,
-        goal_amount
-        amount_contributed,
-        savings_category
-      });
-
-      // Save the new savings record to the database
-      await newSavings.save();
-
-      // Redirect or respond as needed after successful submission
-      res.redirect(''); // Redirect to the page or handle as required
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server Error' });
-    }
-}); 
-
-router.get('/list', async (req, res) => {
-  try {
-    // Retrieve all entries from the "savings" collection
-    const allSavings = await Savings.find({});
-
-    // Check if there are no entries
-    if (allSavings.length === 0) {
-      return res.status(404).json({ message: 'No entries found' });
-    }
-
-    // Respond with the list of entries
-    res.json(allSavings);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
   }
 });
 
