@@ -1,7 +1,3 @@
 node_modules
 db
-<<<<<<< HEAD
 .env
-=======
-.env
->>>>>>> origin

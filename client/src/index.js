@@ -12,6 +12,8 @@ import User from './pages/user';
 import Saving from './pages/savings';
 import Summary from './pages/summary';
 import Login from './pages/login';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -20,7 +22,9 @@ root.render(
         <Navbar />
         <Routes>
           <Route path='*' element={<Navigate to="/" />} />
+     
           <Route path='/budget' element={<Budget />} />
+       
           <Route path='/transactions' element={<Transaction/>} />
           <Route path='/user' element={<User/>} />
           <Route path='/savings' element={<Saving/>} />
