@@ -10,7 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
 const savingsRoutes = require('./routes/savingsRoutes');
 
-mongoose.connect('mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/development', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
 const db = mongoose.connection;
 
@@ -36,8 +36,8 @@ app.get('/', (req, res) => {
   res.send('Hello, Salus');
 })
 app.use('/api/users', userRoutes);
-app.use('/api/bankAccounts', bankAccountRoutes);
 app.use('/api/savings', savingsRoutes);
+app.use('/api/bank', bankAccountRoutes);
 
 // Start the server
 app.listen(port, () => {
