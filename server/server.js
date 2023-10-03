@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
-const {MONGO_URL} = process.env;
+// const uri = process.env.MONGO_URI;
 const app = express();
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
+const expensesRoutes = require('./routes/expensesRoutes');
+const incomeRoutes = require('./routes/incomeRoutes');
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -35,6 +37,9 @@ app.get('/', (req, res) => {
 })
 app.use('/api/users', userRoutes);
 app.use('/api/bank', bankAccountRoutes);
+// app.use('/api/bankAccounts', bankAccountRoutes);
+app.use('/api/income', incomeRoutes);
+app.use('/api/expense', expensesRoutes);
 
 // Start the server
 app.listen(port, () => {
