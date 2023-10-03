@@ -13,6 +13,7 @@
 
 /* modal */
 
+
 .modal{
     background-color: transparent !important;
     color: white;
@@ -20,11 +21,14 @@
 
 .modal-header{
     background-color: #032754;
+    position: relative;
     /* margin-bottom: 0.5rem; */
 }
 
 .modal-title{
-    margin: auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .modal-body{
@@ -54,4 +58,21 @@
 
 .mb-3 p{
     background-color: #023E8A;
+}
+
+/* savings category */
+
+.savings-cat{
+    background-color: #023E8A;
+    color: white;
+    width: fit-content;
+    border-radius: 25px;
+    margin:  2rem;
+    padding: 1rem;
+}
+
+.show-categories{
+    background-color: #9bbbe5; 
+    padding: 1rem;
+    margin-top: 1rem;
 }

@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
+const savingsRoutes = require('./routes/savingsRoutes');
 
 mongoose.connect('mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/development', { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api/users', userRoutes);
 app.use('/api/bankAccounts', bankAccountRoutes);
+app.use('/api/savings', savingsRoutes);
 
 // Start the server
 app.listen(port, () => {
