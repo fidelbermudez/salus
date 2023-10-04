@@ -9,14 +9,13 @@ import Home from './pages/home';
 import Budget from './pages/budget';
 import Transaction from './pages/transaction';
 import User from './pages/user';
-import Saving from './pages/savings';
+import Savings from './pages/savings';
 import Summary from './pages/summary';
 import Login from './pages/login';
 import { AuthProvider } from './AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
 root.render(
   <React.StrictMode>
     <AuthProvider> 
@@ -29,7 +28,7 @@ root.render(
             <Route path='/transactions' element={<Transaction/>} />
             <Route path='/user' element={<User/>} />
             <Route path='/login' element={<Login/>} />
-            <Route path='/savings' element={<Saving/>} />
+            <Route path='/savings' element={<Savings/>} />
             <Route path='/summary' element={<Summary/>} />
             <Route path='/home' element={<Home/>} />
           </Routes>

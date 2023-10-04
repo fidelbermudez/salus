@@ -1,0 +1,78 @@
+.Saving{
+    background-color: #E6FAFA;
+    height: 50rem;
+}
+
+
+.add button{
+    background-color: #023E8A;
+    outline-color: pink;
+    position: absolute;
+    left: 20px;
+}
+
+/* modal */
+
+
+.modal{
+    background-color: transparent !important;
+    color: white;
+}
+
+.modal-header{
+    background-color: #032754;
+    position: relative;
+    /* margin-bottom: 0.5rem; */
+}
+
+.modal-title{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal-body{
+    background-color: #023E8A;
+}
+
+.modal-body p{
+    color: white;
+    background-color: #023E8A;
+    text-align: left;
+}
+
+.modal-body button{
+    background-color: #0077B6;
+    outline-color: white;
+}
+
+.modal-body button:hover{
+    background-color: #1385c2;
+}
+
+
+/* add new form */
+.mb-3{
+    background-color: #023E8A;
+}
+
+.mb-3 p{
+    background-color: #023E8A;
+}
+
+/* savings category */
+
+.savings-cat{
+    background-color: #023E8A;
+    color: white;
+    width: fit-content;
+    border-radius: 25px;
+    margin:  2rem;
+    padding: 1rem;
+}
+
+.show-categories{
+    background-color: #9bbbe5; 
+    padding: 1rem;
+    margin-top: 1rem;
+}
