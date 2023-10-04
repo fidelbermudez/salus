@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function Summary() {
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(4);
   const [expenseInfo, setExpenseInfo] = useState([]);
+  const [incomeInfo, setIncomeInfo] = useState([]);
   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const fetchExpenseInfo = async () => {
@@ -22,8 +24,25 @@ function Summary() {
       }
     };
 
-    fetchExpenseInfo();
-  }, [userId]);
+    const fetchIncomeInfo = async () => {
+      try {
+        const response = await axios.get('http://localhost:8081/api/income/all');
+        console.log(response.data, "test1");
+
+        const filteredIncomes = response.data.filter((income) => income.user_id === userId);
+        console.log(filteredIncomes, "test3");
+
+        setIncomeInfo(filteredIncomes);
+      } catch (e) {
+        setError(e.message || 'Failed to fetch income info');
+        console.error(e);
+      }
+  };
+
+  fetchIncomeInfo();
+  fetchExpenseInfo();
+}, [userId]);
+
 
   return (
     <div>
@@ -31,6 +50,11 @@ function Summary() {
       <ul>
         {expenseInfo.map((expense) => (
           <li key={expense._id}>{expense.description}</li>
+        ))}
+      </ul>
+      <ul>
+        {incomeInfo.map((income) => (
+          <li key={income._id}>{income.source}</li>
         ))}
       </ul>
     </div>
