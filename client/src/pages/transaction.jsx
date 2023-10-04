@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import "../styles/transactions.css";
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Transaction() {
   const [income, setIncome] = useState([]);
   useEffect(()=> {
-    axios.get('http://localhost:8081/api/income/all')
+    axios.get('http://localhost:8081/api/income/show/4')
     .then(income => setIncome(income.data))
     .catch(err => console.log(err))
   }, [])
 
   const [expense, setExpense] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8081/api/expense/all')
+    axios.get('http://localhost:8081/api/expense/show/4')
     .then(expense => setExpense(expense.data))
     .catch(err => console.log(err))
   })
@@ -23,7 +22,7 @@ function Transaction() {
     <div className="w-100 vh-100 d-flex justify-content-center">
       <div className="w-70">
       <table className = "incomeTable">
-        <thead>
+        <thead className = "incomeHead">
           <tr>
             <th className = "incDateHead">Date</th>
             <th className = "incAmountHead">Amount</th>
@@ -45,7 +44,7 @@ function Transaction() {
       </div>
       <div className="w-200">
           <table className = "expenseTable">
-            <thead>
+            <thead className = "expenseHead">
               <tr>
                 <th className = "expDateHead">Date</th>
                 <th className = "expAmountHead">Amount</th>
