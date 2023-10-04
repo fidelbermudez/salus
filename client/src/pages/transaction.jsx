@@ -19,22 +19,22 @@ function Transaction() {
   })
 
   return (
-    <div className="w-100 vh-100 d-flex justify-content-center">
-      <div className="w-70">
+    <div>
+      <div>
       <table className = "incomeTable">
-        <thead className = "incomeHead">
+        <thead>
           <tr>
-            <th className = "incDateHead">Date</th>
-            <th className = "incAmountHead">Amount</th>
+            <th>Date</th>
+            <th>Amount</th>
             <th>Source</th>
           </tr>
         </thead>
         <tbody>
           {
             income.map(income => {
-              return <tr className = "incomeBody">
-                <td className = "incomeDate">{income.date}</td>
-                <td className = "incomeAmount">{income.amount}</td>
+              return <tr>
+                <td>{income.date}</td>
+                <td>${income.amount}</td>
                 <td>{income.source}</td>
               </tr>
             })
@@ -42,23 +42,23 @@ function Transaction() {
         </tbody>
       </table>
       </div>
-      <div className="w-200">
+      <div>
           <table className = "expenseTable">
-            <thead className = "expenseHead">
+            <thead>
               <tr>
-                <th className = "expDateHead">Date</th>
-                <th className = "expAmountHead">Amount</th>
-                <th className = "expCategoryHead">Category</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Category</th>
                 <th>Description</th>
               </tr>
             </thead>
             <tbody>
               {
                 expense.map(expense => {
-                  return <tr className = "expenseBody">
-                    <td className = "expenseDate">{expense.date}</td>
-                    <td className = "expenseAmount">{expense.amount}</td>
-                    <td className = "expenseCategory">{expense.category_id}</td>
+                  return <tr>
+                    <td>{expense.date}</td>
+                    <td>${expense.amount}</td>
+                    <td>{expense.category_id}</td>
                     <td>{expense.description}</td>
                   </tr>
                 })

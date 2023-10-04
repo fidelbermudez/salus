@@ -1,66 +1,24 @@
 table {
-    border-collapse: collapse;
-    border: 4px solid black;
-    float: left;
-    margin: 20px;
+    width: 70%;
+    border-spacing: 0px;
+    border: 1px solid black;
+    float: bottom;
+    margin: 50px;
+    border-radius: 20px;
+    overflow:hidden;
+    margin-left:auto;
+    margin-right:auto;
 }
 
-.incomeBody {
-    background-color: black;
-    border: 2px solid black;
-}
+table tbody tr td {
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-style: solid;
+    border-color: black;
+  }
 
-.expenseBody {
-    background-color: black;
-    border: 2px solid black;
-}
-
-.incomeHead {
-    background-color: black;
-    border: 4px solid black;
-}
-
-.expenseHead {
-    background-color: black;
-    border: 4px solid black;
-}
-
-.incomeDate {
-    border-right: 2px solid black;
-}
-
-.incomeAmount {
-    border-right: 2px solid black;
-}
-
-.expenseDate {
-    border-right: 2px solid black;
-}
-
-.expenseAmount {
-    border-right: 2px solid black;
-}
-
-.expenseCategory {
-    border-right: 2px solid black;
-}
-
-.incDateHead {
-    border-right: 4px solid black;
-}
-
-.incAmountHead {
-    border-right: 4px solid black;
-}
-
-.expDateHead {
-    border-right: 4px solid black;
-}
-
-.expAmountHead {
-    border-right: 4px solid black;
-}
-
-.expCategoryHead {
-    border-right: 4px solid black;
+table tbody tr td:last-child {
+    border-right: 0px;
 }
