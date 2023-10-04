@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/savings.css'
 
-function SavingsCategory() {
+function SavingsCategory({ name, saved, goal }) {
   return (
     <div className="savings-cat">
-      <h2> Name </h2>
-      <h4> Saved/Goal </h4>
+      <h2> {name} </h2>
+      <h4> {saved}/{goal} </h4>
     </div>
   );
 }

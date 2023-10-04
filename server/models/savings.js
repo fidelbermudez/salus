@@ -2,11 +2,6 @@ const { response } = require('express');
 const mongoose = require('mongoose');
 
 const savingsSchema = new mongoose.Schema({
-  // goal_id: {
-  //   type: Number,
-  //   unique: true, 
-  //   required: true, 
-  // },
   user_id: {
     type: Number,
     required: true

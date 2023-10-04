@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
+import axios from 'axios';
 
 
 function NewGoalForm() {
@@ -14,60 +15,60 @@ function NewGoalForm() {
   // add loading state button 
   const [goalName, setGoalName] = useState('');
   const [goalAmount, setGoalAmount]  = useState('');
+  const [amountContributed, setAmountContributed] = useState(0);
 
-  //handle submission of form and create a post request
-   const handleSubmit = async (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(null);
 
     try {
-      const response = await fetch('http://localhost:8081/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-        if (response.status === 200) {
-            const userData = await response.json();
-            setCurrentUser(userData); 
-            console.log("User Data after Login:", userData);
-            navigate("/user");
-      } else {
-            const data = await response.json();
-            alert(data.message);
-      }
-    } catch (error) {
-        console.error(error);
-        alert('An error occurred. Please try again.');
+      // Adjust the endpoint according to your server setup
+      const newGoal = {user_id: 3, goal_amount: goalAmount, amount_contributed: amountContributed, savings_category: goalName};
+      const response = await axios.post('http://localhost:8081/api/savings/insert', newGoal);
+      
+      setIsSubmitting(false);
+      setSuccess('Data successfully saved!');
+      console.log('Data saved: ', response.data);
+    } catch (err) {
+      setIsSubmitting(false);
+      setError('Something went wrong! Please try again.');
+      console.error(err);
     }
   };
 
-
-    // fetch('http://localhost:8081/api/savings/create', {
-    //   method: 'POST',
-    //   headers: { "Content-Type": "application/json"},
-    //   body: JSON.stringify(goal)
-    // }).then(() => {
-    //   console.log("new goal added")
-    // })
-  }
-  
   return (
    <Form>
       <Form.Group className="mb-3" controlId="formGoalName">
         <Form.Label>Goal Name</Form.Label>
-        <Form.Control type="goal-name" placeholder='e.g. Vacation'
-         value = {goalName} onChange = {(e) => setGoalName(e.target.value)}/>
+        <Form.Control type="string" placeholder='e.g. Vacation'
+         value={goalName}
+          onChange = {(e) => setGoalName(e.target.value)}
+          required />
       </Form.Group>
-      
 
       <Form.Group className="mb-3" controlId="formGoalAmount">
         <Form.Label>Goal Amount</Form.Label>
-        <Form.Control type="goal-amount" placeholder=" e.g. 2000"
-         value = {goalAmount} onChange = {(e) => setGoalAmount(e.target.value)} />
+        <Form.Control type="number" placeholder=" e.g. 2000"
+         value={goalAmount}
+           onChange = {(e) => setGoalAmount(e.target.value)}
+           required/>
       </Form.Group>
 
-      <Button onClick={handleSubmit}>Add Goal</Button>
+      <Form.Group className="mb-3" controlId="formAmountContributed">
+        <Form.Label>Amount Contributed</Form.Label>
+        <Form.Control type="number" placeholder=" e.g. 0"
+         value={amountContributed}
+           onChange = {(e) => setAmountContributed(e.target.value)}/>
+      </Form.Group>
+
+
+      <Button type = "submit" onClick={handleSubmit} disabled={isSubmitting}> {isSubmitting ? 'Adding Goal...' : 'Add Goal'} </Button>
     </Form>
   );
 }
@@ -99,23 +100,29 @@ function NewGoalModal(props) {
 
 function Savings() {
   const [modalShow, setModalShow] = React.useState(false);
-  const [goals, setGoals] = React.useState(null);
+  const [goals, setGoals] = React.useState([]);
   //to do: create a fetch request for the user information so we can display info ab categories
   // involves implementing props into the components so it is more customizable
 
   // 'http://localhost:8081/api/savings/show/3'
 
-  useEffect(() => {
-    fetch('http://localhost:8081/api/savings/show/3'
-    ).then(res => {
-      return res.json();
-    })
-    .then((data => {
-      console.log(data);
-      setGoals()
-    }))
-  })
 
+  useEffect(() => {
+    axios.get('http://localhost:8081/api/savings/show/3')
+    .then(goals => setGoals(goals.data))
+    .catch(err => console.log(err))
+  })
+  
+  // useEffect(() => {
+  //   fetch('http://localhost:8081/api/savings/show/3'
+  //   ).then(res => {
+  //     return res.json();
+  //   })
+  //   .then((data => {
+  //     console.log(data);
+  //   }))
+  // })
+  
   return (
     <div className="Saving">
       <h1> Savings </h1>
@@ -144,7 +151,13 @@ function Savings() {
       </div>
 
       <div className = 'show-categories'>
-      <SavingsCategory />
+      {
+      goals.map(goal =>{
+        return (
+        <div> 
+        <SavingsCategory name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} /> 
+        </div>);
+      })}
       </div>
 
     </div>
@@ -165,29 +178,29 @@ export default Savings;
 // import axios from 'axios';
 
 // const SavingsForm = () => {
-//   const [formData, setFormData] = useState({
-//     user_id: '',
-//     goal_amount: '',
-//     amount_contributed: '',
-//     savings_category: ''
-//   });
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [success, setSuccess] = useState(null);
+  // const [formData, setFormData] = useState({
+  //   user_id: '',
+  //   goal_amount: '',
+  //   amount_contributed: '',
+  //   savings_category: ''
+  // });
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [success, setSuccess] = useState(null);
 
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: value
-//     });
-//   };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value
+  //   });
+  // };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setIsSubmitting(true);
-//     setError(null);
-//     setSuccess(null);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+  //   setError(null);
+  //   setSuccess(null);
 
 //     try {
 //       // Adjust the endpoint according to your server setup

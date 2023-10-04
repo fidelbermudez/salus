@@ -6,6 +6,7 @@ require('dotenv').config();
 // const uri = process.env.MONGO_URI;
 const app = express();
 const {MONGO_URL} = process.env;
+//const {MONGO_URL} = 'mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/development'
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
