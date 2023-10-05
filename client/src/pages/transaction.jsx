@@ -25,10 +25,11 @@ function Transaction() {
 
   return (
     <div>
+      <footer>
       <button className="toggle-button" onClick={handleToggleChange}>
         {toggle ? "Show Expenses" : "Show Income"}
       </button>
-      <div>
+      <div class = "fix-bot">
         {toggle ? (
           <table className = "incomeTable">
           <thead>
@@ -75,6 +76,7 @@ function Transaction() {
           </table>
         )}
       </div>
+      </footer>
     </div>
   );
 }
