@@ -49,6 +49,9 @@
     background-color: #1385c2;
 }
 
+.modal-dialog{
+    background-color: transparent;
+}
 
 /* modal form */
 
@@ -56,8 +59,8 @@
     background-color: #023E8A;
 }
 
-.mb-3 p{
-    background-color: #023E8A;
+.form{
+    background-color: transparent;
 }
 
 /* savings category */
@@ -78,3 +81,36 @@
     margin-top: 1rem;
     display: flex;
 }
+
+.goaldiv{
+    background-color: transparent;
+}
+
+
+/* words and headers */
+h1{
+    background-color: transparent;
+}
+
+h2{
+    background-color: transparent;
+}
+
+h4{
+    background-color: transparent
+}
+p{
+    background-color: transparent;
+}
+
+#contained-modal-title-vcenter{
+    background-color: transparent;
+}
+label{
+    background-color: transparent;
+}
+
+.modal{
+    background-color: transparent !important;
+}
+

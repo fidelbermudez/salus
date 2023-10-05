@@ -45,11 +45,11 @@ function NewGoalForm() {
   };
 
   return (
-   <Form>
+   <Form className = "form">
       {/* input for the goal name */}
       <Form.Group className="mb-3" controlId="formGoalName">
         <Form.Label>Goal Name</Form.Label>
-        <Form.Control type="string" placeholder='e.g. Vacation'
+        <Form.Control className = "input" type="string" placeholder='e.g. Vacation'
          value={goalName}
           onChange = {(e) => setGoalName(e.target.value)}
           required />
@@ -89,6 +89,7 @@ function NewGoalModal(props) {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className = "modal"
     >
     <Modal.Header>
       <Modal.Title id="contained-modal-title-vcenter">
@@ -149,7 +150,7 @@ function Savings() {
       {
       goals.map(goal =>{
         return (
-        <div> 
+        <div className = "goaldiv"> 
         <SavingsCategory name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} /> 
         </div>);
       })}
