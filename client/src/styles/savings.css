@@ -4,6 +4,7 @@
 }
 
 
+/* add new category buton  */
 .add button{
     background-color: #023E8A;
     outline-color: pink;
@@ -13,7 +14,6 @@
 
 /* modal */
 
-
 .modal{
     background-color: transparent !important;
     color: white;
@@ -22,7 +22,6 @@
 .modal-header{
     background-color: #032754;
     position: relative;
-    /* margin-bottom: 0.5rem; */
 }
 
 .modal-title{
@@ -51,7 +50,8 @@
 }
 
 
-/* add new form */
+/* modal form */
+
 .mb-3{
     background-color: #023E8A;
 }
@@ -69,10 +69,12 @@
     border-radius: 25px;
     margin:  2rem;
     padding: 1rem;
+    width: 200px;
 }
 
 .show-categories{
     background-color: #9bbbe5; 
     padding: 1rem;
     margin-top: 1rem;
+    display: flex;
 }

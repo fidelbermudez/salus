@@ -5,7 +5,7 @@ function SavingsCategory({ name, saved, goal }) {
   return (
     <div className="savings-cat">
       <h2> {name} </h2>
-      <h4> {saved}/{goal} </h4>
+      <h4> ${saved}/${goal} </h4>
     </div>
   );
 }
