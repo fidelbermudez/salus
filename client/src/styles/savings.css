@@ -1,0 +1,116 @@
+.Saving{
+    background-color: #E6FAFA;
+    height: 50rem;
+}
+
+
+/* add new category buton  */
+.add button{
+    background-color: #023E8A;
+    outline-color: pink;
+    position: absolute;
+    left: 20px;
+}
+
+/* modal */
+
+.modal{
+    background-color: transparent !important;
+    color: white;
+}
+
+.modal-header{
+    background-color: #032754;
+    position: relative;
+}
+
+.modal-title{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.modal-body{
+    background-color: #023E8A;
+}
+
+.modal-body p{
+    color: white;
+    background-color: #023E8A;
+    text-align: left;
+}
+
+.modal-body button{
+    background-color: #0077B6;
+    outline-color: white;
+}
+
+.modal-body button:hover{
+    background-color: #1385c2;
+}
+
+.modal-dialog{
+    background-color: transparent;
+}
+
+/* modal form */
+
+.mb-3{
+    background-color: #023E8A;
+}
+
+.form{
+    background-color: transparent;
+}
+
+/* savings category */
+
+.savings-cat{
+    background-color: #023E8A;
+    color: white;
+    width: fit-content;
+    border-radius: 25px;
+    margin:  2rem;
+    padding: 1rem;
+    width: 200px;
+}
+
+.show-categories{
+    background-color: #9bbbe5; 
+    padding: 1rem;
+    margin-top: 1rem;
+    display: flex;
+}
+
+.goaldiv{
+    background-color: transparent;
+}
+
+
+/* words and headers */
+h1{
+    background-color: transparent;
+}
+
+h2{
+    background-color: transparent;
+}
+
+h4{
+    background-color: transparent
+}
+p{
+    background-color: transparent;
+}
+
+#contained-modal-title-vcenter{
+    background-color: transparent;
+}
+label{
+    background-color: transparent;
+}
+
+.modal{
+    background-color: transparent !important;
+}
+

@@ -3,11 +3,16 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
-const {MONGO_URL} = process.env;
+// const uri = process.env.MONGO_URI;
 const app = express();
+const {MONGO_URL} = process.env;
+//const {MONGO_URL} = 'mongodb+srv://root:saluspassword@atlascluster.cwqn8gy.mongodb.net/development'
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
+const savingsRoutes = require('./routes/savingsRoutes');
+const expensesRoutes = require('./routes/expensesRoutes');
+const incomeRoutes = require('./routes/incomeRoutes');
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -25,6 +30,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next();
 });
+
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
@@ -34,6 +40,9 @@ app.get('/', (req, res) => {
   res.send('Hello, Salus');
 })
 app.use('/api/users', userRoutes);
+app.use('/api/savings', savingsRoutes);
+app.use('/api/income', incomeRoutes);
+app.use('/api/expense', expensesRoutes);
 app.use('/api/bank', bankAccountRoutes);
 
 // Start the server
