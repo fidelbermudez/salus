@@ -8,7 +8,7 @@ table {
     margin-left:auto;
     margin-right:auto;
     min-width: 500px;
-    min-height: 400px;
+    min-height: 800px;
 }
 
 table th {
@@ -33,14 +33,13 @@ table td:last-child {
 
 .toggle-button {
     justify-content: center;
-    box-sizing: border-box;
     font-weight: bold;
     font-size: 14px;
     cursor: pointer;
     color: #fff;
     background-color: #023e8a;
     box-shadow: 0 2px 4px rgb(0, 0, 0, 0.25);
-    padding: 8px 12px;
+    padding: 11px 12px;
     border-radius: 20px;
 }
 
