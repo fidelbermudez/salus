@@ -37,7 +37,7 @@ function App() {
         />
         <Route 
           path="/savings" 
-          element={isLoggedIn ? <Saving /> : <Navigate to="/login" replace />} 
+          element={isLoggedIn ? <Savings /> : <Navigate to="/login" replace />} 
         />
         <Route 
           path="/summary" 

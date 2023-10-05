@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../AuthContext'; // Import useAuth hook
+import { useAuth } from '../AuthContext'; 
 
 const User = () => {
   const { currentUser } = useAuth(); 
