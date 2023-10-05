@@ -1,0 +1,90 @@
+/* home.module.css */
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; 
+  padding: 20px;
+  background: linear-gradient(to bottom right, navy, white);
+  color: white;
+}
+
+.loginButton {
+  margin-top: 100px; 
+  padding: 20px 40px; 
+  border: none;
+  border-radius: 10px;
+  background-color: navy;
+  color: white;
+  cursor: pointer;
+  font-size: 20px; 
+  transition: background-color 0.3s;
+  align-self: center; 
+}
+
+.loginButton:hover {
+  background-color: lightblue;
+  color: navy;
+}
+
+.home__header,
+.features {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 1cm;
+}
+
+.home__header {
+  text-align: center;
+  padding-top: 10px; /* Reduced padding-top */
+}
+
+.home__header h1 {
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+}
+
+.home__paragraph {
+  font-size: 1.5rem;
+  font-family: 'Courier New', sans-serif;
+  margin: 5px 0 20px; 
+}
+
+.featuresTitle {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.featureCards {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: stretch; 
+}
+
+
+.featureCard {
+  background-color: white;
+  color: navy;
+  border-radius: 10px;
+  padding: 20px;
+  width: calc(50% - 10px); 
+  min-height: 200px; 
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.featureCard:hover {
+  transform: scale(1.05);
+}
+
+.featureCardTitle {
+  font-size: 1.7em; 
+  margin-bottom: 10px;
+}
+
+.featureCardDescription {
+  font-size: 1.2em; 
+}

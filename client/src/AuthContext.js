@@ -8,10 +8,14 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    
+
+    // Check if user is logged in
+    const isLoggedIn = Boolean(currentUser);
+
     const value = {
         currentUser,
-        setCurrentUser
+        setCurrentUser,
+        isLoggedIn
     };
     
     return (
@@ -20,3 +24,5 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+export { AuthContext };
