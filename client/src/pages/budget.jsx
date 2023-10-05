@@ -2,14 +2,57 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
+import { useState, useEffect } from "react";
+import Axios from 'axios'
+import '../css_files/budget.css';
 
 function Budget() {
+
+  //This is the set up for making a valid GET request using Axios
+  const [budgetId, setBudgetId] = useState('');
+  const [specificBudget, setSpecificBudget] = useState(null);
+  const [budgetSummary, setBudgetSummary] = useState([]);
+
+  useEffect(() => {
+    Axios.get('http://localhost:8081/api/budgetSummary/all')
+    .then(response => setBudgetSummary(response.data))
+    .catch(error => console.error(error));
+  }, []);
+  //
+
+  const handleFetchBudget = () => {
+    Axios.get(`http://localhost:8081/api/budgetSummary/budget/${budgetId}`)
+      .then((response) => {
+        setSpecificBudget(response.data);
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <Container className="my-4">
     <h1> Budgeting </h1>
       <Stack direction="horizontal" gap="2" className="mb-4">
       <h1 className="me-auto"> Current Budgets </h1>
-      <Button variant="primary">Create New Budget</Button>
+      <div>
+        <input
+          type="text"
+          placeholder="Enter Budget ID"
+          value={budgetId}
+          onChange={(e) => setBudgetId(e.target.value)}
+        />
+        <Button variant="primary" onClick={handleFetchBudget}>
+          Fetch Budget
+        </Button>
+      </div>      
+      {specificBudget && (
+        <div className="budget-card">
+          <p>Budget ID: {specificBudget.budget_id}</p>
+          <p>User ID: {specificBudget.user_id}</p>
+          <p>Limit: {specificBudget.limit}</p>
+          <p>Amount Spent: {specificBudget.amount_spent}</p>
+          <p>Category ID: {specificBudget.category_id}</p>
+        </div>
+      )}
       </Stack>
       <div style={{ 
         display:"grid",
@@ -19,6 +62,19 @@ function Budget() {
         }}
       >
       </div>
+      <div>
+      <ul>
+        {budgetSummary.map((budget) => (
+          <div key={budget._id } className="budget-card">
+            <p>Budget ID: {budget.budget_id}</p>
+            <p>User ID: {budget.user_id}</p>
+            <p>Limit: {budget.limit}</p>
+            <p>Amount Spent: {budget.amount_spent}</p>
+            <p>Category ID: {budget.category_id}</p>
+          </div>
+        ))}
+      </ul>
+    </div>
     
     </Container>
   );
