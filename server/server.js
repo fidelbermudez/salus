@@ -11,7 +11,8 @@ const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
 const savingsRoutes = require('./routes/savingsRoutes');
-
+const expensesRoutes = require('./routes/expensesRoutes');
+const incomeRoutes = require('./routes/incomeRoutes');
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -40,6 +41,8 @@ app.get('/', (req, res) => {
 })
 app.use('/api/users', userRoutes);
 app.use('/api/savings', savingsRoutes);
+app.use('/api/income', incomeRoutes);
+app.use('/api/expense', expensesRoutes);
 app.use('/api/bank', bankAccountRoutes);
 
 // Start the server
