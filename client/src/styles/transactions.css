@@ -8,6 +8,8 @@ table {
     overflow:hidden;
     margin-left:auto;
     margin-right:auto;
+    min-width: 500px;
+    min-height: 350px;
 }
 
 table tbody tr td {
@@ -17,8 +19,22 @@ table tbody tr td {
     border-left-width: 0px;
     border-style: solid;
     border-color: black;
+    background-color: #ffffff;
   }
 
 table tbody tr td:last-child {
     border-right: 0px;
+}
+
+.toggle-button {
+    justify-content: center;
+    box-sizing: border-box;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    background-color: #023e8a;
+    box-shadow: 0 2px 4px rgb(0, 0, 0, 0.25);
+    padding: 8px 12px;
+    border-radius: 20px;
 }

@@ -18,31 +18,39 @@ function Transaction() {
     .catch(err => console.log(err))
   })
 
+  const [toggle, setToggle] = useState(false);
+  const handleToggleChange = () => {
+    setToggle(!toggle);
+  };
+
   return (
     <div>
+      <button className="toggle-button" onClick={handleToggleChange}>
+        {toggle ? "Show Expenses" : "Show Income"}
+      </button>
       <div>
-      <table className = "incomeTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Source</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            income.map(income => {
-              return <tr>
-                <td>{income.date}</td>
-                <td>${income.amount}</td>
-                <td>{income.source}</td>
-              </tr>
-            })
-          }
-        </tbody>
-      </table>
-      </div>
-      <div>
+        {toggle ? (
+          <table className = "incomeTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              income.map(income => {
+                return <tr>
+                  <td>{income.date}</td>
+                  <td>${income.amount}</td>
+                  <td>{income.source}</td>
+                </tr>
+              })
+            }
+          </tbody>
+        </table>
+        ) : (
           <table className = "expenseTable">
             <thead>
               <tr>
@@ -65,6 +73,7 @@ function Transaction() {
               }
             </tbody>
           </table>
+        )}
       </div>
     </div>
   );
