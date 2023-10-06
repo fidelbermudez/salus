@@ -45,6 +45,6 @@ Frontend:
 - Features: ~/client/src/pages/
 - all files in pages correspond to demoed featured except home.jsx and user.jsx
 
+**Demo Video Link**
 
-
-
+https://www.loom.com/share/42c9fb37931946b7ba443213b47138db?sid=db880902-7b06-41e2-802f-bbcb178ab9f7 
