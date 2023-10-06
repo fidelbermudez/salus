@@ -1,40 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const BarChart = () => {
-  const [data, setData] = useState([
-    {
-      name: "A",
-      value: 50,
-      fill: 20, // Fill height for bar A
-    },
-    {
-      name: "B",
-      value: 20,
-      fill: 10, // Fill height for bar B
-    },
-    {
-      name: "C",
-      value: 40,
-      fill: 30, // Fill height for bar C
-    },
-    {
-      name: "D",
-      value: 70,
-      fill: 15, // Fill height for bar D
-    },
-    {
-      name: "E",
-      value: 30,
-      fill: 10, // Fill height for bar E
-    },
-    {
-      name: "F",
-      value: 30,
-      fill: 15, // Fill height for bar F
-    },
-  ]);
-
+const BarChart = (dataMap) => {
+    let data = []
+    const values = Object.values(dataMap);
+    for (const value of values) {
+        data = value
+      }    
+    
   const svgRef = useRef(null);
 
   useEffect(() => {
@@ -97,7 +70,7 @@ const BarChart = () => {
       .attr("height", function (d) {
         return height - y(d.fill);
       })
-      .style("fill", "blue");
+      .style("fill", "orange");
 
     // Add the left-axis scale with the custom number format
     svg
@@ -108,20 +81,37 @@ const BarChart = () => {
 
     // Create a legend/key for the blue fill
     svg
-      .append("rect")
-      .attr("x", 20) // Adjust the x-position
-      .attr("y", height + 20) // Adjust the y-position
-      .attr("width", 20)
-      .attr("height", 10)
-      .style("fill", "blue");
+  .append("rect")
+  .attr("x", 220) // Adjust the x-position
+  .attr("y", height + 20) // Adjust the y-position
+  .attr("width", 20)
+  .attr("height", 10)
+  .style("fill", "orange");
 
-    svg
-      .append("text")
-      .attr("x", 50) // Adjust the x-position
-      .attr("y", height + 30) // Adjust the y-position
-      .text("Fill")
-      .style("font-size", "12px")
-      .style("alignment-baseline", "middle");
+svg
+  .append("text")
+  .attr("x", 150) // Adjust the x-position
+  .attr("y", height + 30) // Adjust the y-position
+  .text("Expenses") // Change "Fill" to "Expenses"
+  .style("font-size", "12px")
+  .style("alignment-baseline", "middle");
+
+
+  svg
+  .append("rect")
+  .attr("x", 20) // Adjust the x-position
+  .attr("y", height + 20) // Adjust the y-position
+  .attr("width", 20)
+  .attr("height", 10)
+  .style("fill", "black");
+
+svg
+  .append("text")
+  .attr("x", 50) // Adjust the x-position
+  .attr("y", height + 30) // Adjust the y-position
+  .text("Set Limit") // Change "Fill" to "Expenses"
+  .style("font-size", "12px")
+  .style("alignment-baseline", "middle");
 
     svg
       .append("g")
