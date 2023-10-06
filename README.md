@@ -38,12 +38,12 @@ Summary of Progress:
 
 Backend:
 - All routes: ~/server/routes/
-- Schema: ~/server/models
+- Schema: ~/server/models/
 - DB connection: ~/server/server.js
 
 Frontend: 
 - Features: ~/client/src/pages/
-- all files in pages correspond to demoed featured except home.jsx and user.jsx
+- all files in "/pages/" correspond to demoed features except home.jsx and user.jsx
 
 **Demo Video Link**
 
