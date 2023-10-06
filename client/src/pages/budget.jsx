@@ -47,7 +47,7 @@ function Budget() {
       {specificBudget && (
         <div className="budget-card">
           <p>Budget ID: {specificBudget.budget_id}</p>
-          <p>User ID: {specificBudget.user_id}</p>
+      
           <p>Limit: {specificBudget.limit}</p>
           <p>Amount Spent: {specificBudget.amount_spent}</p>
           <p>Category ID: {specificBudget.category_id}</p>
@@ -67,7 +67,7 @@ function Budget() {
         {budgetSummary.map((budget) => (
           <div key={budget._id } className="budget-card">
             <p>Budget ID: {budget.budget_id}</p>
-            <p>User ID: {budget.user_id}</p>
+         
             <p>Limit: {budget.limit}</p>
             <p>Amount Spent: {budget.amount_spent}</p>
             <p>Category ID: {budget.category_id}</p>
