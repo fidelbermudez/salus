@@ -12,7 +12,8 @@ import User from './pages/user';
 import Savings from './pages/savings';
 import Summary from './pages/summary';
 import Login from './pages/login';
-import { AuthProvider } from './AuthContext'; 
+import { AuthProvider } from './AuthContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

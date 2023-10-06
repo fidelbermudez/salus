@@ -10,6 +10,7 @@ const {MONGO_URL} = process.env;
 const port = process.env.PORT || 8081;
 const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
+const budgetRoute = require('./routes/budgetSummaryRoutes');
 const savingsRoutes = require('./routes/savingsRoutes');
 const expensesRoutes = require('./routes/expensesRoutes');
 const incomeRoutes = require('./routes/incomeRoutes');
@@ -44,6 +45,7 @@ app.use('/api/savings', savingsRoutes);
 app.use('/api/income', incomeRoutes);
 app.use('/api/expense', expensesRoutes);
 app.use('/api/bank', bankAccountRoutes);
+app.use('/api/budgetSummary', budgetRoute);
 
 // Start the server
 app.listen(port, () => {
