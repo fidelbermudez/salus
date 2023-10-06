@@ -14,22 +14,21 @@ router.get('/all', async (req, res) => {
     }
   });
   
-router.get('/show/:incomeId', async (req, res) => {
-    try {
-      const incomeId = parseInt(req.params.incomeId);
+router.get('/show/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
   
-      const income = await Income.findOne({ income_id: incomeId });
-      console.log(incomeId, income)
+    const income = await Income.find({ user_id: userId });
   
-      if (!income) {
-        return res.status(404).json({ message: 'Income not found' });
-      }
+    if (!income) {
+      return res.status(404).json({ message: 'Income not found' });
+}
   
-      res.json(income);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Server error' });
-    }
-  });
+    res.json(income);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
   
 module.exports = router;

@@ -30,23 +30,22 @@ router.get('/all', async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
   });
+
+router.get('/show/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
   
-router.get('/show/:expenseId', async (req, res) => {
-    try {
-      const expenseId = parseInt(req.params.expenseId);
+    const expenses = await Expenses.find({ user_id: userId });
   
-      const expense = await Expenses.findOne({ expense_id: expenseId });
-      console.log(expenseId, expense)
-  
-      if (!expense) {
-        return res.status(404).json({ message: 'Expense not found' });
-      }
-  
-      res.json(expense);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Server error' });
+    if (!expenses) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  });
+  
+    res.json(expenses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
   
 module.exports = router;
