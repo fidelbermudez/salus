@@ -43,7 +43,7 @@ Backend:
 
 Frontend: 
 - Features: ~/client/src/pages/
-** all files in pages except home.jsx and user.jsx
+- all files in pages correspond to demoed featured except home.jsx and user.jsx
 
 
 
