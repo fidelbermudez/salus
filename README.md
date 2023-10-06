@@ -24,3 +24,22 @@ Summary of Progress:
 - Kelvin Bueno: Set up backend and database and dockerized app
 - Johnny Cortez: Created Mockups of features from Milestone 1 on Figma. Specifically, designed the initial mockups of tracker, budget, and bill alert pages. Went into depth of the functionality of each page and how users will interact with them. 
 
+### Milestone 3:
+
+Summary of Progress:
+
+
+Feature location in code:
+
+Backend:
+- All routes: ~/server/routes/
+- Schema: ~/server/models
+- DB connection: ~/server/server.js
+
+Frontend: 
+- Features: ~/client/src/pages/
+** all files in pages except home.jsx and user.jsx
+
+
+
+
