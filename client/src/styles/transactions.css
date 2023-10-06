@@ -2,13 +2,11 @@ table {
     width: 70%;
     border-spacing: 0px;
     border: 1px solid black;
-    /* float: bottom; */
-    border-radius: 20px 20px 20px 20px;
+    border-radius: 20px;
     overflow:hidden;
     margin-left:auto;
     margin-right:auto;
     min-width: 500px;
-    min-height: 500px;
 }
 
 table th {
@@ -41,11 +39,17 @@ table td:last-child {
     box-shadow: 0 2px 4px rgb(0, 0, 0, 0.25);
     padding: 11px 12px;
     border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 
-.fix-bot {
-    position:absolute;
-    bottom:0;
-    left:0;
-    right:0;
+.bothTables {
+    max-height: 500px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.incomeTable tbody tr,
+.expenseTable tbody tr {
+    height: 55px;
 }
