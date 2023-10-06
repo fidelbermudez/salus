@@ -4,6 +4,23 @@ const budget = require('../models/budgetSummary');
 
 // Define bank account-related routes here
 
+router.get('/user/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    
+    const userSummaries = await Budget.find({ user_id: userId });
+
+    if (!userSummaries || userSummaries.length === 0) {
+      return res.status(404).json({ message: 'User budget summaries not found' });
+    }
+
+    res.json(userSummaries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 router.get('/all', async (req, res) => {
   try {
     //const budgetId = parseInt(req.params.budgetId);
