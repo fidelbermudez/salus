@@ -1,3 +1,9 @@
+*{
+  text-align: center;
+  font-family: 'Lexend', sans-serif;
+  background-color: #E6FAFA; 
+} 
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
