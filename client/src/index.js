@@ -13,6 +13,7 @@ import Savings from './pages/savings';
 import Summary from './pages/summary';
 import Login from './pages/login';
 import { AuthProvider, useAuth } from './AuthContext'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -48,6 +49,7 @@ function App() {
     </div>
   );
 }
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

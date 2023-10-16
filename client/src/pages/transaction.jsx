@@ -3,20 +3,22 @@ import { useEffect, useState } from 'react';
 import "../styles/transactions.css";
 import axios from 'axios';
 
+const user = 4;
+
 function Transaction() {
   const [income, setIncome] = useState([]);
   useEffect(()=> {
-    axios.get('http://localhost:8081/api/income/show/4')
+    axios.get('http://localhost:8081/api/income/show/' + user)
     .then(income => setIncome(income.data))
     .catch(err => console.log(err))
   }, [])
 
   const [expense, setExpense] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8081/api/expense/show/4')
+    axios.get('http://localhost:8081/api/expense/show/' + user)
     .then(expense => setExpense(expense.data))
     .catch(err => console.log(err))
-  })
+  }, [])
 
   const [toggle, setToggle] = useState(false);
   const handleToggleChange = () => {
@@ -24,12 +26,11 @@ function Transaction() {
   };
 
   return (
-    <div className>
-      <footer>
+    <div>
       <button className="toggle-button" onClick={handleToggleChange}>
         {toggle ? "Show Expenses" : "Show Income"}
       </button>
-      <div class = "fix-bot">
+      <div className = "bothTables">
         {toggle ? (
           <table className = "incomeTable">
           <thead>
@@ -76,7 +77,6 @@ function Transaction() {
           </table>
         )}
       </div>
-      </footer>
     </div>
   );
 }
