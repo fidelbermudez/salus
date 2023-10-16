@@ -22,7 +22,7 @@ function App() {
       {isLoggedIn && <Navbar />}
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route 
           path="/budget" 
           element={isLoggedIn ? <Budget /> : <Navigate to="/login" replace />} 
@@ -43,7 +43,7 @@ function App() {
           path="/summary" 
           element={isLoggedIn ? <Summary /> : <Navigate to="/login" replace />} 
         />
-        <Route path="*" element={<Navigate to="/home" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );

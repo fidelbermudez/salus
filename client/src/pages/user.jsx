@@ -5,7 +5,6 @@ import { useAuth } from '../AuthContext';
 const User = () => {
   const { currentUser } = useAuth(); 
   const userId = currentUser?.userId;
-  console.log("Current User in User Component:", currentUser);
   const [bankInfo, setBankInfo] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; 
-import styles from"../styles/login.module.css"
+import styles from "../styles/login.module.css"
 
 const Login = () => {
   const { setCurrentUser } = useAuth();
@@ -14,41 +14,68 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(name, value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) =>  {
+        e.preventDefault();
+    
+        try {
+          const response = await fetch('http://localhost:8081/api/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+            if (response.status === 200) {
+                const userData = await response.json();
+                setCurrentUser(userData); 
+                navigate("/user");
+          } else {
+                const data = await response.json();
+                alert(data.message);
+          }
+        } catch (error) {
+            console.error(error);
+            alert('An error occurred. Please try again.');
+        }
+      };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8081/api/users/login', {
+      const response = await fetch('http://localhost:8081/api/users/register', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-        if (response.status === 200) {
-            const userData = await response.json();
-            setCurrentUser(userData); 
-            navigate("/user");
+
+      if (response.status === 200) {
+        const userData = await response.json();
+        setCurrentUser(userData);
+        navigate("/user");
       } else {
-            const data = await response.json();
-            alert(data.message);
+        const data = await response.json();
+        alert(data.message);
       }
     } catch (error) {
         console.error(error);
-        alert('An error occurred. Please try again.');
+        alert('An error occurred during registration. Please try again.');
     }
   };
 
   return (
     <div className={styles.loginPage}>
-        <h2 className={styles.h2}>Log In or Sign Up!</h2>
+        <h2 className={styles.h2}>Salus</h2>
         <div className={styles.loginContainer}>
-            <form onSubmit={handleSubmit}>
+            <h3>Sign in</h3>
+            <p>Stay updated on your professional world</p>
+            <form>
                 <div>
-                    <label htmlFor="email">Email:</label>
+                    <label htmlFor="email">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -59,7 +86,7 @@ const Login = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -69,11 +96,14 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type="submit" className={styles.button}>Login</button>
+                <button type="button" className={styles.button} onClick={handleLogin}>Sign in</button>
             </form>
+            <div className={styles.newSalus}>
+                <p>New to Salus? <a href="#">Join now</a></p>
+            </div>
         </div>
     </div>
-);
-};  
+  );
+};
 
 export default Login;

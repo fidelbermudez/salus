@@ -32,7 +32,7 @@ function Home() {
           ))}
         </div>
       </section>
-      {!isLoggedIn && <button className={styles.loginButton} onClick={handleLoginClick}>Sign In</button>}
+      {!isLoggedIn && <button className={styles.loginButton} onClick={handleLoginClick}>Get Started</button>}
     </div>
   );
 }
