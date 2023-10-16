@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
-// const uri = process.env.MONGO_URI;
 const app = express();
 const {MONGO_URL} = process.env;
 const port = process.env.PORT || 8081;
