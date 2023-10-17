@@ -3,7 +3,9 @@ const router = express.Router();
 const User = require('../models/user.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// Define user-related routes here
+require('dotenv').config();
+const secret = process.env.JWT_SECRET;
+
 
 router.get('/all', async (req, res) => {
   try {
@@ -33,8 +35,6 @@ router.get('/show/:userId', async (req, res) => {
   }
 });
 
-
-
 router.post('/login', async (req, res) => {
   try {
       const { email, password } = req.body;
@@ -46,10 +46,20 @@ router.post('/login', async (req, res) => {
       }
 
       if (user.password === password) {
+        const token = jwt.sign(
+          {
+            id: user._id,
+            email: user.email,
+          },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
           return res.json(
           { 
           message: 'Login successful' ,
-          userId: user.id
+          userId: user.id,
+          name: user.first_name,
+          token: token
           });
       } else {
           return res.status(401).json({ message: 'Invalid credentials' });

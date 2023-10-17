@@ -8,10 +8,15 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
+import { useAuth } from '../AuthContext'; 
 
 const user = 3;
 
 function NewGoalForm() {
+
+const { currentUser } = useAuth(); 
+const userId = currentUser?.userId;
+
   // variables in the savings table
   const [goalName, setGoalName] = useState('');
   const [goalAmount, setGoalAmount]  = useState('');
@@ -22,6 +27,11 @@ function NewGoalForm() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+
+  const token = localStorage.getItem('authToken');
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+  
   // handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();

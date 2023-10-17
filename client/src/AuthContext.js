@@ -8,10 +8,25 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
-    
+
+    // Check if user is logged in
+    const isLoggedIn = () => {
+        const token = localStorage.getItem('authToken');
+        if (!token) return false;
+
+        return true;
+    };
+
+    const logout = () => {
+        localStorage.removeItem('authToken');
+        setCurrentUser(null);
+    };
+
     const value = {
         currentUser,
-        setCurrentUser
+        setCurrentUser,
+        isLoggedIn: isLoggedIn(),  // Changed from a method to a boolean value
+        logout   // Provide logout method to components
     };
     
     return (
@@ -20,3 +35,5 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+export { AuthContext };
