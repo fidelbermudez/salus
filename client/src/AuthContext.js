@@ -10,12 +10,23 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
 
     // Check if user is logged in
-    const isLoggedIn = Boolean(currentUser);
+    const isLoggedIn = () => {
+        const token = localStorage.getItem('authToken');
+        if (!token) return false;
+
+        return true;
+    };
+
+    const logout = () => {
+        localStorage.removeItem('authToken');
+        setCurrentUser(null);
+    };
 
     const value = {
         currentUser,
         setCurrentUser,
-        isLoggedIn
+        isLoggedIn: isLoggedIn(),  // Changed from a method to a boolean value
+        logout   // Provide logout method to components
     };
     
     return (

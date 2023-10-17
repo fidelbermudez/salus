@@ -3,25 +3,31 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
 import { useState, useEffect } from "react";
-import Axios from 'axios'
+import axios from 'axios'
 import '../css_files/budget.css';
+import { useAuth } from '../AuthContext'; 
 
 function Budget() {
+  const { currentUser } = useAuth(); 
+  const userId = currentUser?.userId;
 
   //This is the set up for making a valid GET request using Axios
   const [budgetId, setBudgetId] = useState('');
   const [specificBudget, setSpecificBudget] = useState(null);
   const [budgetSummary, setBudgetSummary] = useState([]);
 
+  const token = localStorage.getItem('authToken');
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
   useEffect(() => {
-    Axios.get('http://localhost:8081/api/budgetSummary/all')
+    axios.get('http://localhost:8081/api/budgetSummary/all')
     .then(response => setBudgetSummary(response.data))
     .catch(error => console.error(error));
   }, []);
   //
 
   const handleFetchBudget = () => {
-    Axios.get(`http://localhost:8081/api/budgetSummary/budget/${budgetId}`)
+    axios.get(`http://localhost:8081/api/budgetSummary/budget/${budgetId}`)
       .then((response) => {
         setSpecificBudget(response.data);
       })

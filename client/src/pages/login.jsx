@@ -29,6 +29,7 @@ const Login = () => {
           });
             if (response.status === 200) {
                 const userData = await response.json();
+                localStorage.setItem('authToken', userData.token);
                 setCurrentUser(userData); 
                 navigate("/user");
           } else {
@@ -41,6 +42,14 @@ const Login = () => {
         }
       };
 
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    setCurrentUser(null);
+    navigate("/login");
+  };
+
+
+  //todo!! make user be able to register
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -55,7 +64,8 @@ const Login = () => {
 
       if (response.status === 200) {
         const userData = await response.json();
-        setCurrentUser(userData);
+        localStorage.setItem('authToken', userData.token);
+        setCurrentUser(userData); 
         navigate("/user");
       } else {
         const data = await response.json();

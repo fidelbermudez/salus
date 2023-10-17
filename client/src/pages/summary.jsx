@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import BarGraph from '../components/barGraph.jsx'; // Import the 3D bar graph component
+import { useAuth } from '../AuthContext'; 
+
 
 function Summary() {
-  const [userId, setUserId] = useState(4);
+
+const { currentUser } = useAuth(); 
+const userId = currentUser?.userId;
+const token = localStorage.getItem('authToken');
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+  // const [userId, setUserId] = useState(4);
   const [budgetInfo, setBudgetInfo] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [error, setError] = useState(null);

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
+import Summary from './summary';
 
 const User = () => {
   const { currentUser } = useAuth(); 
   const userId = currentUser?.userId;
+  const userName = currentUser?.name;
   const [bankInfo, setBankInfo] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,6 +18,9 @@ const User = () => {
           throw new Error("Invalid user ID");
         }
 
+
+        const token = localStorage.getItem('authToken');
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         const response = await axios.get(`http://localhost:8081/api/bank/${userId}/bankInfo`);
 
         setBankInfo(response.data);
@@ -40,16 +45,18 @@ const User = () => {
 
   return (
     <div>
-      <h2>Welcome!</h2>
+      <h2>Welcome {userName}!</h2>
       {bankInfo && (
         <div>
           <h3>Bank Information</h3>
           <p>Account Number: {bankInfo.account_id}</p>
           <p>Account Type: {bankInfo.accountType}</p>
           <p>Bank Name: {bankInfo.bankName}</p>
-          {/* Display other bank info here */}
         </div>
       )}
+      <div>
+        <Summary/>
+      </div>
     </div>
   );
 };

@@ -2,10 +2,17 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import "../styles/transactions.css";
 import axios from 'axios';
+import { useAuth } from '../AuthContext'; 
 
 const user = 4;
 
 function Transaction() {
+
+const { currentUser } = useAuth(); 
+const userId = currentUser?.userId;
+const token = localStorage.getItem('authToken');
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
   const [income, setIncome] = useState([]);
   useEffect(()=> {
     axios.get('http://localhost:8081/api/income/show/' + user)
