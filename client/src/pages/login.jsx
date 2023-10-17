@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; 
 import styles from "../styles/login.module.css"
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const { setCurrentUser } = useAuth();
@@ -42,13 +43,6 @@ const Login = () => {
         }
       };
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    setCurrentUser(null);
-    navigate("/login");
-  };
-
-
   //todo!! make user be able to register
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -79,7 +73,10 @@ const Login = () => {
 
   return (
     <div className={styles.loginPage}>
-        <h2 className={styles.h2}>Salus</h2>
+        <Link to="/">
+          <h2 className={styles.h2}>Salus</h2>
+        </Link>
+        
         <div className={styles.loginContainer}>
             <h3>Sign in</h3>
             <p>Stay updated on your professional world</p>

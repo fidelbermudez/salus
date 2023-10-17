@@ -8,6 +8,7 @@ function Summary() {
 
 const { currentUser } = useAuth(); 
 const userId = currentUser?.userId;
+console.log(userId);
 const token = localStorage.getItem('authToken');
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
