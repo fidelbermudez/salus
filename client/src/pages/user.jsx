@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import Summary from './summary';
-
+//user
 const User = () => {
   const { currentUser } = useAuth(); 
   const userId = currentUser?.userId;
