@@ -4,8 +4,6 @@ import "../styles/transactions.css";
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 
-const user = 4;
-
 function Transaction() {
 
 const { currentUser } = useAuth(); 
