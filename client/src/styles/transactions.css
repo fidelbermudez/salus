@@ -6,7 +6,7 @@
     min-width: 500px;
     text-align: center;
     border: 1px solid black;
-    max-height: 590px;
+    max-height: 60vh;
     overflow-y: auto;
 }
 
