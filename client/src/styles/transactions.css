@@ -1,7 +1,7 @@
 .bothTables {
     width: 70%;
     border-radius: 10px;
-    overflow:hidden;
+    overflow: auto;
     margin: 0 auto;
     min-width: 500px;
     text-align: center;
@@ -59,4 +59,10 @@ table td:last-child {
 .incomeTable tbody tr,
 .expenseTable tbody tr {
     height: 55px;
+}
+
+.headButton {
+    border: none;
+    background-color: #023e8a;
+    color: #fff;
 }
