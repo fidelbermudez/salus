@@ -8,7 +8,7 @@ function Summary() {
 
 const { currentUser } = useAuth(); 
 const userId = currentUser?.userId;
-console.log(userId);
+// console.log(userId);
 const token = localStorage.getItem('authToken');
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
@@ -60,8 +60,8 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
     });
 
-    console.log(dataMap)
-    console.log(categoryMap)
+    // console.log(dataMap)
+    // console.log(categoryMap)
 
     // Process category data and merge with existing data
     budgetInfo.forEach((budget) => {
@@ -75,8 +75,8 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         }       
       }
     });
-    console.log(dataMap)
-    console.log(categoryMap)
+    // console.log(dataMap)
+    // console.log(categoryMap)
 
     // Convert map values to an array of objects
     const data = Array.from(dataMap.values());
@@ -84,9 +84,9 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
   };
 
   let data = processData()
-  console.log(data)
-  console.log(budgetInfo)
-  console.log(categoryInfo)
+  // console.log(data)
+  // console.log(budgetInfo)
+  // console.log(categoryInfo)
 
   return (
     <div>

@@ -63,7 +63,6 @@ function Budget() {
         {budgetSummary.map((budget) => (
           <div key={budget._id } className="budget-card">
             <p>Budget ID: {budget.budget_id}</p>
-         
             <p>Limit: {budget.limit}</p>
             <p>Amount Spent: {budget.amount_spent}</p>
             <p>Category ID: {budget.category_id}</p>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
@@ -8,25 +8,24 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  // Moved to a state
 
-    // Check if user is logged in
-    const isLoggedIn = () => {
+    useEffect(() => {
         const token = localStorage.getItem('authToken');
-        if (!token) return false;
-
-        return true;
-    };
+        setIsLoggedIn(Boolean(token));  // Set initial logged in state
+    }, []);
 
     const logout = () => {
         localStorage.removeItem('authToken');
         setCurrentUser(null);
+        setIsLoggedIn(false); 
     };
 
     const value = {
         currentUser,
         setCurrentUser,
-        isLoggedIn: isLoggedIn(),  // Changed from a method to a boolean value
-        logout   // Provide logout method to components
+        isLoggedIn, 
+        logout
     };
     
     return (
@@ -35,5 +34,3 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
-
-export { AuthContext };

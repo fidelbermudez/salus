@@ -15,7 +15,7 @@ const user = 3;
 function NewGoalForm() {
 
 const { currentUser } = useAuth(); 
-const userId = currentUser?.userId;
+const user = currentUser?.userId;
 
   // variables in the savings table
   const [goalName, setGoalName] = useState('');
