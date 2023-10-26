@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; 
 import styles from "../styles/login.module.css"
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const { setCurrentUser } = useAuth();
+  const { setCurrentUser, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/user");
+    }
+  }, [isLoggedIn]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -32,8 +36,9 @@ const Login = () => {
                 const userData = await response.json();
                 localStorage.setItem('authToken', userData.token);
                 setCurrentUser(userData); 
-                navigate("/user");
-          } else {
+                console.log(userData)
+                navigate("/user")
+           } else {
                 const data = await response.json();
                 alert(data.message);
           }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import Summary from './summary';
-//user
+
 const User = () => {
   const { currentUser } = useAuth(); 
   const userId = currentUser?.userId;
@@ -12,13 +12,15 @@ const User = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Exit the effect if no valid userId is present
+    if (!userId || isNaN(userId)) {
+      setError("Invalid user ID");
+      setLoading(false);
+      return; 
+    }
+
     const fetchBankInfo = async () => {
       try {
-        if (userId === undefined || isNaN(userId)) {
-          throw new Error("Invalid user ID");
-        }
-
-
         const token = localStorage.getItem('authToken');
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         const response = await axios.get(`http://localhost:8081/api/bank/${userId}/bankInfo`);
