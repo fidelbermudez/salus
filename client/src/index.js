@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import './components/navbar.css';
 import Navbar from './components/navbar.jsx';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Home from './pages/home';
 import Budget from './pages/budget';
 import Transaction from './pages/transaction';
