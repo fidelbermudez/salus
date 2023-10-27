@@ -25,7 +25,7 @@ function Budget() {
   //
 
   const handleFetchBudget = () => {
-    axios.get(`http://localhost:8081/api/budgetSummary/budget/${userId}`)
+    axios.get(`http://localhost:8081/api/budgetSummary/budget/${budgetId}`)
       .then((response) => {
         setSpecificBudget(response.data);
       })
