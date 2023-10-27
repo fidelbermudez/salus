@@ -14,6 +14,7 @@ import Summary from './pages/summary';
 import Login from './pages/login';
 import { AuthProvider, useAuth } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { BudgetsProvider } from './contexts/BudgetsContext';
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -56,7 +57,9 @@ root.render(
   <React.StrictMode>
     <AuthProvider> 
       <BrowserRouter>
+      <BudgetsProvider>
         <App />
+      </BudgetsProvider>
       </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>

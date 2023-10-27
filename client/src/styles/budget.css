@@ -1,0 +1,19 @@
+/* header center css */
+h1 {
+  text-align: center;
+  }
+
+/* budget-card css */
+.budget-card {
+  border: 1px solid #023e8a;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin: 0.5rem;
+  background-color: transparent;
+}
+
+
+
+
+  
