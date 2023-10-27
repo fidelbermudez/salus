@@ -19,7 +19,7 @@ function Budget() {
   const [budgetSummary, setBudgetSummary] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8081/api/budgetSummary/all')
+    Axios.get('http://localhost:8081/api/budgetSummary/all')
     .then(response => setBudgetSummary(response.data))
     .catch(error => console.error(error));
   }, []);
