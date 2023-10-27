@@ -10,7 +10,7 @@ import AddBudgetModal from '../components/AddBudgetModal';
 
 function Budget() {
   const { currentUser } = useAuth(); 
-  const userId = localStorage?.userId;
+  const userId = currentUser?.userId;
 
   //This is the set up for making a valid GET request using Axios
   const [budgetId, setBudgetId] = useState('');
