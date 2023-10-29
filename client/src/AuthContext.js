@@ -57,7 +57,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('userId');
         localStorage.removeItem('name');
         setCurrentUser(null);
-        setIsLoggedIn(false); 
     };
 
     const value = {

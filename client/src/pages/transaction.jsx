@@ -116,26 +116,26 @@ function Transaction() {
       </button>
       <div className="bothTables">
         {toggle ? (
-          <table className="incomeTable">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Source</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                income.map(income => (
-                  <tr key={income.id}>
-                    <td>{income.date}</td>
-                    <td>${income.amount}</td>
-                    <td>{income.source}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
+          <table className = "incomeTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              income.map(income => {
+                return <tr key={income.id}>
+                  <td>{income.date}</td>
+                  <td>${income.amount}</td>
+                  <td>{income.source}</td>
+                </tr>
+              })
+            }
+          </tbody>
+        </table>
         ) : (
           <table className="expenseTable">
             <thead>
