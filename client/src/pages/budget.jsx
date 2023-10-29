@@ -9,7 +9,7 @@ import { useAuth } from '../AuthContext';
 
 function Budget() {
   const { currentUser } = useAuth(); 
-  const userId = currentUser?.userId;
+  const userId = localStorage?.userId;
 
   //This is the set up for making a valid GET request using Axios
   const [budgetId, setBudgetId] = useState('');
