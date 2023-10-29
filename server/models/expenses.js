@@ -6,7 +6,7 @@ const expenseSchema = new mongoose.Schema({
     bank_id: Number,
     date: String,
     amount: Number,
-    category_id: Number,
+    category_name: String,
     description: String
 }, {collection: "expenses"});
 

@@ -85,12 +85,12 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
   };
 
   const sortExpenseByCategory = () => {
-    const sortedExpenseByCategory = [...expense].sort((a, b) => a.category_id - b.category_id);
+    const sortedExpenseByCategory = [...expense].sort((a, b) => a.category_name.localeCompare(b.category_id));
     setExpense(sortedExpenseByCategory);
   };
   
   const sortExpenseByCategoryDescending = () => {
-    const sortedExpenseByCategoryDescending = [...expense].sort((a, b) => b.category_id - a.category_id);
+    const sortedExpenseByCategoryDescending = [...expense].sort((a, b) => b.category_name.localeCompare(a.category_id));
     setExpense(sortedExpenseByCategoryDescending);
   };
 
@@ -152,7 +152,7 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
                   return <tr>
                     <td>{expense.date}</td>
                     <td>${expense.amount}</td>
-                    <td>{expense.category_id}</td>
+                    <td>{expense.category_name}</td>
                     <td>{expense.description}</td>
                   </tr>
                 })
