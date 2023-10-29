@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const BankAccount = require('../models/bankAccount');
 
-// Define bank account-related routes here
 
 router.get('/:userId/bankInfo', async (req, res) => {
   try {
