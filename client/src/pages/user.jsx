@@ -4,19 +4,23 @@ import { useAuth } from '../AuthContext';
 import Summary from './summary';
 
 const User = () => {
-  const { currentUser } = useAuth(); 
-  const userId = currentUser?.userId;
-  const userName = currentUser?.name;
+  const { currentUser, isLoading: authLoading } = useAuth(); // get isLoading state
+  const userId = localStorage?.userId;
+  const userName = localStorage?.name;
   const [bankInfo, setBankInfo] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Exit the effect if no valid userId is present
+    if (authLoading) { // if AuthContext is still determining the auth state
+      return;
+    }
+
     if (!userId || isNaN(userId)) {
       setError("Invalid user ID");
       setLoading(false);
       return; 
+      
     }
 
     const fetchBankInfo = async () => {
@@ -35,9 +39,9 @@ const User = () => {
     };
 
     fetchBankInfo();
-  }, [userId]);
+  }, [userId, authLoading]); // add authLoading to the dependency list
 
-  if (loading) {
+  if (loading || authLoading) { // also check authLoading here
     return <p>Loading...</p>;
   }
 
