@@ -9,13 +9,14 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
+import { local } from 'd3';
 
 const user = 3;
 
 function NewGoalForm() {
 
 const { currentUser } = useAuth(); 
-const userId = currentUser?.userId;
+const user = localStorage?.userId;
 
   // variables in the savings table
   const [goalName, setGoalName] = useState('');
