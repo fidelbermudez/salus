@@ -3,6 +3,139 @@ import "../styles/transactions.css";
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import { local } from 'd3';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Form from 'react-bootstrap/Form';
+import CloseButton from 'react-bootstrap/CloseButton';
+
+function NewExpenseForm() {
+
+  const { currentUser } = useAuth(); 
+  const user = localStorage?.userId;
+  
+    const [expenseCategory, setExpenseCategory] = useState('');
+    const [expenseDay, setExpenseDay]  = useState('');
+    const [expenseMonth, setExpenseMonth]  = useState('');
+    const [expenseYear, setExpenseYear]  = useState('');
+    const [expenseAmount, setExpenseAmount] = useState('');
+    const [expenseDescription, setExpenseDescription]  = useState('');
+  
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+  
+    const token = localStorage.getItem('authToken');
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+      setError(null);
+      setSuccess(null);
+  
+      const formattedDate = `${expenseMonth}/${expenseDay}/${expenseYear}`;
+
+      // post request to add new entry to database
+      try {
+        const newExpense = {user_id: user, date: formattedDate, amount: expenseAmount, category_name: expenseCategory, description: expenseDescription};
+        const response = await axios.post('http://localhost:8081/api/expense/insert', newExpense);
+
+        const newSpending = {user: user, year: expenseYear, month: expenseMonth, category_name: expenseCategory, incrementAmount: expenseAmount};
+        const update = await axios.put('http://localhost:8081/api/category/incrementAmount', newSpending);
+        
+        setIsSubmitting(false);
+        setSuccess('Data successfully saved!');
+        console.log('Data saved: ', response.data);
+        console.log('Data updated: ', update.data);
+      } catch (err) {
+        setIsSubmitting(false);
+        setError('Something went wrong! Please try again.');
+        console.error(err);
+      }
+    };
+  
+    return (
+     <Form className = "form">
+        <Form.Group className="mb-3" controlId="formExpenseCategory">
+          <Form.Label>Category</Form.Label>
+          <Form.Control className = "input" type="string" placeholder='e.g. Category 1'
+           value={expenseCategory}
+            onChange = {(e) => setExpenseCategory(e.target.value)}
+            required/>
+        </Form.Group>
+  
+        <Form.Group className="mb-3" controlId="formExpenseDay">
+          <Form.Label>Day</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 08"
+           value={expenseDay}
+             onChange = {(e) => setExpenseDay(e.target.value)}
+             required/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formExpenseMonth">
+          <Form.Label>Month</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 05"
+           value={expenseMonth}
+             onChange = {(e) => setExpenseMonth(e.target.value)}
+             required/>
+        </Form.Group>
+  
+        <Form.Group className="mb-3" controlId="formExpenseYear">
+          <Form.Label>Year</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 2021"
+           value={expenseYear}
+             onChange = {(e) => setExpenseYear(e.target.value)}
+             required/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formExpenseAmount">
+          <Form.Label>Amount</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 5000"
+           value={expenseAmount}
+             onChange = {(e) => setExpenseAmount(e.target.value)}
+             required/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formExpenseDescription">
+          <Form.Label>Description</Form.Label>
+          <Form.Control className = "input" type="string" placeholder='e.g. Netflix subscription'
+           value={expenseDescription}
+            onChange = {(e) => setExpenseDescription(e.target.value)}
+            required/>
+        </Form.Group>
+  
+        {/* submit button  */}
+        <Button type = "submit" onClick={handleSubmit} disabled={isSubmitting}> {isSubmitting ? 'Adding Expense...' : 'Add Expense'} </Button>
+      </Form>
+    );
+  }
+
+  //  modal for adding new goal
+function NewExpenseModal(props) {
+  const handleClose = () => {
+    props.onHide(); // Close the modal using the onHide prop from props
+  };
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      className = "modal"
+    >
+    <Modal.Header>
+      <Modal.Title id="contained-modal-title-vcenter">
+          Add an Expense
+        </Modal.Title>
+      <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
+      </Modal.Header>
+      <Modal.Body>
+        <NewExpenseForm/>
+      </Modal.Body>
+    </Modal>
+  );
+}
 
 function Transaction() {
 
@@ -12,6 +145,9 @@ function Transaction() {
   const [income, setIncome] = useState([]);
   const [expense, setExpense] = useState([]);
   const [toggle, setToggle] = useState(false);
+
+  // variable for showing or hiding modal
+  const [modalShow, setModalShow] = React.useState(false);
 
   useEffect(() => {
     if (authLoading) return; // Return early if still determining auth status
@@ -111,6 +247,13 @@ function Transaction() {
 
   return (
     <div>
+      <Button variant="primary" className = "button" onClick={() => setModalShow(true)}>
+        Add new expense 
+      </Button>
+      <NewExpenseModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
       <button className="toggle-button" onClick={handleToggleChange}>
         {toggle ? "Show Expenses" : "Show Income"}
       </button>
