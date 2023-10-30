@@ -9,17 +9,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 
-function NewExpenseForm() {
+function NewExpenseForm({ onSubmit }) {
 
   const { currentUser } = useAuth(); 
   const user = localStorage?.userId;
   
     const [expenseCategory, setExpenseCategory] = useState('');
-    const [expenseDay, setExpenseDay]  = useState('');
-    const [expenseMonth, setExpenseMonth]  = useState('');
-    const [expenseYear, setExpenseYear]  = useState('');
+    const [expenseDay, setExpenseDay] = useState('');
+    const [expenseMonth, setExpenseMonth] = useState('');
+    const [expenseYear, setExpenseYear] = useState('');
     const [expenseAmount, setExpenseAmount] = useState('');
-    const [expenseDescription, setExpenseDescription]  = useState('');
+    const [expenseDescription, setExpenseDescription] = useState('');
   
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
@@ -27,27 +27,55 @@ function NewExpenseForm() {
   
     const token = localStorage.getItem('authToken');
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-    
+
     const handleSubmit = async (e) => {
       e.preventDefault();
       setIsSubmitting(true);
       setError(null);
       setSuccess(null);
+
+      if (
+        !expenseCategory ||
+        !expenseDay ||
+        !expenseMonth ||
+        !expenseYear ||
+        !expenseAmount ||
+        !expenseDescription
+      ) {
+        setIsSubmitting(false);
+        return;
+      }
   
       const formattedDate = `${expenseMonth}/${expenseDay}/${expenseYear}`;
 
       // post request to add new entry to database
       try {
-        const newExpense = {user_id: user, date: formattedDate, amount: expenseAmount, category_name: expenseCategory, description: expenseDescription};
+        const recentExpense = await axios.get('http://localhost:8081/api/expense/latest');
+        const mostRecentExpenseId = recentExpense.data.expense_id;
+        const newExpenseId = mostRecentExpenseId + 1;
+
+        const newExpense = {expense_id: newExpenseId, 
+                            user_id: user, 
+                            bank_id: user, 
+                            date: formattedDate, 
+                            amount: expenseAmount, 
+                            description: expenseDescription,
+                            category_name: expenseCategory};
         const response = await axios.post('http://localhost:8081/api/expense/insert', newExpense);
 
-        const newSpending = {user: user, year: expenseYear, month: expenseMonth, category_name: expenseCategory, incrementAmount: expenseAmount};
+        const newSpending = {user: user, 
+                            year: expenseYear, 
+                            month: expenseMonth, 
+                            category_name: expenseCategory, 
+                            incrementAmount: expenseAmount};
         const update = await axios.put('http://localhost:8081/api/category/incrementAmount', newSpending);
         
         setIsSubmitting(false);
         setSuccess('Data successfully saved!');
+        console.log('Recent Expense ID: ', newExpenseId);
         console.log('Data saved: ', response.data);
         console.log('Data updated: ', update.data);
+        onSubmit();
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -116,6 +144,9 @@ function NewExpenseModal(props) {
   const handleClose = () => {
     props.onHide(); // Close the modal using the onHide prop from props
   };
+  const handleFormSubmit = () => {
+    handleClose();
+  };
   return (
     <Modal
       {...props}
@@ -131,7 +162,148 @@ function NewExpenseModal(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body>
-        <NewExpenseForm/>
+        <NewExpenseForm onSubmit={handleFormSubmit} />
+      </Modal.Body>
+    </Modal>
+  );
+}
+
+function NewIncomeForm({ onSubmit }) {
+
+  const { currentUser } = useAuth(); 
+  const user = localStorage?.userId;
+  
+    const [incomeDay, setIncomeDay] = useState('');
+    const [incomeMonth, setIncomeMonth] = useState('');
+    const [incomeYear, setIncomeYear] = useState('');
+    const [incomeAmount, setIncomeAmount] = useState('');
+    const [incomeSource, setIncomeSource] = useState('');
+  
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+  
+    const token = localStorage.getItem('authToken');
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+      setError(null);
+      setSuccess(null);
+
+      if (
+        !incomeDay ||
+        !incomeMonth ||
+        !incomeYear ||
+        !incomeAmount ||
+        !incomeSource
+      ) {
+        setIsSubmitting(false);
+        return;
+      }
+  
+      const formattedDate = `${incomeMonth}/${incomeDay}/${incomeYear}`;
+
+      // post request to add new entry to database
+      try {
+        const recentIncome = await axios.get('http://localhost:8081/api/income/latest');
+        const mostRecentIncomeId = recentIncome.data.income_id;
+        const newIncomeId = mostRecentIncomeId + 1;
+
+        const newIncome = {income_id: newIncomeId, 
+                            user_id: user, 
+                            bank_id: user, 
+                            date: formattedDate, 
+                            amount: incomeAmount, 
+                            source: incomeSource};
+        const response = await axios.post('http://localhost:8081/api/income/insert', newIncome);
+        
+        setIsSubmitting(false);
+        setSuccess('Data successfully saved!');
+        console.log('New Income ID: ', newIncomeId);
+        console.log('Data saved: ', response.data);
+        onSubmit();
+      } catch (err) {
+        setIsSubmitting(false);
+        setError('Something went wrong! Please try again.');
+        console.error(err);
+      }
+    };
+  
+    return (
+     <Form className = "form">
+        <Form.Group className="mb-3" controlId="formIncomeSource">
+          <Form.Label>Source</Form.Label>
+          <Form.Control className = "input" type="string" placeholder='e.g. Gambling'
+           value={incomeSource}
+            onChange = {(e) => setIncomeSource(e.target.value)}
+            required/>
+        </Form.Group>
+  
+        <Form.Group className="mb-3" controlId="formIncomeDay">
+          <Form.Label>Day</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 08"
+           value={incomeDay}
+             onChange = {(e) => setIncomeDay(e.target.value)}
+             required/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formIncomeMonth">
+          <Form.Label>Month</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 05"
+           value={incomeMonth}
+             onChange = {(e) => setIncomeMonth(e.target.value)}
+             required/>
+        </Form.Group>
+  
+        <Form.Group className="mb-3" controlId="formIncomeYear">
+          <Form.Label>Year</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 2021"
+           value={incomeYear}
+             onChange = {(e) => setIncomeYear(e.target.value)}
+             required/>
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formIncomeAmount">
+          <Form.Label>Amount</Form.Label>
+          <Form.Control type="number" placeholder=" e.g. 5000"
+           value={incomeAmount}
+             onChange = {(e) => setIncomeAmount(e.target.value)}
+             required/>
+        </Form.Group>
+  
+        {/* submit button  */}
+        <Button type = "submit" onClick={handleSubmit} disabled={isSubmitting}> {isSubmitting ? 'Adding Income...' : 'Add Income'} </Button>
+      </Form>
+    );
+  }
+
+  //  modal for adding new goal
+function NewIncomeModal(props) {
+  const handleClose = () => {
+    props.onHide(); // Close the modal using the onHide prop from props
+  };
+  const handleFormSubmit = () => {
+    // Close the modal after submission
+    handleClose();
+  };
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      className = "modal"
+    >
+    <Modal.Header>
+      <Modal.Title id="contained-modal-title-vcenter">
+          Add Income
+        </Modal.Title>
+      <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
+      </Modal.Header>
+      <Modal.Body>
+        <NewIncomeForm onSubmit={handleFormSubmit} />
       </Modal.Body>
     </Modal>
   );
@@ -147,7 +319,8 @@ function Transaction() {
   const [toggle, setToggle] = useState(false);
 
   // variable for showing or hiding modal
-  const [modalShow, setModalShow] = React.useState(false);
+  const [expenseModalShow, setExpenseModalShow] = useState(false);
+  const [incomeModalShow, setIncomeModalShow] = useState(false);
 
   useEffect(() => {
     if (authLoading) return; // Return early if still determining auth status
@@ -247,12 +420,19 @@ function Transaction() {
 
   return (
     <div>
-      <Button variant="primary" className = "button" onClick={() => setModalShow(true)}>
+      <Button variant="primary" className = "button" onClick={() => setExpenseModalShow(true)}>
         Add new expense 
       </Button>
       <NewExpenseModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
+        show={expenseModalShow}
+        onHide={() => setExpenseModalShow(false)}
+      />
+      <Button variant="primary" className = "button" onClick={() => setIncomeModalShow(true)}>
+        Add income 
+      </Button>
+      <NewIncomeModal
+        show={incomeModalShow}
+        onHide={() => setIncomeModalShow(false)}
       />
       <button className="toggle-button" onClick={handleToggleChange}>
         {toggle ? "Show Expenses" : "Show Income"}

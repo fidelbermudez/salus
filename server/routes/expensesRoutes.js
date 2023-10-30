@@ -36,11 +36,13 @@ router.post('/insert', async (req, res) => {
 
     // Extract data from the request body
     let newExpense = new Expenses({
+      expense_id: req.body.expense_id,
       user_id: req.body.user_id,
+      bank_id: req.body.bank_id,
       date: req.body.date,
       amount: req.body.amount,
-      category_name: req.body.category_name,
-      description: req.body.description
+      description: req.body.description,
+      category_name: req.body.category_name
     });
     
     let newData = await newExpense.save();
@@ -49,6 +51,24 @@ router.post('/insert', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+router.get('/latest', async (req, res) => {
+  try {
+    // Find the most recent expense entry in the database and return its 'expense_id'
+    const latestExpense = await Expenses.findOne({}, { expense_id: 1 }, { sort: { expense_id: -1 } });
+
+    if (latestExpense) {
+      res.json({ expense_id: latestExpense.expense_id });
+    } else {
+      // Handle the case where there are no expense entries in the database yet
+      res.json({ expense_id: 0 });
+    }
+  } catch (err) {
+    // Handle errors here
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
