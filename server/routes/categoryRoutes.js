@@ -7,8 +7,8 @@ const categories = require('../models/category.js');
 router.get('/user/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
-    
-    const userSummaries = await categories.find({ user: userId });
+
+    const userSummaries = await categories.find({ user: userId }).sort({ year: 1, month: 1 });
 
     if (!userSummaries || userSummaries.length === 0) {
       return res.status(404).json({ message: 'User categories summary not found' });
