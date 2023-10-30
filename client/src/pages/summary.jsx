@@ -4,11 +4,10 @@ import BarGraph from '../components/barGraph.jsx';
 import { useAuth } from '../AuthContext'; 
 
 function Summary() {
-
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
 
-  const [budgetInfo, setBudgetInfo] = useState([]);
+  // const [budgetInfo, setBudgetInfo] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [error, setError] = useState(null);
 
@@ -20,17 +19,16 @@ function Summary() {
 
     const fetchData = async () => {
       try {
-        const budgetResponse = await axios.get(`http://localhost:8081/api/budgetSummary/user/${userId}`);
+        // const budgetResponse = await axios.get(`http://localhost:8081/api/budgetSummary/user/${userId}`);
         const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}`);
 
-        setBudgetInfo(budgetResponse.data);
+        // setBudgetInfo(budgetResponse.data);
         setCategoryInfo(categoryResponse.data);
       } catch (e) {
         setError(e.message || 'Failed to fetch data');
         console.error(e);
       }
     };
-
     fetchData();
   }, [userId, authLoading]);
 
@@ -39,7 +37,7 @@ function Summary() {
   const processData = () => {
     // Create a map to store the aggregated data
     let dataMap = new Map()
-    let categoryMap = new Map()
+    // let categoryMap = new Map()
     // Process budget data
     categoryInfo.forEach((category) => {
       const key = `${category.month}/${category.year}`;
@@ -47,16 +45,21 @@ function Summary() {
       if (!dataMap.has(key)) {
         dataMap.set(key, {
           name: `${category.month}/${category.year}`,
-          value: 0,
-          fill: 0,
+          value: category.limit,
+          fill: category.amount_spent,
         });
       }
-      if (!categoryMap.has(category.category_id)) {
-        categoryMap.set(category.category_id, new Set([key])); // Create a new Set with the initial 'key'
-      } else {
-        const existingData = categoryMap.get(category.category_id);
-        existingData.add(key); // Add 'key' to the existing Set
+      else {
+        const existingData = dataMap.get(key);
+        existingData.value += category.limit; // Add 0 for category data if it exists
+        existingData.fill += category.amount_spent; // Add 0 for category data if it exists
       }
+      // if (!categoryMap.has(category.category_id)) {
+      //   categoryMap.set(category.category_id, new Set([key])); // Create a new Set with the initial 'key'
+      // } else {
+      //   const existingData = categoryMap.get(category.category_id);
+      //   existingData.add(key); // Add 'key' to the existing Set
+      // }
 
     });
 
@@ -64,17 +67,17 @@ function Summary() {
     // console.log(categoryMap)
 
     // Process category data and merge with existing data
-    budgetInfo.forEach((budget) => {
-      if (categoryMap.has(budget.category_id)){
-        for(const time of categoryMap.get(budget.category_id)){
-          if(dataMap.has(time)){
-            const existingData = dataMap.get(time);
-            existingData.value += budget.limit; // Add 0 for category data if it exists
-            existingData.fill += budget.amount_spent; // Add 0 for category data if it exists
-          }
-        }       
-      }
-    });
+    // budgetInfo.forEach((budget) => {
+    //   if (categoryMap.has(budget.category_id)){
+    //     for(const time of categoryMap.get(budget.category_id)){
+    //       if(dataMap.has(time)){
+    //         const existingData = dataMap.get(time);
+    //         existingData.value += budget.limit; // Add 0 for category data if it exists
+    //         existingData.fill += budget.amount_spent; // Add 0 for category data if it exists
+    //       }
+    //     }       
+    //   }
+    // });
     // console.log(dataMap)
     // console.log(categoryMap)
 
