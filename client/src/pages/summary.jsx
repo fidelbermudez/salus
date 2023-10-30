@@ -30,7 +30,6 @@ function Summary() {
         console.error(e);
       }
     };
-
     fetchData();
   }, [userId, authLoading]);
 
