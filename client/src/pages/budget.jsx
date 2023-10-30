@@ -3,10 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import Container from 'react-bootstrap/Container';
 import { useState, useEffect } from "react";
-import Axios from 'axios'
+import axios from 'axios'
 import '../styles/budget.css';
 import BudgetCard from '../components/BudgetCard';
 import AddBudgetModal from '../components/AddBudgetModal';
+import { useAuth } from '../AuthContext';
 
 function Budget() {
   const { currentUser } = useAuth(); 
@@ -18,7 +19,7 @@ function Budget() {
   const [budgetSummary, setBudgetSummary] = useState([]);
 
   useEffect(() => {
-    Axios.get('http://localhost:8081/api/budgetSummary/all')
+    axios.get('http://localhost:8081/api/budgetSummary/all')
     .then(response => setBudgetSummary(response.data))
     .catch(error => console.error(error));
   }, []);
@@ -74,6 +75,7 @@ function Budget() {
     </div>
     
     </Container>
+    <AddBudgetModal show />
    
     </>
   );
