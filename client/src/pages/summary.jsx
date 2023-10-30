@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import BarGraph from '../components/barGraph.jsx'; // Import the 3D bar graph component
+import BarGraph from '../components/barGraph.jsx'; 
 import { useAuth } from '../AuthContext'; 
-
 
 function Summary() {
 
-const { currentUser } = useAuth(); 
-const userId = currentUser?.userId;
-console.log(userId);
-const token = localStorage.getItem('authToken');
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+  const { currentUser, isLoading: authLoading } = useAuth();
+  const userId = localStorage?.userId;
 
-  // const [userId, setUserId] = useState(4);
   const [budgetInfo, setBudgetInfo] = useState([]);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (authLoading) return;  // Return early if still determining auth status
+
+    const token = localStorage.getItem('authToken');
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
     const fetchData = async () => {
       try {
-        // Fetch budget and category data for the user
         const budgetResponse = await axios.get(`http://localhost:8081/api/budgetSummary/user/${userId}`);
         const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}`);
-        
+
         setBudgetInfo(budgetResponse.data);
         setCategoryInfo(categoryResponse.data);
       } catch (e) {
@@ -32,7 +31,8 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       }
     };
     fetchData();
-  }, [userId]);
+  }, [userId, authLoading]);
+
 
   // Function to process data and create the array of objects
   const processData = () => {
@@ -59,8 +59,8 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
     });
 
-    console.log(dataMap)
-    console.log(categoryMap)
+    // console.log(dataMap)
+    // console.log(categoryMap)
 
     // Process category data and merge with existing data
     budgetInfo.forEach((budget) => {
@@ -74,8 +74,8 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         }       
       }
     });
-    console.log(dataMap)
-    console.log(categoryMap)
+    // console.log(dataMap)
+    // console.log(categoryMap)
 
     // Convert map values to an array of objects
     const data = Array.from(dataMap.values());
@@ -83,9 +83,9 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
   };
 
   let data = processData()
-  console.log(data)
-  console.log(budgetInfo)
-  console.log(categoryInfo)
+  // console.log(data)
+  // console.log(budgetInfo)
+  // console.log(categoryInfo)
 
   return (
     <div>
