@@ -31,7 +31,6 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
         console.error(e);
       }
     };
-
     fetchData();
   }, [userId]);
 
