@@ -331,7 +331,8 @@ function Transaction() {
     const fetchIncome = async () => {
       try {
         const response = await axios.get('http://localhost:8081/api/income/show/' + userId);
-        setIncome(response.data);
+        const sortedIncome = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setIncome(sortedIncome);
       } catch (err) {
         console.error("Error fetching income:", err);
       }
@@ -340,7 +341,8 @@ function Transaction() {
     const fetchExpense = async () => {
       try {
         const response = await axios.get('http://localhost:8081/api/expense/show/' + userId);
-        setExpense(response.data);
+        const sortedExpense = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        setExpense(sortedExpense);
       } catch (err) {
         console.error("Error fetching expenses:", err);
       }
