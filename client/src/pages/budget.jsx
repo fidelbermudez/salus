@@ -9,7 +9,7 @@ import { useAuth } from '../AuthContext';
 
 function Budget() {
   const { currentUser } = useAuth(); 
-  const userId = currentUser?.userId;
+  const userId = localStorage?.userId;
 
   //This is the set up for making a valid GET request using Axios
   const [budgetId, setBudgetId] = useState('');
@@ -27,7 +27,7 @@ function Budget() {
   //
 
   const handleFetchBudget = () => {
-    axios.get(`http://localhost:8081/api/budgetSummary/budget/${budgetId}`)
+    axios.get(`http://localhost:8081/api/budgetSummary/budget/${userId}`)
       .then((response) => {
         setSpecificBudget(response.data);
       })
@@ -73,7 +73,6 @@ function Budget() {
         {budgetSummary.map((budget) => (
           <div key={budget._id } className="budget-card">
             <p>Budget ID: {budget.budget_id}</p>
-         
             <p>Limit: {budget.limit}</p>
             <p>Amount Spent: {budget.amount_spent}</p>
             <p>Category ID: {budget.category_id}</p>

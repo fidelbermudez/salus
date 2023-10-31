@@ -1,25 +1,59 @@
-const { response } = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require("bcryptjs");
-
+const bcrypt = require("bcrypt");
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   id: {
     type: Number,
-    unique: true, 
-    required: true, 
+    unique: true,
+    required: true,
   },
-  first_name: String,
-  last_name: String,
-  email: String,
-  phone_number: String,
-  password: String,
-  join_date: String,
-}, {collection: "users"});
+  first_name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  last_name: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    lowercase: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error('Invalid email address');
+      }
+    }
+  },
+  phone_number: {
+    type: String,
+    trim: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    select: false,
+  },
+  join_date: {
+    type: String,
+    required: true,
+  },
+}, { collection: "users" });
 
-userSchema.pre("save", async function () {
-  this.password = await bcrypt.hash(this.password, 12);
+userSchema.pre("save", async function (next) {
+  const user = this;
+
+  if (user.isModified('password')) {
+    user.password = await bcrypt.hash(user.password, 10);
+}
+
+  next();
 });
 
 module.exports = mongoose.model('users', userSchema);
-// mongoose.model('users', userSchema).findOne({id:1}).then((response)=>{console.log(response)})

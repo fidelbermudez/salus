@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import './components/navbar.css';
-import reportWebVitals from './reportWebVitals';
 import Navbar from './components/navbar.jsx';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/home';
@@ -14,52 +13,47 @@ import Summary from './pages/summary';
 import Login from './pages/login';
 import { AuthProvider, useAuth } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
-function App() {
-  const { isLoggedIn } = useAuth();
+function ProtectedRoute({ children }) {
+    const { isLoggedIn } = useAuth();
 
-  return (
-    <div className='index'>
-      {isLoggedIn && <Navbar />}
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Home />} />
-        <Route 
-          path="/budget" 
-          element={isLoggedIn ? <Budget /> : <Navigate to="/login" replace />} 
-        />
-        <Route 
-          path="/transactions" 
-          element={isLoggedIn ? <Transaction /> : <Navigate to="/login" replace />} 
-        />
-        <Route 
-          path="/user" 
-          element={isLoggedIn ? <User /> : <Navigate to="/login" replace />} 
-        />
-        <Route 
-          path="/savings" 
-          element={isLoggedIn ? <Savings /> : <Navigate to="/login" replace />} 
-        />
-        <Route 
-          path="/summary" 
-          element={isLoggedIn ? <Summary /> : <Navigate to="/login" replace />} 
-        />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </div>
-  );
+    if (isLoggedIn) {
+        return children;
+    }
+
+    return <Navigate to="/login" replace />;
 }
 
+function App() {
+    const { isLoggedIn, isLoading } = useAuth();
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+    return (
+        <div className='index'>
+            {isLoggedIn && <Navbar />}
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
+                <Route path="/transactions" element={<ProtectedRoute><Transaction /></ProtectedRoute>} />
+                <Route path="/user" element={<ProtectedRoute><User /></ProtectedRoute>} />
+                <Route path="/savings" element={<ProtectedRoute><Savings /></ProtectedRoute>} />
+                <Route path="/summary" element={<ProtectedRoute><Summary /></ProtectedRoute>} />
+                <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+        </div>
+    );
+}
+
+const root = createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <AuthProvider> 
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </AuthProvider>
-  </React.StrictMode>
 );
-
-reportWebVitals();
