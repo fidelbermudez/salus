@@ -10,7 +10,7 @@ import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 
-const user = 3;
+const user = 2;
 
 function NewGoalForm() {
 

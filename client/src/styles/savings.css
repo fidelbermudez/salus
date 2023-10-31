@@ -1,5 +1,4 @@
 .Saving{
-    background-color: #E6FAFA;
     height: 50rem;
 }
 
@@ -64,7 +63,7 @@
 }
 
 /* savings category */
-
+/* 
 .savings-cat{
     background-color: #023E8A;
     color: white;
@@ -73,10 +72,28 @@
     margin:  2rem;
     padding: 1rem;
     width: 200px;
+} */
+
+/* .budget-card {
+    border: 1px solid #023e8a;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 0.5rem;
+    background-color: transparent;
+  }
+     */
+
+.savings-cat{
+    margin: 1rem;
+    color: pink;
 }
 
-.show-categories{
-    background-color: #9bbbe5; 
+#body{
+    color: pink
+}
+
+.show-categories{ 
     padding: 1rem;
     margin-top: 1rem;
     display: flex;
