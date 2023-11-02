@@ -57,4 +57,26 @@ router.put('/incrementAmount', async (req, res) => {
   }
 });
 
+//POST request used to send a new budget to the DB from the client-side
+router.post('/insert', async (req, res) => {
+  try {
+    // Extract data from the request body
+    let newBudget = new categories({
+      month: req.body.month,
+      year: req.body.year,
+      user: req.body.user,
+      category_name: req.body.category_name,
+      amount_spent: req.body.amount_spent,
+      limit: req.body.limit
+    });
+    
+    let newData = await newBudget.save(); // Save the new document in the DB
+  
+    res.status(201).json(newData); // Respond with the created budget
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
 module.exports = router;

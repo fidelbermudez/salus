@@ -14,12 +14,7 @@ import Login from './pages/login';
 import { AuthProvider, useAuth } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BudgetsProvider } from './contexts/BudgetsContext';
-import axios from 'axios';
-import { BudgetsProvider } from './contexts/BudgetsContext';
-import axios from 'axios';
-import { BudgetsProvider } from './contexts/BudgetsContext';
-import axios from 'axios';
-import { BudgetsProvider } from './contexts/BudgetsContext';
+
 
 function ProtectedRoute({ children }) {
     const { isLoggedIn } = useAuth();
