@@ -2,13 +2,39 @@
     height: 50rem;
 }
 
+.float-container{
+    padding: 40px 0px 30px 25px;
+}
 
-/* add new category buton  */
+.goals{
+    float: left;
+    margin-right: 1rem;
+    vertical-align: middle;
+}
+
+/* savings buttons  */
 .add button{
     background-color: #023E8A;
-    outline-color: pink;
+    border-color: #023E8A;
     position: absolute;
-    left: 20px;
+    float: left;
+    vertical-align: middle;
+}
+
+.edit button{
+    position: absolute;
+    left: 400px;
+    background-color: #023E8A;
+    border-color: #023E8A;
+}
+
+#editing{
+    background-color: #d43c33;
+    border-color: #d43c33;
+}
+
+#editing:hover{
+    background-color: #e65850;
 }
 
 /* modal */
@@ -39,9 +65,18 @@
     text-align: left;
 }
 
+.add-button-container{
+    width: fit-content;
+    margin: auto;
+}
+
 .modal-body button{
     background-color: #0077B6;
     outline-color: white;
+    margin: auto;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .modal-body button:hover{
@@ -56,65 +91,94 @@
 
 .mb-3{
     background-color: #023E8A;
+    color: white;
 }
 
 .form{
     background-color: transparent;
 }
 
-/* savings category */
-/* 
-.savings-cat{
-    background-color: #023E8A;
+.form-label{
     color: white;
-    width: fit-content;
-    border-radius: 25px;
-    margin:  2rem;
-    padding: 1rem;
-    width: 200px;
-} */
-
-/* .budget-card {
-    border: 1px solid #023e8a;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    margin: 0.5rem;
-    background-color: transparent;
-  }
-     */
-
-.savings-cat{
-    margin: 1rem;
-    color: pink;
 }
 
-#body{
-    color: pink
-}
+/* savings categories div format*/
 
 .show-categories{ 
-    padding: 1rem;
-    margin-top: 1rem;
     display: flex;
 }
 
+.cats{
+    /* display: flex; */
+    width: 100%;
+}
+
+.cats ul{
+    /* grid-template-columns: auto auto auto; */
+    display: flex;
+    max-width: 100%;
+}
+
 .goaldiv{
-    background-color: transparent;
+    /* background-color: aliceblue; */
+    /* max-width: 350px; */
+    width: 30%;
+    min-height: 12vh;
+    /* flex: 33.33%; */
+    margin: 1rem;
+    align-items: center;
+}
+
+/* actual categories */
+
+.card{
+    /* max-width: fit-content; */
+    /* margin: 0 1rem; */
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+/* .prog-bar-sav{
+    background-color: #023E8A;
+} */
+
+#delete{
+    background-color: #023E8A;
+    float: right;
+    margin-top: 1rem;
+    max-height: 25px;
+    max-width: 30px;
+}
+
+#trash{
+    position: relative;
+    right: 6px;
+    bottom: 8px;
+}
+
+.temp{
+    background-color: aquamarine;
 }
 
 
 /* words and headers */
-h1{
-    background-color: transparent;
+#savings-title{
+    text-align: center;
+    margin-top: 1rem;
 }
 
 h2{
     background-color: transparent;
 }
 
+#goals-title{
+    text-align: center;
+}
+
 h4{
-    background-color: transparent
+    background-color: transparent;
 }
 p{
     background-color: transparent;
@@ -123,6 +187,11 @@ p{
 #contained-modal-title-vcenter{
     background-color: transparent;
 }
+
+#add-goal-text{
+    color: white;
+}
+
 label{
     background-color: transparent;
 }

@@ -9,14 +9,14 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
-import { local } from 'd3';
+// import { local } from 'd3';
 
-const user = 2;
 
 function NewGoalForm() {
 
-const { currentUser } = useAuth(); 
-const user = localStorage?.userId;
+  const { currentUser } = useAuth(); 
+  const userId = currentUser?.id;
+
 
   // variables in the savings table
   const [goalName, setGoalName] = useState('');
@@ -42,7 +42,7 @@ const user = localStorage?.userId;
 
     // post request to add new entry to database
     try {
-      const newGoal = {user_id: user, goal_amount: goalAmount, amount_contributed: amountContributed, savings_category: goalName};
+      const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed, savings_category: goalName};
       const response = await axios.post('http://localhost:8081/api/savings/insert', newGoal);
       
       setIsSubmitting(false);
@@ -63,11 +63,12 @@ const user = localStorage?.userId;
         <Form.Control className = "input" type="string" placeholder='e.g. Vacation'
          value={goalName}
           onChange = {(e) => setGoalName(e.target.value)}
-          required />
+          required 
+        />
       </Form.Group>
 
       {/* input for the goal amount  */}
-      <Form.Group className="mb-3" controlId="formGoalAmount">
+      <Form.Group className="mb-3" controlId="formGoalAmount" id="add-goal-text">
         <Form.Label>Goal Amount</Form.Label>
         <Form.Control type="number" placeholder=" e.g. 2000"
          value={goalAmount}
@@ -76,15 +77,17 @@ const user = localStorage?.userId;
       </Form.Group>
 
       {/* input for how much someone has already contributed to it */}
-      <Form.Group className="mb-3" controlId="formAmountContributed">
+      <Form.Group className="mb-3" controlId="formAmountContributed" id="add-goal-text">
         <Form.Label>Amount Contributed</Form.Label>
         <Form.Control type="number" placeholder=" e.g. 0"
          value={amountContributed}
            onChange = {(e) => setAmountContributed(e.target.value)}/>
       </Form.Group>
 
+      <div className="add-button-container">
       {/* submit button  */}
-      <Button type = "submit" onClick={handleSubmit} disabled={isSubmitting}> {isSubmitting ? 'Adding Goal...' : 'Add Goal'} </Button>
+      <Button id="add-goal-button" type = "submit" onClick={handleSubmit} disabled={isSubmitting}> {isSubmitting ? 'Adding Goal...' : 'Add Goal'} </Button>
+      </div>
     </Form>
   );
 }
@@ -117,54 +120,85 @@ function NewGoalModal(props) {
 
 // main function in the page, in charge of display and combining all features
 function Savings() {
+  const { currentUser } = useAuth(); 
+  const userId = currentUser?.id;
+
   // variable for showing or hiding modal
   const [modalShow, setModalShow] = React.useState(false);
   // variable for all goals belonging to user
   const [goals, setGoals] = React.useState([]);
-
+  // variable for showing or hiding edit state
+  const [editShow, setEditShow] = React.useState(false);
+  
   // get requests to get all of the savings goals for a user
   useEffect(() => {
-    axios.get('http://localhost:8081/api/savings/show/' + user)
+    axios.get('http://localhost:8081/api/savings/show/' + userId)
     .then(goals => setGoals(goals.data))
     .catch(err => console.log(err))
   })
   
   return (
     <div className="Saving">
-      <h1> Savings </h1>
+      <h1 id="savings-title"> Savings </h1>
 
       {/* box displaying total savings across all accounts */}
       {/* <div className="total-savings"> 
         <h3>Total Savings </h3>
       </div> */}
 
-      <div className = "add">
-      {/* button that allows user to add a new savings goal */}
-      <Button variant="primary" className = "button" onClick={() => setModalShow(true)}>
-        Add new goal 
-      </Button>
-      {/* modal for adding new goal */}
-      <NewGoalModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      />
+    <div className= "float-container">
+      {/* display of existing savings goals and goal progress */}
+        <div className = "goals"> 
+          <h3 id="goals-title">Your Saving Goals </h3>
+        </div>
+
+        <div className = "add">
+        {/* button that allows user to add a new savings goal */}
+        <Button variant="primary" className = "button" onClick={() => setModalShow(true)}>
+          Add new goal 
+        </Button>
+        {/* modal for adding new goal */}
+        <NewGoalModal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
+        </div>
+        
+        <div className = "edit">
+          {editShow ? (
+              <Button 
+              id = "editing"
+              variant = "primary" 
+              onClick={() => setEditShow(!editShow)}> 
+              Finish Editing
+              </Button>
+              ) : (
+              <Button
+               id = "not-editing"
+               variant = "primary" 
+               onClick={() => setEditShow(!editShow)}> 
+              Edit Goals
+              </Button>) }
+          
+        </div>
       </div>
 
-      
-      {/* display of existing savings goals and goal progress */}
-      <div className = "goals"> 
-        <h3>Your Saving Goals </h3>
-      </div>
+       <hr />
 
       {/* map over all goals and create individual displays */}
       <div className = 'show-categories'>
-      {
-      goals.map(goal =>{
-        return (
-        <div className = "goaldiv"> 
-        <SavingsCategory name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} /> 
-        </div>);
-      })}
+        <div className = "cats">
+          <ul>
+          {
+            goals.map(goal =>{
+            return (
+              <div key = {goal._id} className = "goaldiv"> 
+                <SavingsCategory id = {goal._id}name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} edit={editShow}/> 
+              </div>
+            );
+          })}
+          </ul>
+        </div>
       </div>
 
     </div>
