@@ -433,6 +433,49 @@ function Transaction() {
     setExpense(sortedExpenseByCategoryDescending);
   };
 
+  const [startSearchDate, setStartSearchDate] = useState('');
+  const [endSearchDate, setEndSearchDate] = useState('');
+
+  const [filteredIncome, setFilteredIncome] = useState([]);
+  const [filteredExpense, setFilteredExpense] = useState([]);
+
+  const handleStartDateChange = (e) => {
+    setStartSearchDate(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndSearchDate(e.target.value);
+  };
+
+  const handleSearch = () => {
+    // Convert the start and end date strings to Date objects
+    const startDate = new Date(startSearchDate);
+    const endDate = new Date(endSearchDate);
+
+    // Filter income data based on the selected date range
+    const filteredIncomeData = income.filter((incomeItem) => {
+      const incomeDate = new Date(incomeItem.date);
+      return incomeDate >= startDate && incomeDate <= endDate;
+    });
+
+    // Filter expense data based on the selected date range
+    const filteredExpenseData = expense.filter((expenseItem) => {
+      const expenseDate = new Date(expenseItem.date);
+      return expenseDate >= startDate && expenseDate <= endDate;
+    });
+
+    // Set the filtered data in your component state
+    setFilteredIncome(filteredIncomeData);
+    setFilteredExpense(filteredExpenseData);
+  };
+
+  useEffect(() => {
+    // Automatically trigger the search when startSearchDate or endSearchDate change
+    if (startSearchDate && endSearchDate) {
+      handleSearch();
+    }
+  }, [startSearchDate, endSearchDate]);
+
   return (
     <div>
       <div className="add-both">
@@ -452,6 +495,20 @@ function Transaction() {
           <NewIncomeModal
             show={incomeModalShow}
             onHide={() => setIncomeModalShow(false)}
+          />
+        </div>
+        <div className="search-income-expense">
+          <input
+            type="date"
+            placeholder="Start Date"
+            value={startSearchDate}
+            onChange={handleStartDateChange}
+          />
+          <input
+            type="date"
+            placeholder="End Date"
+            value={endSearchDate}
+            onChange={handleEndDateChange}
           />
         </div>
       </div>
@@ -478,15 +535,23 @@ function Transaction() {
               </tr>
             </thead>
             <tbody>
-              {
-                income.map(income => {
-                  return <tr key={income.id}>
+              {startSearchDate || endSearchDate ? (
+                filteredIncome.map((income) => (
+                  <tr key={income.id}>
                     <td>{income.date}</td>
                     <td>${income.amount}</td>
                     <td>{income.source}</td>
                   </tr>
-                })
-              }
+                ))
+              ) : (
+                income.map((income) => (
+                  <tr key={income.id}>
+                    <td>{income.date}</td>
+                    <td>${income.amount}</td>
+                    <td>{income.source}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         ) : null}
@@ -510,16 +575,25 @@ function Transaction() {
               </tr>
             </thead>
             <tbody>
-              {
-                expense.map(expense => {
-                  return <tr key={expense.id}>
+              {startSearchDate || endSearchDate ? (
+                filteredExpense.map((expense) => (
+                  <tr key={expense.id}>
                     <td>{expense.date}</td>
                     <td>${expense.amount}</td>
                     <td>{expense.category_name}</td>
                     <td>{expense.description}</td>
                   </tr>
-                })
-              }
+                ))
+              ) : (
+                expense.map((expense) => (
+                  <tr key={expense.id}>
+                    <td>{expense.date}</td>
+                    <td>${expense.amount}</td>
+                    <td>{expense.category_name}</td>
+                    <td>{expense.description}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         ) : null}
