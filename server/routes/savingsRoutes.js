@@ -59,22 +59,15 @@ router.post('/insert', async (req, res) => {
   }
 });
 
-router.get('/delete/:categoryId', async (req, res) => {
+router.delete('/delete/:categoryId', async (req, res) => {
   try {
     
     const catId = req.params.categoryId;
     console.log(catId);
-    // const result = await Savings.find({ _id: catId});
+    
 
     let result = await Savings.deleteOne({_id: catId})
 
-    // if (result.deletedCount === 1){
-    //   res.status(200).json({ message: 'Element deleted successfully' });
-    // } else {
-    //   res.status(404).json({ message: 'Element not found' });
-    // } 
-
-    // res.status(200).json({ message: 'Element deleted successfully' });
     if (!result) {
       return res.status(404).json({ message: 'Element not found' });
     } 
@@ -86,34 +79,4 @@ router.get('/delete/:categoryId', async (req, res) => {
 });
 
 
-// router.get('/del/:catId', async (req, res) => {
-//   try {
-//     const catId = req.params.catId;
-
-//     const categories = await Savings.find({ _id: catId});
-    
-
-//     if (!categories) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     res.json(categories);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Server error' });
-//   }
-// });
-
-
 module.exports = router;
-
-//  db.savings('users').deleteOne({ _id: ObjectId(id) })
-//     .then(() => {
-//       res.status(200).send('Document deleted');
-//     })
-//     .catch(err => {
-//       res.status(500).send(err);
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: 'Server Error' });

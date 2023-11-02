@@ -177,7 +177,7 @@ function Savings() {
                id = "not-editing"
                variant = "primary" 
                onClick={() => setEditShow(!editShow)}> 
-              Edit Goals
+              Edit goals
               </Button>) }
           
         </div>
@@ -193,7 +193,7 @@ function Savings() {
             goals.map(goal =>{
             return (
               <div key = {goal._id} className = "goaldiv"> 
-                <SavingsCategory id = {goal._id}name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} edit={editShow}/> 
+                <SavingsCategory catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} edit={editShow}/> 
               </div>
             );
           })}

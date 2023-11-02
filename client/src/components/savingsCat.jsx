@@ -5,6 +5,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import Button from 'react-bootstrap/Button';
 import {MdDeleteForever} from 'react-icons/md';
 import axios from 'axios';
+import {useState, useEffect} from 'react';
 // import { currencyFormatter } from "./utils";
 
 
@@ -14,7 +15,7 @@ function getProgressBarVariant(saved, goal) {
     return "success"
 }
 
-function SavingsCategory({ id, name, saved, goal, edit}) {
+function SavingsCategory({ catId, name, saved, goal, edit}) {
   // format currency 
   const currencyFormatter = new Intl.NumberFormat(undefined, {
     currency: "usd",
@@ -33,44 +34,25 @@ function SavingsCategory({ id, name, saved, goal, edit}) {
   const prog = Math.round(num * 100);
 
   // function for deleting a category
-  const deleteCat = async (e) => {
-    console.log(id)
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
+  const handleDeleteElement = async (catId) => {
+    console.log(catId, typeof(catId))
     try {
-      const response = await axios.delete(`http://localhost:8081/api/savings/delete/${id}`);
-      
-      console.log("testing")
-      // Check the response to see if the delete was successful
+      const response = await axios.delete(`http://localhost:8081/api/savings/delete/${catId}`);
+
       if (response.status === 200) {
-        console.log('Element deleted:', id);
+        setSuccess('Element deleted successfully');
       } else {
-        console.error('Failed to delete element:', id);
+        setError('Element not found');
       }
     } catch (err) {
-      console.error('Error deleting element:', err);
+      setError('Something went wrong! Please try again.');
+      console.error(err);
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setIsSubmitting(true);
-  //   setError(null);
-  //   setSuccess(null);
-
-  //   // post request to add new entry to database
-  //   try {
-  //     const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed, savings_category: goalName};
-  //     const response = await axios.post('http://localhost:8081/api/savings/insert', newGoal);
-      
-  //     setIsSubmitting(false);
-  //     setSuccess('Data successfully saved!');
-  //     console.log('Data saved: ', response.data);
-  //   } catch (err) {
-  //     setIsSubmitting(false);
-  //     setError('Something went wrong! Please try again.');
-  //     console.error(err);
-  //   }
-  // };
   
   return (
     <Card style={{ width: '500rem' }}  className ="card">
@@ -96,7 +78,7 @@ function SavingsCategory({ id, name, saved, goal, edit}) {
           <div className="temp">
             {edit ? (
               <Button id="delete">
-                <MdDeleteForever id="trash" onClick={deleteCat} />
+                <MdDeleteForever id="trash" onClick={() => handleDeleteElement(catId)} />
               </Button>
             ) : null}
           </div>
