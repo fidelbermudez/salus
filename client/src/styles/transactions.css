@@ -41,21 +41,6 @@ table td:last-child {
     border-right: 0px;
 }
 
-.toggle-button {
-    justify-content: center;
-    margin: auto;
-    display: flex;
-    font-weight: bold;
-    font-size: 14px;
-    cursor: pointer;
-    color: #fff;
-    background-color: #023e8a;
-    box-shadow: 0 2px 4px rgb(0, 0, 0, 0.25);
-    padding: 11px 12px;
-    border-radius: 15px 15px 0 0;
-    margin-top: 80px;
-}
-
 .incomeTable tbody tr,
 .expenseTable tbody tr {
     height: 55px;
@@ -65,4 +50,73 @@ table td:last-child {
     border: none;
     background-color: #023e8a;
     color: #fff;
+}
+
+.add-both {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    top: 50px;
+    right: 18%;
+  }
+  
+  .add-expense button,
+  .add-income button{
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 15px; /* Add spacing between the buttons within .add-both */
+  }
+  
+  .add-expense button,
+  .add-income button {
+    background-color: #023E8A;
+    color: #fff;
+    padding: 9px 12px;
+    width: 10%; /* doesn't work */
+    min-width: 120px;
+  }
+  
+.button-container {
+    position: relative;
+    margin-top: 50px;
+    margin-left: 18%;
+  }
+  
+.show-expense-button {
+    top: 0;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    padding: 11px 12px;
+    border-radius: 15px 15px 0 0;
+    margin-left: 15px;
+    /* Set the default background color to gray */
+    background-color: #888;
+    width: 10%;
+    min-width: 100px;
+}
+
+.show-income-button {
+    top: 0;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    padding: 11px 12px;
+    border-radius: 15px 15px 0 0;
+    /* Set the default background color to gray */
+    background-color: #888;
+    width: 10%;
+    min-width: 100px;
+}
+  
+.show-income-button.income-active {
+    /* Change the background color to #023e8a when the income table is active */
+    background-color: #023e8a;
+}
+  
+.show-expense-button.expense-active {
+    /* Change the background color to #023e8a when the expense table is active */
+    background-color: #023e8a;
 }

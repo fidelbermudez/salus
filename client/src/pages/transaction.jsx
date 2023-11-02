@@ -318,6 +318,19 @@ function Transaction() {
   const [expense, setExpense] = useState([]);
   const [toggle, setToggle] = useState(false);
 
+  const [showIncome, setShowIncome] = useState(false);
+  const [showExpense, setShowExpense] = useState(true);
+
+  const showExpenseTable = () => {
+    setShowIncome(false);
+    setShowExpense(true);
+  };
+
+  const showIncomeTable = () => {
+    setShowIncome(true);
+    setShowExpense(false);
+  };
+
   // variable for showing or hiding modal
   const [expenseModalShow, setExpenseModalShow] = useState(false);
   const [incomeModalShow, setIncomeModalShow] = useState(false);
@@ -422,84 +435,94 @@ function Transaction() {
 
   return (
     <div>
-      <Button variant="primary" className = "button" onClick={() => setExpenseModalShow(true)}>
-        Add new expense 
-      </Button>
-      <NewExpenseModal
-        show={expenseModalShow}
-        onHide={() => setExpenseModalShow(false)}
-      />
-      <Button variant="primary" className = "button" onClick={() => setIncomeModalShow(true)}>
-        Add income 
-      </Button>
-      <NewIncomeModal
-        show={incomeModalShow}
-        onHide={() => setIncomeModalShow(false)}
-      />
-      <button className="toggle-button" onClick={handleToggleChange}>
-        {toggle ? "Show Expenses" : "Show Income"}
-      </button>
+      <div className="add-both">
+        <div className="add-expense">
+          <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
+            Add expense
+          </Button>
+          <NewExpenseModal
+            show={expenseModalShow}
+            onHide={() => setExpenseModalShow(false)}
+          />
+        </div>
+        <div className="add-income">
+          <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+            Add income
+          </Button>
+          <NewIncomeModal
+            show={incomeModalShow}
+            onHide={() => setIncomeModalShow(false)}
+          />
+        </div>
+      </div>
+      <div className="button-container">
+        <button className={`show-income-button ${showIncome ? 'income-active' : ''}`} 
+        onClick={showIncomeTable}>Income</button>
+        <button className={`show-expense-button ${showExpense ? 'expense-active' : ''}`}
+        onClick={showExpenseTable}>Expenses</button>
+      </div>
       <div className="bothTables">
-        {toggle ? (
-          <table className = "incomeTable">
-          <thead>
-            <tr>
-              <th>Date
-                  <button className = "headButton" onClick={sortIncomeByDate}>↑</button>
-                  <button className = "headButton" onClick={sortIncomeByDateDescending}>↓</button>
-              </th>
-              <th>Amount
-                  <button className = "headButton" onClick={sortIncomeByAmount}>↑</button>
-                  <button className = "headButton" onClick={sortIncomeByAmountDescending}>↓</button>
-              </th>
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              income.map(income => {
-                return <tr key={income.id}>
-                  <td>{income.date}</td>
-                  <td>${income.amount}</td>
-                  <td>{income.source}</td>
-                </tr>
-              })
-            }
-          </tbody>
-        </table>
-        ) : (
+        {showIncome ? (
+          <table className="incomeTable">
+            <thead>
+              <tr>
+                <th>Date
+                  <button className="headButton" onClick={sortIncomeByDate}>↑</button>
+                  <button className="headButton" onClick={sortIncomeByDateDescending}>↓</button>
+                </th>
+                <th>Amount
+                  <button className="headButton" onClick={sortIncomeByAmount}>↑</button>
+                  <button className="headButton" onClick={sortIncomeByAmountDescending}>↓</button>
+                </th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                income.map(income => {
+                  return <tr key={income.id}>
+                    <td>{income.date}</td>
+                    <td>${income.amount}</td>
+                    <td>{income.source}</td>
+                  </tr>
+                })
+              }
+            </tbody>
+          </table>
+        ) : null}
+        {showExpense ? (
           <table className="expenseTable">
             <thead>
               <tr>
                 <th>Date
-                    <button className = "headButton" onClick={sortExpenseByDate}>↑</button>
-                    <button className = "headButton" onClick={sortExpenseByDateDescending}>↓</button>
+                  <button className="headButton" onClick={sortExpenseByDate}>↑</button>
+                  <button className="headButton" onClick={sortExpenseByDateDescending}>↓</button>
                 </th>
                 <th>Amount
-                    <button className = "headButton" onClick={sortExpenseByAmount}>↑</button>
-                    <button className = "headButton" onClick={sortExpenseByAmountDescending}>↓</button>
+                  <button className="headButton" onClick={sortExpenseByAmount}>↑</button>
+                  <button className="headButton" onClick={sortExpenseByAmountDescending}>↓</button>
                 </th>
                 <th>Category
-                    <button className = "headButton" onClick={sortExpenseByCategory}>↑</button>
-                    <button className = "headButton" onClick={sortExpenseByCategoryDescending}>↓</button>
+                  <button className="headButton" onClick={sortExpenseByCategory}>↑</button>
+                  <button className="headButton" onClick={sortExpenseByCategoryDescending}>↓</button>
                 </th>
                 <th>Description</th>
               </tr>
             </thead>
             <tbody>
               {
-                expense.map(expense => (
-                  <tr key={expense.id}>
+                expense.map(expense => {
+                  return <tr key={expense.id}>
                     <td>{expense.date}</td>
                     <td>${expense.amount}</td>
                     <td>{expense.category_name}</td>
                     <td>{expense.description}</td>
                   </tr>
-                ))
+                })
               }
             </tbody>
           </table>
-        )}
+        ) : null}
       </div>
     </div>
   );
