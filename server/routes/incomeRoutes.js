@@ -79,7 +79,7 @@ router.get('/latest', async (req, res) => {
 const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage });
 
-router.post('/upload-income', upload.single('csvFile'), (req, res) => {
+router.post('/upload-income', upload.single('csvFile'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded.' });
   }
@@ -87,54 +87,49 @@ router.post('/upload-income', upload.single('csvFile'), (req, res) => {
   // Parse the CSV data from the uploaded file
   const csvData = req.file.buffer.toString('utf8');
   const userId = req.body.user_id;
+  const bankId = req.body.bank_id;
   const results = [];
   const stream = Readable.from(csvData);
 
-  stream
-  .pipe(csv())
-  .on('data', (row) => {
-    // Validate and process each row
-    const { income, source, day, month, year, amount } = row;
+  try {
+    const latestIncome = await Income.findOne({}, { income_id: 1 }, { sort: { income_id: -1 } });
+    let latestIncomeId = latestIncome ? latestIncome.income_id : 0;
 
-    const dayWithLeadingZero = day.length === 1 ? `0${day}` : day;
-    const monthWithLeadingZero = month.length === 1 ? `0${month}` : month;
-    const date = `${monthWithLeadingZero}/${dayWithLeadingZero}/${year}`;
+    stream
+      .pipe(csv())
+      .on('data', (row) => {
+        const { income, source, day, month, year, amount } = row;
 
-    // Basic validation example:
-    if (!source || !date || !amount ) {
-      // If any required fields are missing, skip this row or handle the error
-      console.error('Skipping row due to missing data:', row);
-      return;
-    }
+        const dayWithLeadingZero = day.length === 1 ? `0${day}` : day;
+        const monthWithLeadingZero = month.length === 1 ? `0${month}` : month;
+        const date = `${monthWithLeadingZero}/${dayWithLeadingZero}/${year}`;
 
-      // If all validation checks pass, you can add this row to the 'results' array
-      console.log('Formatted Expense Data:', source, date, amount);
-      results.push({ userId, source, date, amount });
-    })
-    .on('end', async () => {
-      try {
-        for (const incomeData of results) {
-          const { source, date, amount } = incomeData;
-
-          const newIncome = new Income({
-            user_id: userId,
-            source,
-            date, // The date is already formatted
-            amount
-          });
-
-          const savedIncome = await newIncome.save();
-          if (!savedIncome) {
-            console.error('Failed to save income data:', incomeData);
-          }
+        if (!source || !date || !amount ) {
+          console.error('Skipping row due to missing data:', row);
+          return;
         }
 
-        res.status(200).json({ message: 'Income data uploaded successfully.' });
-      } catch (error) {
-        console.error('Error during CSV data insertion:', error);
-        res.status(500).json({ message: 'Server Error' });
-      }
-    });
+        const incomeData = {
+          user_id: userId,
+          bank_id: bankId,
+          income_id: latestIncomeId + 1,
+          source: source,
+          date: date,
+          amount: amount
+        };
+
+        console.log('Formatted Expense Data:', incomeData);
+        results.push(incomeData);
+        latestIncomeId++;
+      })
+      .on('end', async () => {
+        const insertedIncome = await Income.insertMany(results);
+        res.status(200).json({ message: 'Expenses data uploaded successfully.' });
+      });
+  } catch (error) {
+    console.error('Error during CSV data insertion:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
 });
   
 module.exports = router;

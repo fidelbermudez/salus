@@ -370,10 +370,6 @@ function Transaction() {
     fetchExpense();
   }, [userId, authLoading]); // Add authLoading to dependency list
 
-  const handleToggleChange = () => {
-    setToggle(!toggle);
-  };
-
   // Only works on Chrome
   document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('.bothTables');
@@ -523,6 +519,7 @@ function Transaction() {
   const sendToExpensesRoute = (userId, csvFile) => {
     const formData = new FormData();
     formData.append('user_id', userId);
+    formData.append('bank_id', userId);
     formData.append('csvFile', csvFile);
   
     axios.post('http://localhost:8081/api/expense/upload-expenses', formData)
@@ -539,6 +536,7 @@ function Transaction() {
   const sendToIncomeRoute = (userId, csvFile) => {
     const formData = new FormData();
     formData.append('user_id', userId);
+    formData.append('bank_id', userId);
     formData.append('csvFile', csvFile);
   
     axios.post('http://localhost:8081/api/income/upload-income', formData)
