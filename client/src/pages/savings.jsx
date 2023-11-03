@@ -15,7 +15,7 @@ import { useAuth } from '../AuthContext';
 function NewGoalForm() {
 
   const { currentUser } = useAuth(); 
-  const userId = currentUser?.id;
+  const userId = localStorage?.id;
 
 
   // variables in the savings table
