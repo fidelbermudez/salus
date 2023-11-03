@@ -476,9 +476,81 @@ function Transaction() {
     }
   }, [startSearchDate, endSearchDate]);
 
+  const [selectedCsvFile, setCsvFile] = useState(null);
+
+  const handleCsvFileChange = (e) => {
+    const file = e.target.files[0];
+    setCsvFile(file);
+  };
+
+  const handleUploadCsv = () => {
+    // Check if a CSV file is selected
+    if (!selectedCsvFile) {
+      console.error('CSV file is missing.');
+      return;
+    }
+  
+    // Read the first row of the CSV file to inspect headers
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      const firstRow = contents.split('\n')[0].toLowerCase(); // Assuming headers are in the first row
+  
+      // Check if the headers match the expected format for expenses or income
+      if (firstRow.includes('category') && firstRow.includes('amount')) {
+        // The headers match the expected format for expenses
+        // Send the CSV file to the upload-expenses route
+        sendToExpensesRoute(userId, selectedCsvFile);
+      } else if (firstRow.includes('source') && firstRow.includes('amount')) {
+        // The headers match the expected format for income
+        // Send the CSV file to the upload-income route
+        sendToIncomeRoute(userId, selectedCsvFile);
+      } else {
+        // Handle the case where the headers don't match either format
+        console.error('CSV headers do not match expected formats.');
+      }
+    };
+  
+    reader.readAsText(selectedCsvFile);
+  };
+
+  // Function to send the CSV data to the upload-expenses route
+  const sendToExpensesRoute = (userId, csvFile) => {
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('csvFile', csvFile);
+  
+    axios.post('http://localhost:8081/api/expense/upload-expenses', formData)
+      .then((response) => {
+        console.log('Expenses CSV data uploaded successfully');
+      })
+      .catch((error) => {
+        console.error('Error uploading Expenses CSV data:', error);
+      });
+  };
+  
+  // Function to send the CSV data to the upload-income route
+  const sendToIncomeRoute = (userId, csvFile) => {
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('csvFile', csvFile);
+  
+    axios.post('http://localhost:8081/api/income/upload-income', formData)
+      .then((response) => {
+        console.log('Income CSV data uploaded successfully');
+      })
+      .catch((error) => {
+        console.error('Error uploading Income CSV data:', error);
+      });
+  };
+
   return (
     <div>
       <div className="add-both">
+        <div className="input-csv">
+          <input type="file" accept=".csv" onChange={handleCsvFileChange} />
+          <button onClick={handleUploadCsv}>Upload</button>
+        </div>
         <div className="add-expense">
           <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
             Add expense
