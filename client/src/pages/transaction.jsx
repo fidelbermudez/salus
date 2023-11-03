@@ -45,8 +45,9 @@ function NewExpenseForm({ onSubmit }) {
         setIsSubmitting(false);
         return;
       }
-  
-      const formattedDate = `${expenseMonth}/${expenseDay}/${expenseYear}`;
+      const dayWithLeadingZero = expenseDay.length === 1 ? `0${expenseDay}` : expenseDay;
+      const monthWithLeadingZero = expenseMonth.length === 1 ? `0${expenseMonth}` : expenseMonth;
+      const formattedDate = `${monthWithLeadingZero}/${dayWithLeadingZero}/${expenseYear}`;
 
       // post request to add new entry to database
       try {
@@ -76,6 +77,7 @@ function NewExpenseForm({ onSubmit }) {
         console.log('Data saved: ', response.data);
         console.log('Data updated: ', update.data);
         onSubmit();
+        window.location.reload();
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -203,7 +205,9 @@ function NewIncomeForm({ onSubmit }) {
         return;
       }
   
-      const formattedDate = `${incomeMonth}/${incomeDay}/${incomeYear}`;
+      const dayWithLeadingZero = incomeDay.length === 1 ? `0${incomeDay}` : incomeDay;
+      const monthWithLeadingZero = incomeMonth.length === 1 ? `0${incomeMonth}` : incomeMonth;
+      const formattedDate = `${monthWithLeadingZero}/${dayWithLeadingZero}/${incomeYear}`;
 
       // post request to add new entry to database
       try {
@@ -224,6 +228,7 @@ function NewIncomeForm({ onSubmit }) {
         console.log('New Income ID: ', newIncomeId);
         console.log('Data saved: ', response.data);
         onSubmit();
+        window.location.reload();
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -522,6 +527,7 @@ function Transaction() {
   
     axios.post('http://localhost:8081/api/expense/upload-expenses', formData)
       .then((response) => {
+        window.location.reload();
         console.log('Expenses CSV data uploaded successfully');
       })
       .catch((error) => {
@@ -537,6 +543,7 @@ function Transaction() {
   
     axios.post('http://localhost:8081/api/income/upload-income', formData)
       .then((response) => {
+        window.location.reload();
         console.log('Income CSV data uploaded successfully');
       })
       .catch((error) => {
