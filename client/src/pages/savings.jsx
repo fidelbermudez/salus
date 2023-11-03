@@ -129,6 +129,16 @@ function Savings() {
   const [goals, setGoals] = React.useState([]);
   // variable for showing or hiding edit state
   const [editShow, setEditShow] = React.useState(false);
+
+  const sortDataByProperty = (data, property) => {
+  const sorted = [...data].sort((a, b) => {
+    return a[property].toLowerCase().localeCompare(b[property].toLowerCase());
+  });
+
+  return sorted;
+  };
+
+  const sortedGoals = sortDataByProperty(goals, 'savings_category');
   
   // get requests to get all of the savings goals for a user
   useEffect(() => {
@@ -190,7 +200,7 @@ function Savings() {
         <div className = "cats">
           <ul>
           {
-            goals.map(goal =>{
+            sortedGoals.map(goal =>{
             return (
               <div key = {goal._id} className = "goaldiv"> 
                 <SavingsCategory catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} edit={editShow}/> 

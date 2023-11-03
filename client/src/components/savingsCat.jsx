@@ -77,8 +77,9 @@ function SavingsCategory({ catId, name, saved, goal, edit}) {
           />
           <div className="temp">
             {edit ? (
-              <Button id="delete">
-                <MdDeleteForever id="trash" onClick={() => handleDeleteElement(catId)} />
+              <Button id="delete" onClick={() => handleDeleteElement(catId)}>
+                {/* <MdDeleteForever id="trash" /> */}
+                X
               </Button>
             ) : null}
           </div>
