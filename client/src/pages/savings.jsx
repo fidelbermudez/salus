@@ -121,7 +121,7 @@ function NewGoalModal(props) {
 // main function in the page, in charge of display and combining all features
 function Savings() {
   const { currentUser } = useAuth(); 
-  const userId = currentUser?.id;
+  const userId = localStorage?.id;
 
   // variable for showing or hiding modal
   const [modalShow, setModalShow] = React.useState(false);
