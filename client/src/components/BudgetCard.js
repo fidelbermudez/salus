@@ -2,13 +2,38 @@ import { Card, ProgressBar, Stack } from "react-bootstrap";
 import { currencyFormatter } from "./utils";
 import '../styles/budget.css';
 
-export default function BudgetCard({ name, amount, max, grey }) {
+export default function BudgetCard({ name, amount, max, grey, edit}) {
     const classNames = []
     if (amount > max) {
         classNames.push("bg-danger", "bg-opacity-10")
     } else if (grey) {
         classNames.push("bg-light")
     }
+
+    const [success, setSuccess] = useState('');
+    const [error, setError] = useState('');
+
+    const handleDeleteElement = async (catId) => {
+        console.log(catId, typeof(catId))
+        try {
+            const response = await axios.delete(`http://localhost:8081/api/savings/delete/${catId}`);
+
+            if (response.status === 200) {
+                setSuccess('Element deleted successfully');
+            } else {
+                setError('Element not found');
+            }
+        } catch (err) {
+            setError('Something went wrong! Please try again.');
+            console.error(err);
+        }
+    };
+
+
+
+
+    
+
 
     return (
         <Card className={classNames.join(" ")}>
@@ -31,6 +56,15 @@ export default function BudgetCard({ name, amount, max, grey }) {
                     now={amount}
 
                 />
+                <div className="temp">
+                    {edit ? (
+                        <Button id="delete">
+                            <MdDeleteForever id="trash" onClick={() => handleDeleteElement(catId)} />
+                        </Button>
+                    ) : null}
+                </div>
+
+
             </Card.Body>
         </Card>
     )

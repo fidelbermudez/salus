@@ -213,6 +213,24 @@ function Budget() {
         <BudgetCard name="Entertainment" amount={200} max={1000}></BudgetCard>
         <BudgetCard name="Food" amount={600} max={1000}></BudgetCard>
         <BudgetCard name="leisure" amount={900} max={1000}></BudgetCard>
+
+        <div className = "edit">
+          {editShow ? (
+              <Button 
+              id = "editing"
+              variant = "primary" 
+              onClick={() => setEditShow(!editShow)}> 
+              Finish Editing
+              </Button>
+              ) : (
+              <Button
+               id = "not-editing"
+               variant = "primary" 
+               onClick={() => setEditShow(!editShow)}> 
+              Edit goals
+              </Button>) }
+          
+        </div>
         
         {/* this is making all the budgets appear on the screen right now*/}
         {budgets.map((budget) => (
@@ -221,6 +239,7 @@ function Budget() {
             name={budget.category_name}
             amount={budget.amount_spent}
             max={budget.limit}
+            edit={editShow}
           ></BudgetCard>
         ))}
       </div>
