@@ -90,7 +90,7 @@ table td:last-child {
     color: #fff;
     padding: 11px 12px;
     border-radius: 15px 15px 0 0;
-    margin-left: 15px;
+    margin-right: 15px;
     /* Set the default background color to gray */
     background-color: #888;
     width: 10%;

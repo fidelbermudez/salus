@@ -598,10 +598,10 @@ function Transaction() {
         </div>
       </div>
       <div className="button-container">
-        <button className={`show-income-button ${showIncome ? 'income-active' : ''}`} 
-        onClick={showIncomeTable}>Income</button>
         <button className={`show-expense-button ${showExpense ? 'expense-active' : ''}`}
         onClick={showExpenseTable}>Expenses</button>
+        <button className={`show-income-button ${showIncome ? 'income-active' : ''}`} 
+        onClick={showIncomeTable}>Income</button>
       </div>
       <div className="bothTables">
         {showIncome ? (
