@@ -73,11 +73,12 @@ table td:last-child {
     color: #fff;
     padding: 9px 12px;
     min-width: 120px;
+    margin-top: 36px;
   }
   
 .button-container {
     position: relative;
-    margin-top: 50px;
+    margin-top: 75px;
     margin-left: 18%;
   }
   
@@ -120,10 +121,17 @@ table td:last-child {
     background-color: #023e8a;
 }
 
-.input-csv input {
+.input-csv {
+    display: grid;
     color: #023e8a;
-    width: 300px;
-    margin-right: 50px;
+    width: 10%;
+    min-width: 230px;
+  }
+
+.upload-button-container {
+    position: absolute;
+    top: 0;
+    left: 36%; /* Adjust this value to your desired distance from the left side */
 }
 
 .input-csv button {
@@ -132,7 +140,14 @@ table td:last-child {
     font-weight: bold;
     font-size: 14px;
     border-radius: 5px;
-    padding: 8px 12px;
-    /* width: 300px; */
-    margin-right: 50px;
+    margin-top: 10px;
+}
+
+.date-input-container {
+    display: inline-block;
+    margin-right: 10px; /* Add margin between the input fields */
+  }
+
+.date-label {
+    color:#023E8A;
 }

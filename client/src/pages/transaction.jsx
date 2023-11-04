@@ -552,9 +552,11 @@ function Transaction() {
   return (
     <div>
       <div className="add-both">
-        <div className="input-csv">
-          <input type="file" accept=".csv" onChange={handleCsvFileChange} />
-          <button onClick={handleUploadCsv}>Upload</button>
+        <div className="upload-button-container">
+          <div className="input-csv">
+            <input type="file" accept=".csv" onChange={handleCsvFileChange} />
+            <button onClick={handleUploadCsv}>Upload</button>
+          </div>
         </div>
         <div className="add-expense">
           <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
@@ -575,18 +577,24 @@ function Transaction() {
           />
         </div>
         <div className="search-income-expense">
+          <div className="date-input-container">
+          <label htmlFor="startDate" className="date-label">Start Date</label>
           <input
             type="date"
             placeholder="Start Date"
             value={startSearchDate}
             onChange={handleStartDateChange}
           />
+          </div>
+          <div className="date-input-container">
+          <label htmlFor="endDate" className="date-label">End Date</label>
           <input
             type="date"
             placeholder="End Date"
             value={endSearchDate}
             onChange={handleEndDateChange}
           />
+          </div>
         </div>
       </div>
       <div className="button-container">
