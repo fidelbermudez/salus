@@ -18,7 +18,7 @@ export default function Navbar() {
   }
   return (
     <nav className="nav">
-      <NavLink to="/" className="app-name">S</NavLink>
+      <NavLink to="/user" className="app-name">S</NavLink>
       <ul>
         <NavLink to="/budget">Budget</NavLink>
         <NavLink to="/transactions">Transactions</NavLink>
