@@ -38,6 +38,7 @@ router.get('/show/:userId', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+      console.log('Login attempt:', req.body);
       const { email, password } = req.body;
       
       const user = await User.findOne({ email }).select('+password');
@@ -85,9 +86,6 @@ router.get('/me', verifyToken, async (req, res) => {
       email: user.email,
       firstName: user.first_name,
     });
-
-    console.log('User ID from token:', userId);
-    console.log('User data fetched:', user);
 
   } catch (error) {
     console.error(error);
