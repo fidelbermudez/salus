@@ -14,8 +14,7 @@ import { useAuth } from '../AuthContext';
 
 function NewGoalForm() {
 
-  const { currentUser } = useAuth(); 
-  const userId = localStorage?.id;
+  const userId = localStorage?.userId;
 
 
   // variables in the savings table
@@ -121,14 +120,12 @@ function NewGoalModal(props) {
 // main function in the page, in charge of display and combining all features
 function Savings() {
   const { currentUser } = useAuth(); 
-  const userId = localStorage?.id;
+  const userId = localStorage?.userId;
 
   // variable for showing or hiding modal
   const [modalShow, setModalShow] = React.useState(false);
   // variable for all goals belonging to user
   const [goals, setGoals] = React.useState([]);
-  // variable for showing or hiding edit state
-  const [editShow, setEditShow] = React.useState(false);
 
   const sortDataByProperty = (data, property) => {
   const sorted = [...data].sort((a, b) => {
@@ -151,11 +148,6 @@ function Savings() {
     <div className="Saving">
       <h1 id="savings-title"> Savings </h1>
 
-      {/* box displaying total savings across all accounts */}
-      {/* <div className="total-savings"> 
-        <h3>Total Savings </h3>
-      </div> */}
-
     <div className= "float-container">
       {/* display of existing savings goals and goal progress */}
         <div className = "goals"> 
@@ -174,23 +166,6 @@ function Savings() {
         />
         </div>
         
-        <div className = "edit">
-          {editShow ? (
-              <Button 
-              id = "editing"
-              variant = "primary" 
-              onClick={() => setEditShow(!editShow)}> 
-              Finish Editing
-              </Button>
-              ) : (
-              <Button
-               id = "not-editing"
-               variant = "primary" 
-               onClick={() => setEditShow(!editShow)}> 
-              Edit goals
-              </Button>) }
-          
-        </div>
       </div>
 
        <hr />
@@ -203,7 +178,7 @@ function Savings() {
             sortedGoals.map(goal =>{
             return (
               <div key = {goal._id} className = "goaldiv"> 
-                <SavingsCategory catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} edit={editShow}/> 
+                <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount}/> 
               </div>
             );
           })}

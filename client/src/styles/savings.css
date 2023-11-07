@@ -21,13 +21,14 @@
     vertical-align: middle;
 }
 
-.edit button{
-    position: absolute;
-    left: 400px;
+ .edit button{
     background-color: #023E8A;
     border-color: #023E8A;
+    max-height: 20px;
+    max-width: 20px;
 }
 
+/*
 #editing{
     background-color: #d43c33;
     border-color: #d43c33;
@@ -35,7 +36,7 @@
 
 #editing:hover{
     background-color: #e65850;
-}
+} */
 
 /* modal */
 
@@ -123,7 +124,6 @@
     /* background-color: aliceblue; */
     /* max-width: 350px; */
     width: 30%;
-    min-height: 12vh;
     /* flex: 33.33%; */
     margin: 1rem;
     align-items: center;
@@ -132,36 +132,162 @@
 /* actual categories */
 
 .card{
-    /* max-width: fit-content; */
-    /* margin: 0 1rem; */
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
-    height: 100%;
+    min-height: 15vh;
 }
 
-/* .prog-bar-sav{
-    background-color: #023E8A;
-} */
-
-#delete{
-    background-color: #023E8A;
-    float: right;
-    margin-top: 1rem;
-    max-height: 25px;
-    max-width: 30px;
+.btnastext{
+    background:none;
+    border:none;
+    cursor: pointer;
 }
 
-#trash{
+.card-buttons{
+    width: fit-content;
+    position: absolute;
+    right: 0px;
+    padding-right: 8px;
+    padding-top: 5px;
+}
+
+.edit{
+    display: inline-block;
+    margin-right: 0.3rem;
+}
+
+.edit-btn{
+    background-color: #023E8A;
+    min-height: 22px;
+    min-width: 20px;
+    line-height: 10px;
+    align-items: center;
+}
+
+#pencil{
+    float: left;
+    right: 7px;
+    bottom: 4px;
     position: relative;
-    right: 6px;
-    bottom: 8px;
 }
 
-.temp{
-    background-color: aquamarine;
+.delete{
+    background-color: #023E8A;
+    max-height: 22px;
+    max-width: 20px;
+    line-height: 10px;
+    text-align: center;
 }
 
+.removeCat{
+    display: inline-block;
+}
+
+#xdel{
+    float: left;
+    right: 8px;
+    bottom: 3px;
+    position: relative;
+}
+
+.catName{
+    text-align: center;
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.prog-bar-save{
+    height: 10px !important;
+}
+
+.goalAmount{
+    width: fit-content;
+    margin: auto;
+    margin-top: 1rem;
+}
+
+/* EDIT GOAL  */
+
+.edit-curramount{
+    width: 27%;
+    background-color: lightgrey;
+    display: inline-block
+}
+
+.edit-addamount{
+    width: 27%;
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+.edit-totalamount{
+    width: 27%;
+    display: inline-block;
+    margin-left: 1rem;
+    background-color: lightgrey;
+}
+
+.add-or-sub{
+    margin-left: 1rem;
+    position: relative;
+    top: 13px;
+}
+
+#tbg-radio-1{
+    background-color: lime;
+    border-color: black;
+}
+
+#tbg-radio-2{
+    background-color: lime;
+}
+
+#equals{
+    margin-left: 1rem;
+    display: inline-block;
+}
+
+/* savingsHist */
+
+#hist-modal{
+}
+
+#hist-header{
+}
+
+#hist-body{
+    background-color: white;
+    color: black;
+    
+}
+
+#hist-goal-title{
+    color: black;
+    text-align: center;
+}
+
+#histTableContainer{
+    max-height: 300px;
+    overflow: auto;
+    overflow-y: auto;
+}
+
+.histTable{
+    max-width: 600px;
+    /* max-height: 100px; */
+    margin: auto;
+    border-radius: 10px;
+    overflow: auto;
+    text-align: center;
+    border: 1px solid black;
+    overflow-y: auto;
+}
+
+#sortHist{
+    background-color: transparent;
+}
 
 /* words and headers */
 #savings-title{
