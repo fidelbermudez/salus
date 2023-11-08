@@ -5,9 +5,9 @@ const BankAccount = require('../models/bankAccount');
 
 router.get('/:userId/bankInfo', async (req, res) => {
   try {
-    const userId = parseInt(req.params.userId);  // Or however you extract the user ID from the token
+    const userId = parseInt(req.params.userId);  
   
-    const bankAccount = await BankAccount.findOne({ userId });
+    const bankAccount = await BankAccount.findOne({ id: userId });
     if (!bankAccount) {
       return res.status(200).json({ hasBankAccount: false });
     }
