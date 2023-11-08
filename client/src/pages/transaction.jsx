@@ -550,7 +550,7 @@ function Transaction() {
   };
 
   return (
-    <div>
+    <div className="everything">
       <div className="add-both">
         <div className="upload-button-container">
           <div className="input-csv">
