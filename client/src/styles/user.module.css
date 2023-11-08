@@ -1,0 +1,89 @@
+/* User.module.css */
+
+.userContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 50px;
+    padding: 40px;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+  }
+  
+  .userInformation, .bankAccounts {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  .informationDetail {
+    background-color: #f9f9f9;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #333;
+  }
+  .bankAccountsContainer {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  
+  .bankAccountsList {
+    list-style: none;
+    padding: 0;
+    max-height: 200px; /* Adjust this value to fit your design */
+    overflow-y: auto; /* This will add a scrollbar to the list */
+    margin-top: 10px;
+  }
+  
+  .bankAccount {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .bankAccounts {
+    width: 100%;
+    margin-bottom: 30px;
+    max-height: 300px; /* Adjust max-height as needed */
+    overflow-y: auto; /* This will add a scrollbar if content exceeds 300px */
+  }
+  
+  
+  .bankAccountHeader {
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .value {
+    display: block;
+  }
+  
+  .message {
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  .centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  

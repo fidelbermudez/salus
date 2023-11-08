@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; 
 import styles from "../styles/login.module.css"
 import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Alert from 'react-bootstrap/Alert';
+
 
 const Login = () => {
   const { setCurrentUser, login, isLoading: authLoading } = useAuth();
@@ -16,9 +19,10 @@ const Login = () => {
     last_name: '',    
     phone_number: '' 
   });
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   const [isSignUpMode, setIsSignUpMode] = useState(false);
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -40,22 +44,26 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       });
-      
+  
       if (response.status === 201) { 
-        const userData = await response.json();
-        localStorage.setItem("userId", userData.userId); // assuming the data has a userId property
-        localStorage.setItem('authToken', userData.token); // and a token
-        login(userData);
-        navigate("/user");
-      } else {
-        const data = await response.json();
-        alert(data.message);
+        setShowSuccessAlert(true);
+        // Directly switch to sign-in mode after showing the success message
+        setIsSignUpMode(false);
+        // Optionally, clear the form or set up the form for sign-in
+        setFormData({
+          ...formData,
+          password: '',
+          confirmPassword: ''  // Clear the password fields, assuming you want to keep the email for easier login
+        });
+        // If you wish to hide the success alert after some time, you can set a timeout to hide it
       }
     } catch (error) {
       console.error(error);
       alert('An error occurred. Please try again.');
     }
   };
+  
+  
   const toggleMode = () => {
     setIsSignUpMode(!isSignUpMode);
     setFormData({
@@ -98,13 +106,18 @@ const Login = () => {
         <Link to="/">
             <h2 className={styles.h2}>Salus</h2>
         </Link>
-
+        {showSuccessAlert && (
+          <Alert variant="success" onClose={() => setShowSuccessAlert(false)} dismissible>
+              Account successfully created! You can now sign in.
+          </Alert>
+        )}
         <div className={styles.loginContainer}>
             {authLoading ? (
-                <p>Loading...</p> // Display a loading message when auth data is loading
+                <p>Loading...</p> 
             ) : isSignUpMode ? (
                 <>
-                    <h3>Sign up</h3>
+
+            <h3>Sign up</h3>
                     <form>
                         <div>
                             <label htmlFor="firstName">First Name</label>
@@ -131,12 +144,14 @@ const Login = () => {
                         <div>
                             <label htmlFor="email">Email</label>
                             <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
+                              type="email"
+                              id="email"
+                              name="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                              title="Please enter a valid email address."
                             />
                         </div>
                         <div>
@@ -164,18 +179,20 @@ const Login = () => {
                         <div>
                             <label htmlFor="phoneNumber">Phone Number</label>
                             <input
-                                type="tel"
-                                id="phoneNumber"
-                                name="phone_number" // Fixed the name attribute
-                                value={formData.phone_number}
-                                onChange={handleChange}
-                                required
-                            />
+                              type="tel"
+                              id="phoneNumber"
+                              name="phone_number"
+                              value={formData.phone_number}
+                              onChange={handleChange}
+                              required
+                              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                              title="###-###-####"
+                              />
                         </div>
                         <button type="button" className={styles.button} onClick={handleSignUp} disabled={authLoading}>Sign up</button>
                     </form>
                     <div className={styles.newSalus}>
-                        <p>Already have an account? <a href="#" onClick={toggleMode}>Sign in</a></p>
+                        <p>Already have an account? <button onClick={toggleMode} className={styles.secondaryButton}>Sign in</button></p>                   
                     </div>
                 </>
             ) : (
@@ -208,7 +225,7 @@ const Login = () => {
                         <button type="button" className={styles.button} onClick={handleLogin} disabled={authLoading}>Sign in</button>
                     </form>
                     <div className={styles.newSalus}>
-                        <p>New to Salus? <a href="#" onClick={toggleMode}>Join now</a></p>
+                        <p>New to Salus? <button onClick={toggleMode} className={styles.secondaryButton}>Join now</button></p>                    
                     </div>
                 </>
             )}
