@@ -116,21 +116,19 @@
 
 .cats ul{
     /* grid-template-columns: auto auto auto; */
-    display: grid;
-    grid-template-columns: auto auto auto;
-    background-color: pink;
-    gap: 20px;
+    display: flex;
+    /* grid-template-columns: auto auto auto; */
+    /* background-color: pink; */
+    /* gap: 20px; */
 }
 
-#catsul{
-    max-width: 30% !important;
-}
+
 .goaldiv{
     /* background-color: aliceblue; */
     /* max-width: 350px; */
-    max-width: 5%;
+    max-width: 30%;
     margin: 1rem;
-    background-color: thistle;
+    /* background-color: thistle; */
     /* flex: 33.33%; */
 }
 
