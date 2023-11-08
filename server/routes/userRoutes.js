@@ -58,7 +58,10 @@ router.post('/login', async (req, res) => {
               {
                   message: 'Login successful',
                   userId: user.id,
-                  name: user.first_name,
+                  firstName: user.first_name,
+                  lastName: user.last_name,
+                  phone_number: user.phone_number,
+                  email: user.email,
                   token: token
               }
           );
@@ -132,6 +135,80 @@ router.post('/signup', async (req, res) => {
       res.status(500).send({ message: 'Error registering user' });
   }
 });
+
+// Update phone number
+router.patch('/updatePhoneNumber/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    const { phone_number } = req.body;
+
+    // Validate new phone number format here if needed
+
+    const updatedUser = await User.findOneAndUpdate({ id: userId }, { phone_number }, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Phone number updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Update password
+router.patch('/updatePassword/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    const { password } = req.body;
+
+    // Perform password validation here if needed
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const updatedUser = await User.findOneAndUpdate({ id: userId }, { password: hashedPassword }, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Update email
+router.patch('/updateEmail/:userId', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    const { email } = req.body;
+
+    // Validate new email format here if needed
+    // Check for existing email if needed
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already in use.' });
+    }
+
+    const updatedUser = await User.findOneAndUpdate({ id: userId }, { email }, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Email updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 
 
 
