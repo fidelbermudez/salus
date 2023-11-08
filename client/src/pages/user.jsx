@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../AuthContext'; 
+import { useAuth } from '../AuthContext';
 import Summary from './summary';
+import { local } from 'd3';
+import styles from '../styles/user.module.css';
 
 const User = () => {
-  const { currentUser, isLoading: authLoading } = useAuth(); // get isLoading state
-  const userId = localStorage?.userId;
-  const userName = localStorage?.name;
-  const [bankInfo, setBankInfo] = useState(null);
+  const {isLoading: authLoading } = useAuth();
+  const userId = localStorage.getItem('userId'); // use getItem for localStorage
+  const userName = localStorage.getItem('firstName'); // use getItem for localStorage
+  const [bankInfo, setBankInfo] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (authLoading) { // if AuthContext is still determining the auth state
+    if (authLoading) {
       return;
     }
 
@@ -20,16 +22,16 @@ const User = () => {
       setError("Invalid user ID");
       setLoading(false);
       return; 
-      
     }
 
     const fetchBankInfo = async () => {
       try {
         const token = localStorage.getItem('authToken');
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const response = await axios.get(`http://localhost:8081/api/bank/${userId}/bankInfo`);
-
-        setBankInfo(response.data);
+      
+        setBankInfo(Array.isArray(response.data) ? response.data : [response.data]); // Ensure bankInfo is always an array
+        
       } catch (e) {
         setError(e.message || 'Failed to fetch bank info');
         console.error(e);
@@ -39,30 +41,39 @@ const User = () => {
     };
 
     fetchBankInfo();
-  }, [userId, authLoading]); // add authLoading to the dependency list
+  }, [userId, authLoading]);
 
-  if (loading || authLoading) { // also check authLoading here
-    return <p>Loading...</p>;
-  }
+  if (loading || authLoading) {
+    return <div className={styles.centered}><p className={styles.message}>Loading...</p></div>;
+  }  
 
   if (error) {
-    return <p>Error: {error}</p>;
-  }
+    return <div className={styles.centered}><p className={styles.message}>Loading...</p></div>;
+  } 
 
   return (
-    <div>
-      <h2>Welcome {userName}!</h2>
-      {bankInfo && (
-        <div>
-          <h3>Bank Information</h3>
-          <p>Account Number: {bankInfo.account_id}</p>
-          <p>Account Type: {bankInfo.accountType}</p>
-          <p>Bank Name: {bankInfo.bankName}</p>
+    <div className={styles.centered}>
+      <div className={styles.userContainer}>
+        <h2>Welcome {userName}!</h2>
+        <div className={styles.userInformation}>
+          <p><span className={styles.label}>Name:</span> <span className={styles.value}>{localStorage.firstName} {localStorage.lastName}</span></p>
+          <p><span className={styles.label}>Email:</span> <span className={styles.value}>{localStorage.email}</span></p>
+          <p><span className={styles.label}>Phone Number:</span> <span className={styles.value}>{localStorage.phone_number}</span></p>
         </div>
-      )}
-      <div>
-        <Summary/>
-      </div>
+        {bankInfo.length > 0 && (
+           <div className={styles.bankAccountsContainer}>
+           <h3 className={styles.bankAccountHeader}>Linked Bank Accounts</h3>
+           <ul className={styles.bankAccountsList}>
+             {bankInfo.map((account, index) => (
+               <li key={index} className={styles.bankAccount}>
+                 <p><span className={styles.label}>Bank Name:</span> <span className={styles.value}>{account.bankName}</span></p>
+                 <p><span className={styles.label}>Account Type:</span> <span className={styles.value}>{account.accountType}</span></p>
+               </li>
+             ))}
+           </ul>
+         </div>
+        )}
+       </div>
     </div>
   );
 };
