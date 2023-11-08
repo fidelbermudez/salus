@@ -21,16 +21,16 @@ function SavingsHist(props) {
     // .then(history => setHistory(history.data.sort((a, b) => new Date(b.date) - new Date(a.date))))
     // .catch(err => console.log(err))
 
-    const fetchIncome = async () => {
+    const displayHist = async () => {
         try {
             const response = await axios.get(`http://localhost:8081/api/savingsHistory/show/${userID}/${name}`);
             const sortedHist = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             setHistory(sortedHist);
         } catch (err) {
-            console.error("Error fetching income:", err);
+            console.error("Error fetching history:", err);
         }
     }
-    fetchIncome();
+    displayHist();
     });
 
     const sortHistByDate = () => {
@@ -92,7 +92,7 @@ function SavingsHist(props) {
                 history.map(entry => {
                     return <tr key={entry._id}>
                     <td>{entry.date}</td>
-                    <td>${entry.amount}</td>
+                    <td id="posamount"> ${entry.amount}</td>
                     </tr>
                 })
                 }

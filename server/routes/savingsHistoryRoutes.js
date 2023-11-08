@@ -23,21 +23,23 @@ router.get('/show/:userId/:catName', async (req, res) => {
   }
 });
 
-router.get('/disp/:userId', async (req, res) => {
+router.post('/insert', async (req, res) => {
   try {
-    const userId = req.params.userId;
-  
-    const expenses = await SavingsHistory.find({ savings_category: userId });
-    console.log(userId);
-  
-    if (!expenses) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-  
-    res.json(expenses);
+    console.log("posting")
+    // Extract data from the request body
+    let newDocument = new SavingsHistory({
+      user_id: parseInt(req.body.user_id),
+      date: req.body.date,
+      amount: parseInt(req.body.amount),
+      savings_category: req.body.savings_category
+    });
+    
+    let newData = await newDocument.save(); // Saving the new document in the DB
+    
+    res.status(201).json(newData); // Respond with the created savings record
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 

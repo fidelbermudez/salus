@@ -32,6 +32,8 @@ function NewGoalForm({ catId, name, saved, goal}) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  let userID = 2;
+  let currdate = "11/07/2023"
 
   // handle form submit
   const handleSubmit = async (e) => {
@@ -42,21 +44,49 @@ function NewGoalForm({ catId, name, saved, goal}) {
 
     const newSaved = parseFloat(amountContributed) + (pos ? parseFloat(amountUpdate) : -parseFloat(amountUpdate));
 
-    // post request to add new entry to database
-    try {
-      console.log(catId)
-      const editedGoal = {goal_amount: goalAmount, amount_contributed: newSaved, savings_category: goalName};
-      const response = await axios.put(`http://localhost:8081/api/savings/update/${catId}`, editedGoal);
-      console.log("updated successfully ");
+    const updateGoal = async (e) => {
+    // request to update entry to database
+      try {
+        console.log(catId)
+        const editedGoal = {goal_amount: goalAmount, amount_contributed: newSaved, savings_category: goalName};
+        const response = await axios.put(`http://localhost:8081/api/savings/update/${catId}`, editedGoal);
+        console.log(response);
+        console.log("updated successfully ");
 
-      setIsSubmitting(false);
-      setSuccess('Data successfully saved!');
-      console.log('Data saved: ', response.data);
-    } catch (err) {
-      setIsSubmitting(false);
-      setError('Something went wrong! Please try again.');
-      console.error(err);
-    }
+        setIsSubmitting(false);
+        setSuccess('Data successfully saved!');
+        console.log('Data saved: ', response.data);
+      } catch (err) {
+        setIsSubmitting(false);
+        setError('Something went wrong! Please try again.');
+        console.error(err);
+      }
+    };
+
+    const addToHist = async (e) => {
+    // request to add entry to database
+      try {
+        const newEntry = {user_id: userID, date: currdate, amount: amountUpdate, savings_category: goalName};
+        const response = await axios.post(`http://localhost:8081/api/savingsHistory/insert`, newEntry);
+        console.log(response);
+        console.log("posted successfully ");
+
+        setIsSubmitting(false);
+        setSuccess('Data successfully saved!');
+        console.log('Data saved: ', response.data);
+      } catch (err) {
+        setIsSubmitting(false);
+        setError('Something went wrong! Please try again.');
+        console.error(err);
+      }
+    };
+
+    updateGoal();
+    if(amountUpdate !== 0){
+      addToHist();
+    };
+
+    //need to make a request to post to SavingsHistory (only if newSaved != amount_contributed)
   };
 
   // Function to set 'pos' to true
@@ -98,7 +128,7 @@ function NewGoalForm({ catId, name, saved, goal}) {
          className = "edit-curramount"
          readOnly
           />
-        <ToggleButtonGroup type="radio" name="options" className="add-or-sub">
+        <ToggleButtonGroup type="radio" defaultValue={1} name="options" className="add-or-sub">
           <ToggleButton id="tbg-radio-1" value={1} onClick={setPosToTrue}>
             +
           </ToggleButton>

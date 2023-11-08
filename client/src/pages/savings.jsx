@@ -173,7 +173,7 @@ function Savings() {
       {/* map over all goals and create individual displays */}
       <div className = 'show-categories'>
         <div className = "cats">
-          <ul>
+          <ul id="catsul">
           {
             sortedGoals.map(goal =>{
             return (

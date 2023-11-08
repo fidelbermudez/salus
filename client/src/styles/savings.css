@@ -116,17 +116,22 @@
 
 .cats ul{
     /* grid-template-columns: auto auto auto; */
-    display: flex;
-    max-width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: pink;
+    gap: 20px;
 }
 
+#catsul{
+    max-width: 30% !important;
+}
 .goaldiv{
     /* background-color: aliceblue; */
     /* max-width: 350px; */
-    width: 30%;
-    /* flex: 33.33%; */
+    max-width: 5%;
     margin: 1rem;
-    align-items: center;
+    background-color: thistle;
+    /* flex: 33.33%; */
 }
 
 /* actual categories */
@@ -287,6 +292,10 @@
 
 #sortHist{
     background-color: transparent;
+}
+
+td #posAmount  {
+    color: green !important;
 }
 
 /* words and headers */
