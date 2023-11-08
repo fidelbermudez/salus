@@ -14,7 +14,6 @@ router.get('/:userId/bankInfo', async (req, res) => {
   
     // Return the bank account details
     res.json(bankAccount);
-    console.log(bankAccount);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
