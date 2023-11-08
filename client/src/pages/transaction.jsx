@@ -45,8 +45,9 @@ function NewExpenseForm({ onSubmit }) {
         setIsSubmitting(false);
         return;
       }
-  
-      const formattedDate = `${expenseMonth}/${expenseDay}/${expenseYear}`;
+      const dayWithLeadingZero = expenseDay.length === 1 ? `0${expenseDay}` : expenseDay;
+      const monthWithLeadingZero = expenseMonth.length === 1 ? `0${expenseMonth}` : expenseMonth;
+      const formattedDate = `${monthWithLeadingZero}/${dayWithLeadingZero}/${expenseYear}`;
 
       // post request to add new entry to database
       try {
@@ -76,6 +77,7 @@ function NewExpenseForm({ onSubmit }) {
         console.log('Data saved: ', response.data);
         console.log('Data updated: ', update.data);
         onSubmit();
+        window.location.reload();
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -203,7 +205,9 @@ function NewIncomeForm({ onSubmit }) {
         return;
       }
   
-      const formattedDate = `${incomeMonth}/${incomeDay}/${incomeYear}`;
+      const dayWithLeadingZero = incomeDay.length === 1 ? `0${incomeDay}` : incomeDay;
+      const monthWithLeadingZero = incomeMonth.length === 1 ? `0${incomeMonth}` : incomeMonth;
+      const formattedDate = `${monthWithLeadingZero}/${dayWithLeadingZero}/${incomeYear}`;
 
       // post request to add new entry to database
       try {
@@ -224,6 +228,7 @@ function NewIncomeForm({ onSubmit }) {
         console.log('New Income ID: ', newIncomeId);
         console.log('Data saved: ', response.data);
         onSubmit();
+        window.location.reload();
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -318,6 +323,19 @@ function Transaction() {
   const [expense, setExpense] = useState([]);
   const [toggle, setToggle] = useState(false);
 
+  const [showIncome, setShowIncome] = useState(false);
+  const [showExpense, setShowExpense] = useState(true);
+
+  const showExpenseTable = () => {
+    setShowIncome(false);
+    setShowExpense(true);
+  };
+
+  const showIncomeTable = () => {
+    setShowIncome(true);
+    setShowExpense(false);
+  };
+
   // variable for showing or hiding modal
   const [expenseModalShow, setExpenseModalShow] = useState(false);
   const [incomeModalShow, setIncomeModalShow] = useState(false);
@@ -351,10 +369,6 @@ function Transaction() {
     fetchIncome();
     fetchExpense();
   }, [userId, authLoading]); // Add authLoading to dependency list
-
-  const handleToggleChange = () => {
-    setToggle(!toggle);
-  };
 
   // Only works on Chrome
   document.addEventListener('DOMContentLoaded', function() {
@@ -420,75 +434,234 @@ function Transaction() {
     setExpense(sortedExpenseByCategoryDescending);
   };
 
+  const [startSearchDate, setStartSearchDate] = useState('');
+  const [endSearchDate, setEndSearchDate] = useState('');
+
+  const [filteredIncome, setFilteredIncome] = useState([]);
+  const [filteredExpense, setFilteredExpense] = useState([]);
+
+  const handleStartDateChange = (e) => {
+    setStartSearchDate(e.target.value);
+  };
+
+  const handleEndDateChange = (e) => {
+    setEndSearchDate(e.target.value);
+  };
+
+  const handleSearch = () => {
+    // Convert the start and end date strings to Date objects
+    const startDate = new Date(startSearchDate);
+    const endDate = new Date(endSearchDate);
+
+    // Filter income data based on the selected date range
+    const filteredIncomeData = income.filter((incomeItem) => {
+      const incomeDate = new Date(incomeItem.date);
+      return incomeDate >= startDate && incomeDate <= endDate;
+    });
+
+    // Filter expense data based on the selected date range
+    const filteredExpenseData = expense.filter((expenseItem) => {
+      const expenseDate = new Date(expenseItem.date);
+      return expenseDate >= startDate && expenseDate <= endDate;
+    });
+
+    // Set the filtered data in your component state
+    setFilteredIncome(filteredIncomeData);
+    setFilteredExpense(filteredExpenseData);
+  };
+
+  useEffect(() => {
+    // Automatically trigger the search when startSearchDate or endSearchDate change
+    if (startSearchDate && endSearchDate) {
+      handleSearch();
+    }
+  }, [startSearchDate, endSearchDate]);
+
+  const [selectedCsvFile, setCsvFile] = useState(null);
+
+  const handleCsvFileChange = (e) => {
+    const file = e.target.files[0];
+    setCsvFile(file);
+  };
+
+  const handleUploadCsv = () => {
+    // Check if a CSV file is selected
+    if (!selectedCsvFile) {
+      console.error('CSV file is missing.');
+      return;
+    }
+  
+    // Read the first row of the CSV file to inspect headers
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const contents = e.target.result;
+      const firstRow = contents.split('\n')[0].toLowerCase(); // Assuming headers are in the first row
+  
+      // Check if the headers match the expected format for expenses or income
+      if (firstRow.includes('category') && firstRow.includes('amount')) {
+        // The headers match the expected format for expenses
+        // Send the CSV file to the upload-expenses route
+        sendToExpensesRoute(userId, selectedCsvFile);
+      } else if (firstRow.includes('source') && firstRow.includes('amount')) {
+        // The headers match the expected format for income
+        // Send the CSV file to the upload-income route
+        sendToIncomeRoute(userId, selectedCsvFile);
+      } else {
+        // Handle the case where the headers don't match either format
+        console.error('CSV headers do not match expected formats.');
+      }
+    };
+  
+    reader.readAsText(selectedCsvFile);
+  };
+
+  // Function to send the CSV data to the upload-expenses route
+  const sendToExpensesRoute = (userId, csvFile) => {
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('bank_id', userId);
+    formData.append('csvFile', csvFile);
+  
+    axios.post('http://localhost:8081/api/expense/upload-expenses', formData)
+      .then((response) => {
+        window.location.reload();
+        console.log('Expenses CSV data uploaded successfully');
+      })
+      .catch((error) => {
+        console.error('Error uploading Expenses CSV data:', error);
+      });
+  };
+  
+  // Function to send the CSV data to the upload-income route
+  const sendToIncomeRoute = (userId, csvFile) => {
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('bank_id', userId);
+    formData.append('csvFile', csvFile);
+  
+    axios.post('http://localhost:8081/api/income/upload-income', formData)
+      .then((response) => {
+        window.location.reload();
+        console.log('Income CSV data uploaded successfully');
+      })
+      .catch((error) => {
+        console.error('Error uploading Income CSV data:', error);
+      });
+  };
+
   return (
-    <div>
-      <Button variant="primary" className = "button" onClick={() => setExpenseModalShow(true)}>
-        Add new expense 
-      </Button>
-      <NewExpenseModal
-        show={expenseModalShow}
-        onHide={() => setExpenseModalShow(false)}
-      />
-      <Button variant="primary" className = "button" onClick={() => setIncomeModalShow(true)}>
-        Add income 
-      </Button>
-      <NewIncomeModal
-        show={incomeModalShow}
-        onHide={() => setIncomeModalShow(false)}
-      />
-      <button className="toggle-button" onClick={handleToggleChange}>
-        {toggle ? "Show Expenses" : "Show Income"}
-      </button>
+    <div className="everything">
+      <div className="add-both">
+        <div className="upload-button-container">
+          <div className="input-csv">
+            <input type="file" accept=".csv" onChange={handleCsvFileChange} />
+            <button onClick={handleUploadCsv}>Upload</button>
+          </div>
+        </div>
+        <div className="add-expense">
+          <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
+            Add expense
+          </Button>
+          <NewExpenseModal
+            show={expenseModalShow}
+            onHide={() => setExpenseModalShow(false)}
+          />
+        </div>
+        <div className="add-income">
+          <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+            Add income
+          </Button>
+          <NewIncomeModal
+            show={incomeModalShow}
+            onHide={() => setIncomeModalShow(false)}
+          />
+        </div>
+        <div className="search-income-expense">
+          <div className="date-input-container">
+          <label htmlFor="startDate" className="date-label">Start Date</label>
+          <input
+            type="date"
+            placeholder="Start Date"
+            value={startSearchDate}
+            onChange={handleStartDateChange}
+          />
+          </div>
+          <div className="date-input-container">
+          <label htmlFor="endDate" className="date-label">End Date</label>
+          <input
+            type="date"
+            placeholder="End Date"
+            value={endSearchDate}
+            onChange={handleEndDateChange}
+          />
+          </div>
+        </div>
+      </div>
+      <div className="button-container">
+        <button className={`show-expense-button ${showExpense ? 'expense-active' : ''}`}
+        onClick={showExpenseTable}>Expenses</button>
+        <button className={`show-income-button ${showIncome ? 'income-active' : ''}`} 
+        onClick={showIncomeTable}>Income</button>
+      </div>
       <div className="bothTables">
-        {toggle ? (
-          <table className = "incomeTable">
-          <thead>
-            <tr>
-              <th>Date
-                  <button className = "headButton" onClick={sortIncomeByDate}>↑</button>
-                  <button className = "headButton" onClick={sortIncomeByDateDescending}>↓</button>
-              </th>
-              <th>Amount
-                  <button className = "headButton" onClick={sortIncomeByAmount}>↑</button>
-                  <button className = "headButton" onClick={sortIncomeByAmountDescending}>↓</button>
-              </th>
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              income.map(income => {
-                return <tr key={income.id}>
-                  <td>{income.date}</td>
-                  <td>${income.amount}</td>
-                  <td>{income.source}</td>
-                </tr>
-              })
-            }
-          </tbody>
-        </table>
-        ) : (
+        {showIncome ? (
+          <table className="incomeTable">
+            <thead>
+              <tr>
+                <th>Date
+                  <button className="headButton" onClick={sortIncomeByDate}>↑</button>
+                  <button className="headButton" onClick={sortIncomeByDateDescending}>↓</button>
+                </th>
+                <th>Amount
+                  <button className="headButton" onClick={sortIncomeByAmount}>↑</button>
+                  <button className="headButton" onClick={sortIncomeByAmountDescending}>↓</button>
+                </th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {startSearchDate || endSearchDate ? (
+                filteredIncome.map((income) => (
+                  <tr key={income.id}>
+                    <td>{income.date}</td>
+                    <td>${income.amount}</td>
+                    <td>{income.source}</td>
+                  </tr>
+                ))
+              ) : (
+                income.map((income) => (
+                  <tr key={income.id}>
+                    <td>{income.date}</td>
+                    <td>${income.amount}</td>
+                    <td>{income.source}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        ) : null}
+        {showExpense ? (
           <table className="expenseTable">
             <thead>
               <tr>
                 <th>Date
-                    <button className = "headButton" onClick={sortExpenseByDate}>↑</button>
-                    <button className = "headButton" onClick={sortExpenseByDateDescending}>↓</button>
+                  <button className="headButton" onClick={sortExpenseByDate}>↑</button>
+                  <button className="headButton" onClick={sortExpenseByDateDescending}>↓</button>
                 </th>
                 <th>Amount
-                    <button className = "headButton" onClick={sortExpenseByAmount}>↑</button>
-                    <button className = "headButton" onClick={sortExpenseByAmountDescending}>↓</button>
+                  <button className="headButton" onClick={sortExpenseByAmount}>↑</button>
+                  <button className="headButton" onClick={sortExpenseByAmountDescending}>↓</button>
                 </th>
                 <th>Category
-                    <button className = "headButton" onClick={sortExpenseByCategory}>↑</button>
-                    <button className = "headButton" onClick={sortExpenseByCategoryDescending}>↓</button>
+                  <button className="headButton" onClick={sortExpenseByCategory}>↑</button>
+                  <button className="headButton" onClick={sortExpenseByCategoryDescending}>↓</button>
                 </th>
                 <th>Description</th>
               </tr>
             </thead>
             <tbody>
-              {
-                expense.map(expense => (
+              {startSearchDate || endSearchDate ? (
+                filteredExpense.map((expense) => (
                   <tr key={expense.id}>
                     <td>{expense.date}</td>
                     <td>${expense.amount}</td>
@@ -496,10 +669,19 @@ function Transaction() {
                     <td>{expense.description}</td>
                   </tr>
                 ))
-              }
+              ) : (
+                expense.map((expense) => (
+                  <tr key={expense.id}>
+                    <td>{expense.date}</td>
+                    <td>${expense.amount}</td>
+                    <td>{expense.category_name}</td>
+                    <td>{expense.description}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
-        )}
+        ) : null}
       </div>
     </div>
   );
