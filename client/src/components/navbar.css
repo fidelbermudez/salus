@@ -27,36 +27,46 @@ body {
     /* Other styles remain unchanged */
 }
 
-/* Additional styles for structural changes */
+.nav a:not(.app-name), .nav button, .nav button.logout {
+    font-weight: normal; /* Ensures the font is not bolded */
+    margin-right: 5px; /* Adjusts the gap between the links */
+    font-size: 1.1rem; /* Adjusts the font size */ ;
+}
+
+/* Additional styles for .nav-section to handle spacing */
 .nav-section {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Maintain spacing between links */
+    gap: 5px; /* Reduced the gap between items in the nav-section */
 }
 
-/* Targeting all links and buttons except .app-name */
-.nav a:not(.app-name), .nav button {
-    align-self: flex-end; /* Align to the bottom of the .nav-section */
-}
 
-/* You may no longer need this if align-items: flex-start works for you */
 .nav-section.left {
     flex-grow: 1;
+    
 }
 .nav-section.right {
     padding-right: 0%;
 }
 
 .nav-icon {
-    margin-right: 0.1px; /* Adjust as needed to bring them closer */
+    font-size: 1.5rem; /* Adjusts the font size */
+    
 }
 
 .nav ul {
     padding: 0;
     margin: 0;
-    list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
+    font-size: 5em; /* Increase the font size */
+    font-weight: normal; /* Remove bold styling */
+    font-family: Arial, sans-serif; /* Change the font family */
+}
+.nav a.active {
+    background-color: transparent; /* Background color for active tab */
+    color: #1C3879; /* Text color for active tab */
+    
 }
 
 .nav a, .nav button {
