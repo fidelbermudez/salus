@@ -8,28 +8,37 @@ const BarChart = ({year}) => {
   const userId = localStorage?.userId;
   const svgRef = useRef(null); // Move the useRef here
   const [categoryInfo, setCategoryInfo] = useState([]);
+  const [change, setChange] = useState(false);
   const [error, setError] = useState(null);
 
   // Define the processData function to process data and create an array of objects
   const processData = () => {
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    
     let dataMap = new Map();
-
+  
+    // Initialize dataMap with all months
+    months.forEach((month) => {
+      dataMap.set(month, {
+        name: month,
+        value: 0,  // Initialize value and fill to 0
+        fill: 0,
+      });
+    });
+  
+    // Update dataMap with data from categoryInfo
     categoryInfo.forEach((category) => {
-      const key = `${category.month}/${category.year}`;
-
-      if (!dataMap.has(key)) {
-        dataMap.set(key, {
-          name: `${category.month}/${category.year}`,
-          value: category.limit,
-          fill: category.amount_spent,
-        });
-      } else {
+      const key = `${months[category.month]}`;
+      if (dataMap.has(key)) {
         const existingData = dataMap.get(key);
         existingData.value += category.limit;
         existingData.fill += category.amount_spent;
       }
     });
-
+  
     const data = Array.from(dataMap.values());
     return data;
   };
@@ -45,19 +54,23 @@ const BarChart = ({year}) => {
         const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}/${year}`);
         setCategoryInfo(categoryResponse.data);
       } catch (e) {
-        setError(e.message || 'Failed to fetch data');
-        console.error(e);
+        if (e.response && e.response.status === 404) {
+          setCategoryInfo([]);
+        } else {
+          console.error(e);
+        }
       }
+    setChange(true);
+    return
     };
     fetchData();
   }, [userId, authLoading]);
 
   useEffect(() => {
-    if (!svgRef.current || categoryInfo.length === 0) {
+    if (!svgRef.current || change == false) {
       return;
     }
-
-    const dataMap = processData();
+    const dataMap = processData();    
 
     const margin = { top: 20, right: 20, bottom: 30, left: 60 };
     const width = 960 - margin.left - margin.right;
@@ -66,6 +79,23 @@ const BarChart = ({year}) => {
     const x = d3.scaleBand().range([margin.left, width]).padding(0.1);
     const y = d3.scaleLinear().range([height, 0]);
 
+    // Find the maximum value in your data
+    const maxDataValue = d3.max(dataMap, function (d) {
+      return d.value + d.fill;
+    });
+
+    // Set a default maximum value of 1000 when the maximum data value is 0
+    if (maxDataValue === 0) {
+      y.domain([0, 1000]);
+    } else {
+      y.domain([
+        0,
+        d3.max(dataMap, function (d) {
+          return d.value + d.fill;
+        }),
+      ]);
+    }
+
     const svg = d3.select(svgRef.current);
 
     x.domain(
@@ -73,13 +103,6 @@ const BarChart = ({year}) => {
         return d.name;
       })
     );
-
-    y.domain([
-      0,
-      d3.max(dataMap, function (d) {
-        return d.value + d.fill;
-      }),
-    ]);
 
     // Create a custom number format function to add the dollar sign
     const dollarFormat = d3.format("$,.0f");
@@ -168,7 +191,7 @@ const BarChart = ({year}) => {
       .call(d3.axisBottom(x));
 
 
-  }, [categoryInfo]);
+  }, [categoryInfo, change]);
 
   return (
     <div className="bar-chart">
