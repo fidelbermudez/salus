@@ -1,8 +1,13 @@
 import { Card, ProgressBar, Stack } from "react-bootstrap";
 import { currencyFormatter } from "./utils";
 import '../styles/budget.css';
+import { useState, useEffect } from "react";
+import Button from 'react-bootstrap/Button';
+import axios from 'axios'
+import { useAuth } from '../AuthContext';
+import {MdDeleteForever} from 'react-icons/md';
 
-export default function BudgetCard({ name, amount, max, grey, edit}) {
+export default function BudgetCard({ name, amount, max, grey, categoryId, deletable}) {
     const classNames = []
     if (amount > max) {
         classNames.push("bg-danger", "bg-opacity-10")
@@ -13,26 +18,22 @@ export default function BudgetCard({ name, amount, max, grey, edit}) {
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
-    const handleDeleteElement = async (catId) => {
-        console.log(catId, typeof(catId))
+    const handleDeleteElement = async (categoryId) => {
+        console.log('Deleting budget with categoryId:', categoryId);
         try {
-            const response = await axios.delete(`http://localhost:8081/api/savings/delete/${catId}`);
-
-            if (response.status === 200) {
-                setSuccess('Element deleted successfully');
-            } else {
-                setError('Element not found');
-            }
+          const response = await axios.delete(`http://localhost:8081/api/category/delete/${categoryId}`);
+          if (response.status === 200) {
+            console.log('Budget deleted successfully.');
+            setSuccess('Element deleted successfully');
+          } else {
+            console.log('Budget deleted successfully.');
+            setError('Element not found');
+          }
         } catch (err) {
-            setError('Something went wrong! Please try again.');
-            console.error(err);
+          console.log('Budget deleted successfully.');
+          setError('Something went wrong! Please try again.');
         }
-    };
-
-
-
-
-    
+      };
 
 
     return (
@@ -56,14 +57,15 @@ export default function BudgetCard({ name, amount, max, grey, edit}) {
                     now={amount}
 
                 />
+                {/* This is for the trash icon used to click on when you want to delete an indivdual budget (card) */}
                 <div className="temp">
-                    {edit ? (
-                        <Button id="delete">
-                            <MdDeleteForever id="trash" onClick={() => handleDeleteElement(catId)} />
-                        </Button>
-                    ) : null}
+                {deletable &&(
+                    <MdDeleteForever 
+                        className="trash-icon" 
+                        onClick={() => handleDeleteElement(categoryId)} 
+                    />
+                )}     
                 </div>
-
 
             </Card.Body>
         </Card>

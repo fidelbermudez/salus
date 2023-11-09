@@ -12,6 +12,7 @@ import { useAuth } from '../AuthContext';
 import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
+import { AiOutlinePlus } from 'react-icons/ai';
 
 function NewBudgetForm() {
 
@@ -53,6 +54,7 @@ function NewBudgetForm() {
         setIsSubmitting(false);
         setSuccess('Data successfully saved!');
         console.log('Data saved: ', response.data);
+        window.location.reload();
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -136,10 +138,13 @@ function Budget() {
   // const to show/hide modal
   const [modalShow, setModalShow] = React.useState(false);
 
+  //show
+  const [editShow, setEditShow] = React.useState(false);
+
   const { currentUser } = useAuth(); 
   const userId = localStorage?.userId;
 
-  const [budgets, setBudgets] = useState([]);
+  const [budgets, setBudgets] = useState([]); // Define and initialize budgets state
 
   useEffect(() => {
     // Fetch budgets with category information based on the user
@@ -153,25 +158,6 @@ function Budget() {
       });
   }, [userId]);
 
-  //This is the set up for making a valid GET request using Axios
-  // const [budgetId, setBudgetId] = useState('');
-  // const [specificBudget, setSpecificBudget] = useState(null);
-  // const [budgetSummary, setBudgetSummary] = useState([]);
-
-  // useEffect(() => {
-  //   axios.get('http://localhost:8081/api/budgetSummary/all')
-  //   .then(response => setBudgetSummary(response.data))
-  //   .catch(error => console.error(error));
-  // }, []);
-  // //
-
-  // const handleFetchBudget = () => {
-  //   axios.get(`http://localhost:8081/api/budgetSummary/budget/${budgetId}`)
-  //     .then((response) => {
-  //       setSpecificBudget(response.data);
-  //     })
-  //     .catch((error) => console.error(error));
-  // };
 
   return (
     <>
@@ -179,85 +165,46 @@ function Budget() {
       <Stack direction="horizontal" gap="2" className="mb-4">
       <h1 className="me-auto"> Your Budgets </h1>
       
-      {/* Button to add new budget and style allows change the color of button */}
-      <Button variant="primary" className = "button" onClick={() => setModalShow(true)}
-      style={
-        { backgroundColor: "#023e8a",  
-          borderColor: "#023e8a" }}>
-        Add New Budget 
-      </Button>
+      {/* Plus icon to add new budget and make it show up when clicked */}
+      <AiOutlinePlus style={{ fontSize: '2rem' }} onClick={() => setModalShow(true)}/>
       <NewBudgetModal
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-    
-      {/* {specificBudget && (
-        <div className="budget-card">
-          <p>Budget ID: {specificBudget.budget_id}</p>
-      
-          <p>Limit: {specificBudget.limit}</p>
-          <p>Amount Spent: {specificBudget.amount_spent}</p>
-          <p>Category ID: {specificBudget.category_id}</p>
-        </div>
-      )} */}
       </Stack>
 
       {/* Div with <BudgetCard is hardcoded example of how budgets should look like>*/}
-      <div style={{ 
+      {/* <div style={{ 
         display:"grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
         gap: "1rem",
         alignItems: "flex-start",
         }}
-      >
+      > */}
+      
+      {/* This is also the hardcoded version example
         <BudgetCard name="Entertainment" amount={200} max={1000}></BudgetCard>
         <BudgetCard name="Food" amount={600} max={1000}></BudgetCard>
-        <BudgetCard name="leisure" amount={900} max={1000}></BudgetCard>
+        <BudgetCard name="leisure" amount={900} max={1000}></BudgetCard> */}
 
-        <div className = "edit">
-          {editShow ? (
-              <Button 
-              id = "editing"
-              variant = "primary" 
-              onClick={() => setEditShow(!editShow)}> 
-              Finish Editing
-              </Button>
-              ) : (
-              <Button
-               id = "not-editing"
-               variant = "primary" 
-               onClick={() => setEditShow(!editShow)}> 
-              Edit goals
-              </Button>) }
-          
-        </div>
         
         {/* this is making all the budgets appear on the screen right now*/}
+        <div className="grid-container">
         {budgets.map((budget) => (
-          <BudgetCard
-            key={budget._id}
-            name={budget.category_name}
-            amount={budget.amount_spent}
-            max={budget.limit}
-            edit={editShow}
-          ></BudgetCard>
-        ))}
-      </div>
-      {/* <div>
-      <ul>
-        {budgetSummary.map((budget) => (
-          <div key={budget._id } className="budget-card">
-            <p>Budget ID: {budget.budget_id}</p>
-            <p>Limit: {budget.limit}</p>
-            <p>Amount Spent: {budget.amount_spent}</p>
-            <p>Category ID: {budget.category_id}</p>
+          <div className="budget-card" key={budget._id}>
+            <BudgetCard
+              name={budget.category_name}
+              amount={budget.amount_spent}
+              max={budget.limit}
+              edit={editShow}
+              categoryId={budget._id}
+              deletable={true}
+            ></BudgetCard>
           </div>
         ))}
-      </ul>
-    </div> */}
-    
+      </div>
     </Container>
-    </>
+  </>
   );
 }
 

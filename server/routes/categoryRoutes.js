@@ -80,4 +80,25 @@ router.post('/insert', async (req, res) => {
 });
 
 
+
+////DELETE request used to delete a budget on the client side and that is reflected on the mongoleDB
+router.delete('/delete/:categoryId', async (req, res) => {
+  try {
+    const categoryId = req.params.categoryId;
+    console.log(categoryId);
+
+    //needed to change category.deleteOne to categories.deleteOne for it to finally work
+    let result = await categories.deleteOne({_id: categoryId})
+
+    if (!result) {
+      return res.status(404).json({ message: 'Element not found' });
+    }
+    window.location.reload(); 
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 module.exports = router;
