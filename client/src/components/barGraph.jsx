@@ -131,7 +131,8 @@ const BarChart = ({year, setMonth, setActive}) => {
       .attr("height", function (d) {
         return height - y(d.value);
       })
-      .on("click", handleBarClick);
+      .on("click", handleBarClick)
+      .style("cursor", "pointer");
 
     // Adding the fill bars
     svg
@@ -151,7 +152,8 @@ const BarChart = ({year, setMonth, setActive}) => {
         return height - y(d.fill);
       })
       .on("click", handleBarClick)
-      .style("fill", "orange");
+      .style("fill", "orange")
+      .style("cursor", "pointer");
 
     // Add the left-axis scale with the custom number format
     svg
