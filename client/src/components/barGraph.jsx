@@ -31,7 +31,7 @@ const BarChart = ({year, setMonth, setActive}) => {
   
     // Update dataMap with data from categoryInfo
     categoryInfo.forEach((category) => {
-      const key = `${months[category.month]}`;
+      const key = `${months[category.month - 1]}`;
       if (dataMap.has(key)) {
         const existingData = dataMap.get(key);
         existingData.value += category.limit;
@@ -70,7 +70,7 @@ const BarChart = ({year, setMonth, setActive}) => {
     if (!svgRef.current || change == false) {
       return;
     }
-    const dataMap = processData();    
+    const dataMap = processData();
 
     const margin = { top: 20, right: 20, bottom: 30, left: 60 };
     const width = 960 - margin.left - margin.right;
@@ -132,6 +132,9 @@ const BarChart = ({year, setMonth, setActive}) => {
         return height - y(d.value);
       })
       .on("click", handleBarClick)
+      .style("fill", "green")
+      .style("stroke", "black")  // Set the border color to black
+      .style("stroke-width", 2)  // Set the border width
       .style("cursor", "pointer");
 
     // Adding the fill bars
@@ -152,8 +155,39 @@ const BarChart = ({year, setMonth, setActive}) => {
         return height - y(d.fill);
       })
       .on("click", handleBarClick)
-      .style("fill", "orange")
+      .style("fill", "black")
+      .style("stroke", "black")
+      .style("stroke-width", 2)
       .style("cursor", "pointer");
+
+
+      // Bars exceeding the limit (display in red)
+      svg
+      .selectAll(".fill2")
+      .data(dataMap)
+      .enter()
+      .append("rect")
+      .attr("class", "fill2")
+      .attr("x", function (d) {
+        return x(d.name);
+      })
+      .attr("width", x.bandwidth())
+      .attr("y", function (d) {
+        if(d.value < d.fill){
+        return y(Math.max(d.value, d.fill));
+        }
+      })
+      .attr("height", function (d) {
+        if(d.value < d.fill){        
+          return height - y(d.fill - d.value);
+        }
+      })
+      .on("click", handleBarClick)    
+      .style("fill", "red")
+      .style("stroke", "black")
+      .style("stroke-width", 2)
+      .style("cursor", "pointer");
+      
 
     // Add the left-axis scale with the custom number format
     svg
@@ -169,13 +203,13 @@ const BarChart = ({year, setMonth, setActive}) => {
     .attr("y", height + 20) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
-    .style("fill", "orange");
+    .style("fill", "black");
 
     svg
     .append("text")
     .attr("x", 150) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Expenses") // Change "Fill" to "Expenses"
+    .text("Total Expenses") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
@@ -186,13 +220,29 @@ const BarChart = ({year, setMonth, setActive}) => {
     .attr("y", height + 20) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
-    .style("fill", "black");
-
+    .style("fill", "green");
+    
     svg
     .append("text")
     .attr("x", 50) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Set Limit") // Change "Fill" to "Expenses"
+    .text("Limit") // Change "Fill" to "Expenses"
+    .style("font-size", "12px")
+    .style("alignment-baseline", "middle");
+
+    svg
+    .append("rect")
+    .attr("x", 320) // Adjust the x-position
+    .attr("y", height + 20) // Adjust the y-position
+    .attr("width", 20)
+    .attr("height", 10)
+    .style("fill", "red");
+
+    svg
+    .append("text")
+    .attr("x", 350) // Adjust the x-position
+    .attr("y", height + 30) // Adjust the y-position
+    .text("Expenses Over Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
