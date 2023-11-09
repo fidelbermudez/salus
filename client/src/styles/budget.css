@@ -28,3 +28,5 @@ h1 {
   min-width: 300px; /* Set a minimum width for each card */
   margin-right: 1rem; /* Add spacing between cards */
 }
+
+.pointer         { cursor: pointer; }

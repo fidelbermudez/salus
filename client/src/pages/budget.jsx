@@ -166,7 +166,9 @@ function Budget() {
       <h1 className="me-auto"> Your Budgets </h1>
       
       {/* Plus icon to add new budget and make it show up when clicked */}
+      <div class="pointer">
       <AiOutlinePlus style={{ fontSize: '2rem' }} onClick={() => setModalShow(true)}/>
+      </div>
       <NewBudgetModal
         show={modalShow}
         onHide={() => setModalShow(false)}

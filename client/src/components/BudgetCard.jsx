@@ -59,6 +59,7 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
 
                 />
                 {/* This is for the trash icon used to click on when you want to delete an indivdual budget (card) */}
+                <div class="pointer">
                 <div className="temp">
                 {deletable &&(
                     <MdDeleteForever 
@@ -66,6 +67,7 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
                         onClick={() => { handleDeleteElement(categoryId); window.location.reload(); }}
                     />
                 )}     
+                </div>
                 </div>
 
             </Card.Body>
