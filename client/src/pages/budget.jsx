@@ -48,7 +48,8 @@ function NewBudgetForm() {
           category_name: budgetName, 
           user: user, 
           amount_spent: 0, 
-          limit: budgetMax };
+          limit: budgetMax 
+        };
         const response = await axios.post('http://localhost:8081/api/category/insert', newBudget);
         
         setIsSubmitting(false);
@@ -110,26 +111,26 @@ function NewBudgetModal(props) {
   const handleClose = () => {
     props.onHide();
   };
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      className = "modal"
-    >
-    <Modal.Header>
-      <Modal.Title id="contained-modal-title-vcenter">
-          Add a New Budget
-        </Modal.Title>
-      <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
-      </Modal.Header>
-      <Modal.Body>
-        <NewBudgetForm/>
-      </Modal.Body>
-    </Modal>
-  );
-}
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        className = "modal"
+      >
+      <Modal.Header>
+        <Modal.Title id="contained-modal-title-vcenter">
+            Add a New Budget
+          </Modal.Title>
+        <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
+        </Modal.Header>
+        <Modal.Body>
+          <NewBudgetForm/>
+        </Modal.Body>
+      </Modal>
+    );
+  }
 
 /////MAIN FUNCTION FOR BUDGET PAGE
 ////
@@ -141,7 +142,6 @@ function Budget() {
   //show
   const [editShow, setEditShow] = React.useState(false);
 
-  const { currentUser } = useAuth(); 
   const userId = localStorage?.userId;
 
   const [budgets, setBudgets] = useState([]); // Define and initialize budgets state

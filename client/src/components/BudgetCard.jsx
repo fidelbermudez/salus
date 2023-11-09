@@ -25,6 +25,7 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
           if (response.status === 200) {
             console.log('Budget deleted successfully.');
             setSuccess('Element deleted successfully');
+            window.location.reload();
           } else {
             console.log('Budget deleted successfully.');
             setError('Element not found');
@@ -62,7 +63,7 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
                 {deletable &&(
                     <MdDeleteForever 
                         className="trash-icon" 
-                        onClick={() => handleDeleteElement(categoryId)} 
+                        onClick={() => { handleDeleteElement(categoryId); window.location.reload(); }}
                     />
                 )}     
                 </div>
