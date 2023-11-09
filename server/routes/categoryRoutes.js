@@ -21,6 +21,24 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
+router.get('/user/:userId/:year', async (req, res) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    const year = parseInt(req.params.year);
+
+    const userSummaries = await categories.find({ user: userId, year: year}).sort({ year: 1, month: 1 });
+
+    if (!userSummaries || userSummaries.length === 0) {
+      return res.status(404).json({ message: 'User categories summary not found' });
+    }
+
+    res.json(userSummaries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 router.put('/incrementAmount', async (req, res) => {
   try {
     // Extract the criteria and increment value from the request body

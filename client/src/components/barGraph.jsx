@@ -1,33 +1,82 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from 'axios';
+import { useAuth } from '../AuthContext'; 
 import * as d3 from "d3";
 
-const BarChart = (dataMap) => {
-    let data = []
-    const values = Object.values(dataMap);
-    for (const value of values) {
-        data = value
-      }    
-    
-  const svgRef = useRef(null);
+const BarChart = ({year}) => {
+  const { currentUser, isLoading: authLoading } = useAuth();
+  const userId = localStorage?.userId;
+  const svgRef = useRef(null); // Move the useRef here
+  const [categoryInfo, setCategoryInfo] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Define the processData function to process data and create an array of objects
+  const processData = () => {
+    let dataMap = new Map();
+
+    categoryInfo.forEach((category) => {
+      const key = `${category.month}/${category.year}`;
+
+      if (!dataMap.has(key)) {
+        dataMap.set(key, {
+          name: `${category.month}/${category.year}`,
+          value: category.limit,
+          fill: category.amount_spent,
+        });
+      } else {
+        const existingData = dataMap.get(key);
+        existingData.value += category.limit;
+        existingData.fill += category.amount_spent;
+      }
+    });
+
+    const data = Array.from(dataMap.values());
+    return data;
+  };
 
   useEffect(() => {
-    const margin = { top: 20, right: 20, bottom: 30, left: 60 }; // Adjust the left margin
+    if (authLoading) return;
+
+    const token = localStorage.getItem('authToken');
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+    const fetchData = async () => {
+      try {
+        const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}/${year}`);
+        setCategoryInfo(categoryResponse.data);
+      } catch (e) {
+        setError(e.message || 'Failed to fetch data');
+        console.error(e);
+      }
+    };
+    fetchData();
+  }, [userId, authLoading]);
+
+  useEffect(() => {
+    if (!svgRef.current || categoryInfo.length === 0) {
+      return;
+    }
+
+    const dataMap = processData();
+
+    const margin = { top: 20, right: 20, bottom: 30, left: 60 };
     const width = 960 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
-    const x = d3.scaleBand().range([margin.left, width]).padding(0.1); // Adjust the range
+    const x = d3.scaleBand().range([margin.left, width]).padding(0.1);
     const y = d3.scaleLinear().range([height, 0]);
 
     const svg = d3.select(svgRef.current);
 
     x.domain(
-      data.map(function (d) {
+      dataMap.map(function (d) {
         return d.name;
       })
     );
+
     y.domain([
       0,
-      d3.max(data, function (d) {
+      d3.max(dataMap, function (d) {
         return d.value + d.fill;
       }),
     ]);
@@ -38,7 +87,7 @@ const BarChart = (dataMap) => {
     // Draw the main bars
     svg
       .selectAll(".bar")
-      .data(data)
+      .data(dataMap)
       .enter()
       .append("rect")
       .attr("class", "bar")
@@ -56,7 +105,7 @@ const BarChart = (dataMap) => {
     // Adding the fill bars
     svg
       .selectAll(".fill")
-      .data(data)
+      .data(dataMap)
       .enter()
       .append("rect")
       .attr("class", "fill")
@@ -81,43 +130,45 @@ const BarChart = (dataMap) => {
 
     // Create a legend/key for the blue fill
     svg
-  .append("rect")
-  .attr("x", 220) // Adjust the x-position
-  .attr("y", height + 20) // Adjust the y-position
-  .attr("width", 20)
-  .attr("height", 10)
-  .style("fill", "orange");
+    .append("rect")
+    .attr("x", 220) // Adjust the x-position
+    .attr("y", height + 20) // Adjust the y-position
+    .attr("width", 20)
+    .attr("height", 10)
+    .style("fill", "orange");
 
-svg
-  .append("text")
-  .attr("x", 150) // Adjust the x-position
-  .attr("y", height + 30) // Adjust the y-position
-  .text("Expenses") // Change "Fill" to "Expenses"
-  .style("font-size", "12px")
-  .style("alignment-baseline", "middle");
+    svg
+    .append("text")
+    .attr("x", 150) // Adjust the x-position
+    .attr("y", height + 30) // Adjust the y-position
+    .text("Expenses") // Change "Fill" to "Expenses"
+    .style("font-size", "12px")
+    .style("alignment-baseline", "middle");
 
 
-  svg
-  .append("rect")
-  .attr("x", 20) // Adjust the x-position
-  .attr("y", height + 20) // Adjust the y-position
-  .attr("width", 20)
-  .attr("height", 10)
-  .style("fill", "black");
+    svg
+    .append("rect")
+    .attr("x", 20) // Adjust the x-position
+    .attr("y", height + 20) // Adjust the y-position
+    .attr("width", 20)
+    .attr("height", 10)
+    .style("fill", "black");
 
-svg
-  .append("text")
-  .attr("x", 50) // Adjust the x-position
-  .attr("y", height + 30) // Adjust the y-position
-  .text("Set Limit") // Change "Fill" to "Expenses"
-  .style("font-size", "12px")
-  .style("alignment-baseline", "middle");
+    svg
+    .append("text")
+    .attr("x", 50) // Adjust the x-position
+    .attr("y", height + 30) // Adjust the y-position
+    .text("Set Limit") // Change "Fill" to "Expenses"
+    .style("font-size", "12px")
+    .style("alignment-baseline", "middle");
 
     svg
       .append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
-  }, [data]);
+
+
+  }, [categoryInfo]);
 
   return (
     <div className="bar-chart">
