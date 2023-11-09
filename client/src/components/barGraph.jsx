@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import * as d3 from "d3";
 
-const BarChart = ({year}) => {
+const BarChart = ({year, setMonth, setActive}) => {
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
   const svgRef = useRef(null); // Move the useRef here
@@ -107,6 +107,13 @@ const BarChart = ({year}) => {
     // Create a custom number format function to add the dollar sign
     const dollarFormat = d3.format("$,.0f");
 
+    const handleBarClick = (d) => {
+      // d contains the data associated with the clicked bar
+      // You can add your custom behavior here
+      setMonth(d.srcElement.__data__.name);
+      setActive(true);
+    };
+
     // Draw the main bars
     svg
       .selectAll(".bar")
@@ -123,7 +130,8 @@ const BarChart = ({year}) => {
       })
       .attr("height", function (d) {
         return height - y(d.value);
-      });
+      })
+      .on("click", handleBarClick);
 
     // Adding the fill bars
     svg
@@ -142,6 +150,7 @@ const BarChart = ({year}) => {
       .attr("height", function (d) {
         return height - y(d.fill);
       })
+      .on("click", handleBarClick)
       .style("fill", "orange");
 
     // Add the left-axis scale with the custom number format
