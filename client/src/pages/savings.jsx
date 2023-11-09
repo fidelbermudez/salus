@@ -31,6 +31,13 @@ function NewGoalForm() {
   const token = localStorage.getItem('authToken');
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
+  function getDate() {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    const date = today.getDate();
+    return `${month}/${date}/${year}`;
+}
   
   // handle form submit
   const handleSubmit = async (e) => {
@@ -52,6 +59,26 @@ function NewGoalForm() {
       setError('Something went wrong! Please try again.');
       console.error(err);
     }
+
+    const addToHist = async (e) => {
+    // request to add entry to database
+      try {
+        const newEntry = {user_id: userId, date: getDate(), amount: amountContributed, savings_category: goalName};
+        const response = await axios.post(`http://localhost:8081/api/savingsHistory/insert`, newEntry);
+        console.log(response);
+        console.log("posted successfully ");
+
+        setIsSubmitting(false);
+        setSuccess('Data successfully saved!');
+        console.log('Data saved: ', response.data);
+      } catch (err) {
+        setIsSubmitting(false);
+        setError('Something went wrong! Please try again.');
+        console.error(err);
+      }
+    };
+
+    addToHist();
   };
 
   return (
@@ -146,7 +173,7 @@ function Savings() {
   
   return (
     <div className="Saving">
-      <h1 id="savings-title"> Savings </h1>
+      {/* <h1 id="savings-title"> Savings </h1> */}
 
     <div className= "float-container">
       {/* display of existing savings goals and goal progress */}
@@ -171,9 +198,9 @@ function Savings() {
        <hr />
 
       {/* map over all goals and create individual displays */}
-      <div className = 'show-categories'>
+      {/* <div className = 'show-categories'> */}
         <div className = "cats">
-          <ul id="catsul">
+          {/* <ul id="catsul"> */}
           {
             sortedGoals.map(goal =>{
             return (
@@ -182,11 +209,11 @@ function Savings() {
               </div>
             );
           })}
-          </ul>
+          {/* </ul> */}
         </div>
       </div>
 
-    </div>
+    // </div>
   );
 }
 

@@ -43,4 +43,27 @@ router.post('/insert', async (req, res) => {
   }
 });
 
+router.put('/update/:catName', async (req, res) => {
+  try {
+    const catName = req.params.catName;
+    const {user_id, new_name } = req.body; 
+
+
+    // Use the `findOneAndUpdate` method to find and update the document by _id
+    const updatedDocument = await SavingsHistory.updateMany(
+      { user_id: user_id, savings_category: catName},
+      {$set: { savings_category: new_name }},
+      { new: true } // This option returns the updated document
+    );
+
+    if (!updatedDocument) {
+      return res.status(404).json({ message: 'Element not found' });
+    }
+
+    res.json(updatedDocument);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 module.exports = router;

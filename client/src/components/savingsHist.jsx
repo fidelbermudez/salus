@@ -14,6 +14,8 @@ function SavingsHist(props) {
   };
 
   const[history, setHistory] = useState([]);
+  const [sortedHist, setSortedHist] = useState([]);
+  const [sorted, setSorted] = useState(false);
 
 
   useEffect(() => {
@@ -36,25 +38,28 @@ function SavingsHist(props) {
     const sortHistByDate = () => {
         const sortedHistByDate = [...history].sort((a, b) => new Date(a.date) - new Date(b.date));
         console.log(history);
-        setHistory(sortedHistByDate);
+        setSortedHist(sortedHistByDate);
+        setSorted(true);
         console.log(history)
     };
 
     const sortHistByDateDescending = () => {
         const sortedHistByDateDescending = [...history].sort((a, b) => new Date(b.date) - new Date(a.date));
-        setHistory(sortedHistByDateDescending);
+        setSortedHist(sortedHistByDateDescending);
+        setSorted(true);
     };
 
     const sortHistByAmount = () => {
         const sortedHistByAmount = [...history].sort((a, b) => a.amount - b.amount);
-        setHistory(sortedHistByAmount);
+        setSortedHist(sortedHistByAmount);
+        setSorted(true);
     };
     const sortHistByAmountDescending = () => {
         const sortedHistByAmountDescending = [...history].sort((a, b) => b.amount - a.amount);
-        setHistory(sortedHistByAmountDescending);
+        setSortedHist(sortedHistByAmountDescending);
+        setSorted(true);
     };
 
- 
 
   return (
     <Modal
@@ -73,9 +78,10 @@ function SavingsHist(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body id="hist-body">
+
         <div id="histTableContainer">
             <table className = "histTable">
-            <thead>
+            <thead id="histTable head">
                 <tr>
                 <th>Date
                     <button className = "headButton" id="sortHist" onClick={sortHistByDate}>↑</button>
@@ -88,14 +94,21 @@ function SavingsHist(props) {
                 </tr>
             </thead>
             <tbody>
-                {
+             {sorted ? (
+                sortedHist.map(entry => (
+                  <tr key={entry._id}>
+                    <td>{entry.date}</td>
+                    <td id="posamount"> ${entry.amount}</td>
+                    </tr>
+                ))
+              ) : (
                 history.map(entry => {
                     return <tr key={entry._id}>
                     <td>{entry.date}</td>
                     <td id="posamount"> ${entry.amount}</td>
                     </tr>
-                })
-                }
+                }))
+              }
             </tbody>
             </table>
         </div>

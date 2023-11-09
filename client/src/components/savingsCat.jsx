@@ -15,7 +15,7 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import SavingsHist from './savingsHist';
 // import { currencyFormatter } from "./utils";
 
-function NewGoalForm({ catId, name, saved, goal}) {
+function NewGoalForm({ userID, catId, name, saved, goal}) {
 
   // variables in the savings table
   const [goalName, setGoalName] = useState(name);
@@ -32,11 +32,17 @@ function NewGoalForm({ catId, name, saved, goal}) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  let userID = 2;
-  let currdate = "11/07/2023"
+  function getDate() {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    const date = today.getDate();
+    return `${month}/${date}/${year}`;
+}
 
   // handle form submit
   const handleSubmit = async (e) => {
+    console.log("new: " + goalName + "old: " + name);
      e.preventDefault();
     setIsSubmitting(true);
     setError(null);
@@ -66,7 +72,7 @@ function NewGoalForm({ catId, name, saved, goal}) {
     const addToHist = async (e) => {
     // request to add entry to database
       try {
-        const newEntry = {user_id: userID, date: currdate, amount: amountUpdate, savings_category: goalName};
+        const newEntry = {user_id: userID, date: getDate(), amount: amountUpdate, savings_category: goalName};
         const response = await axios.post(`http://localhost:8081/api/savingsHistory/insert`, newEntry);
         console.log(response);
         console.log("posted successfully ");
@@ -81,10 +87,30 @@ function NewGoalForm({ catId, name, saved, goal}) {
       }
     };
 
+    const editHistName = async(e) => {
+      try{
+        const updateEntry = {user_id: userID, new_name: goalName};
+        const response = await axios.put(`http://localhost:8081/api/savingsHistory/update/${name}`, updateEntry);
+        console.log(response);
+        console.log("posted successfully ");
+
+        setIsSubmitting(false);
+        setSuccess('Data successfully saved!');
+        console.log('Data saved: ', response.data);
+      } catch (err) {
+        setIsSubmitting(false);
+        setError('Something went wrong! Please try again.');
+        console.error(err);
+      }
+    }
+
     updateGoal();
     if(amountUpdate !== 0){
       addToHist();
     };
+    if(goalName !== name){
+      editHistName();
+    }
 
     //need to make a request to post to SavingsHistory (only if newSaved != amount_contributed)
   };
@@ -98,6 +124,15 @@ function NewGoalForm({ catId, name, saved, goal}) {
   const setPosToFalse = () => {
     setPos(false);
   };
+
+
+  const calculateTotal = () => {
+    const amount = parseFloat(amountContributed) + (pos ? parseFloat(amountUpdate) : -parseFloat(amountUpdate));
+    if (amount < 0) {
+      return 0;
+    }
+    return amount;
+  }
   
   return (
    <Form className = "form">
@@ -145,7 +180,7 @@ function NewGoalForm({ catId, name, saved, goal}) {
            = 
         </div>   
         <Form.Control
-         value={parseFloat(amountContributed) + (pos ? parseFloat(amountUpdate) : -parseFloat(amountUpdate))}
+         value={calculateTotal()}
          className = "edit-totalamount"
          readOnly
           />
@@ -161,7 +196,7 @@ function NewGoalForm({ catId, name, saved, goal}) {
 
 //  modal for updating goal
 function UpdateGoalModal(props) {
-  const { show, onHide, catID, name, saved, goal } = props;
+  const { show, onHide, userID,  catID, name, saved, goal } = props;
   const handleClose = () => {
     props.onHide(); // Close the modal using the onHide prop from props
   };
@@ -181,7 +216,7 @@ function UpdateGoalModal(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body>
-        <NewGoalForm catId={catID} name= {name} saved={saved} goal={goal}  />
+        <NewGoalForm userID= {userID} catId={catID} name= {name} saved={saved} goal={goal}  />
       </Modal.Body>
     </Modal>
   );
@@ -223,11 +258,6 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
   const [histShow, setHistShow] = React.useState(false);
 
 
-  const addressDeleteElement = async(catId) => {
-    
-  }
-
-
   const handleDeleteElement = async (catId) => {
     console.log(catId, typeof(catId))
     try {
@@ -258,6 +288,7 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
                 <UpdateGoalModal
                   show={modalShow}
                   onHide={() => setModalShow(false)}
+                  userID = {userID}
                   catID = {catId}
                   name = {name}
                   saved = {saved}
@@ -270,7 +301,7 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
                 </Button>
               </div>
             </div>
-      <button class="btnastext" onClick={() => setHistShow(true)}>
+      <button className="btnastext" onClick={() => setHistShow(true)}>
       <Card.Body>
         <Card.Title className="title">
           <div className="catName">

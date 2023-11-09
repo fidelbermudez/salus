@@ -4,6 +4,7 @@
 
 .float-container{
     padding: 40px 0px 30px 25px;
+    margin-top: 6rem;
 }
 
 .goals{
@@ -105,40 +106,32 @@
 
 /* savings categories div format*/
 
-.show-categories{ 
-    display: flex;
-}
-
 .cats{
-    /* display: flex; */
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    margin-left: 5rem;
+    /* width: 100%; */
 }
 
-.cats ul{
-    /* grid-template-columns: auto auto auto; */
-    display: flex;
-    /* grid-template-columns: auto auto auto; */
-    /* background-color: pink; */
-    /* gap: 20px; */
-}
+/* #catsul{
+    width: 18%;
 
+} */
 
 .goaldiv{
-    /* background-color: aliceblue; */
-    /* max-width: 350px; */
-    max-width: 30%;
     margin: 1rem;
-    /* background-color: thistle; */
-    /* flex: 33.33%; */
+    max-width: 300px;
+
 }
 
 /* actual categories */
 
 .card{
-    max-width: 80%;
     margin-left: auto;
     margin-right: auto;
     min-height: 15vh;
+    max-width: 300px;
 }
 
 .btnastext{
@@ -275,18 +268,18 @@
     max-height: 300px;
     overflow: auto;
     overflow-y: auto;
+    margin-top: 1rem;
 }
 
-.histTable{
+/* .histTable{
     max-width: 600px;
-    /* max-height: 100px; */
     margin: auto;
     border-radius: 10px;
     overflow: auto;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid rgb(32, 27, 27);
     overflow-y: auto;
-}
+} */
 
 #sortHist{
     background-color: transparent;
@@ -331,5 +324,54 @@ label{
 
 .modal{
     background-color: transparent !important;
+}
+
+/* borrowed CSS */
+.histTable{
+    /* border-collapse: collapse; */
+    width: 100%;
+    background-color: #ffffff;
+    overflow: auto;
+    text-align: center;
+    border: 1px solid rgb(32, 27, 27);
+    border-radius: 5px !important;
+
+    overflow-y: auto;
+    max-width: 600px;
+    margin: auto;
+    max-height: 100px;
+    background-color: tomato;
+    
+}
+
+.histTable thead {
+    position: sticky;
+    top: 0;
+    border-radius: 10px !important;
+}
+
+
+.histTable th {
+    padding: 8px 12px;
+    background-color: #023e8a;
+    color: #fff;
+    
+}
+
+.histTable td{
+    padding: 5px;
+}
+table tbody tr td {
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-style: solid;
+    border-color: black;
+    background-color: #ffffff;
+  }
+
+table td:last-child {
+    border-right: 0px;
 }
 
