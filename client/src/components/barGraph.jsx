@@ -132,7 +132,7 @@ const BarChart = ({year, setMonth, setActive}) => {
         return height - y(d.value);
       })
       .on("click", handleBarClick)
-      .style("fill", "green")
+      .style("fill", "#2ca02c")
       .style("stroke", "black")  // Set the border color to black
       .style("stroke-width", 2)  // Set the border width
       .style("cursor", "pointer");
@@ -220,7 +220,7 @@ const BarChart = ({year, setMonth, setActive}) => {
     .attr("y", height + 20) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
-    .style("fill", "green");
+    .style("fill", "#2ca02c");
     
     svg
     .append("text")
