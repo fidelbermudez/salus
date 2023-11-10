@@ -59,5 +59,57 @@ router.post('/insert', async (req, res) => {
   }
 });
 
+router.delete('/delete/:categoryId', async (req, res) => {
+  try {
+    
+    const catId = req.params.categoryId;
+    console.log(catId);
+    
+
+    let result = await Savings.deleteOne({_id: catId})
+
+    if (!result) {
+      return res.status(404).json({ message: 'Element not found' });
+    } 
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
+router.put('/update/:categoryId', async (req, res) => {
+  try {
+    const catId = req.params.categoryId;
+    const { goal_amount, amount_contributed, savings_category } = req.body; 
+
+
+    // Create an object representing the updates you want to make
+    const updateData = {
+      goal_amount,
+      amount_contributed,
+      savings_category,
+    };
+
+    // Use the `findOneAndUpdate` method to find and update the document by _id
+    const updatedDocument = await Savings.findOneAndUpdate(
+      { _id: catId },
+      updateData,
+      { new: true } // This option returns the updated document
+    );
+
+    if (!updatedDocument) {
+      return res.status(404).json({ message: 'Element not found' });
+    }
+
+    res.json(updatedDocument);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+
 
 module.exports = router;

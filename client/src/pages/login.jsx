@@ -20,8 +20,17 @@ const Login = () => {
     phone_number: '' 
   });
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [showErrorAlert, setShowErrorAlert] = useState(false);
+  const [errorAlertMessage, setErrorAlertMessage] = useState('');
+
+  const displayErrorAlert = (message) => {
+    setErrorAlertMessage(message);
+    setShowErrorAlert(true);
+    setTimeout(() => { 
+      setShowErrorAlert(false);
+    }, 5000);
+  };
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,8 +40,23 @@ const Login = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     
+    const emailIsValid = (email) => {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+    const phoneNumberIsValid = (phoneNumber) => {
+      return /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
+    };
+    if (!phoneNumberIsValid(formData.phone_number)) {
+      displayErrorAlert('Phone number must be in the format ###-###-####.');
+      return;
+    }
+    
+    if (!emailIsValid(formData.email)) {
+      displayErrorAlert('Please enter a valid email address.');
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      displayErrorAlert('Passwords do not match');
       return;
     }
     
@@ -59,7 +83,8 @@ const Login = () => {
       }
     } catch (error) {
       console.error(error);
-      alert('An error occurred. Please try again.');
+      displayErrorAlert('An error occurred. Please try again.');
+
     }
   };
   
@@ -92,11 +117,11 @@ const Login = () => {
         navigate("/user");
       } else {
         const data = await response.json();
-        alert(data.message);
+        displayErrorAlert(data.message);
       }
     } catch (error) {
       console.error(error);
-      alert('An error occurred. Please try again.');
+      displayErrorAlert('An error occurred. Please try again.');
     }
   };
 
@@ -109,6 +134,11 @@ const Login = () => {
         {showSuccessAlert && (
           <Alert variant="success" onClose={() => setShowSuccessAlert(false)} dismissible>
               Account successfully created! You can now sign in.
+          </Alert>
+        )}
+        {showErrorAlert && (
+          <Alert variant="danger" onClose={() => setShowErrorAlert(false)} dismissible>
+            {errorAlertMessage}
           </Alert>
         )}
         <div className={styles.loginContainer}>
