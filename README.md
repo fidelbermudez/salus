@@ -33,6 +33,15 @@ Summary of Progress:
 - Kelvin Bueno: Set up user login implementation using a POST request  that on successful verification, the user is able to see their bank account information using a GET request.
 - Johnny Cortez: created financial reports (summary) page. Fetched currently logged in user data from categories and budget collections using get requests then joined, grouped, and aggregated data by month and year to see user budget history in a bar graph.
 
+### Milestone 4
+**Summary of Progress:**
+- Nicole Romero Ospina: Worked on the savings page of the app. I implemented buttons for adding goals, editing goals, and deleting goals. I also created modals that display the history of transactions made toward each savings goal. Backend requests: POST a new goal to the savings table, GET goals for a specific user from the savings table, DELETE a goal, UPDATE (PUT) a goal, GET savings history for a specific savings goal, POST new entry in savings history for a goal, UPDATE entry in savings history when the category name changes.
+- Fidel Bermudez Jr: Worked on the transactions page of the app. Implemented an ‘Add expense’ and ‘Add income’ button/feature to the page, which will use a POST request to input the data into the database. Also added a route (incrementAmount) to category so that when you add an expense, it will match based on user_id, category_name, month, and year, and increment the amount spent for that budget. Also added a feature so you can upload a CSV file and it will automatically detect if it is for income or expenses based on the format of the headers, and it will only push to the database if it has all of the needed information. Additionally, you can now sort the table by Date, Amount, and Category. You are also able to filter the expenses and income by date. Lastly, I removed the toggle button that originally switched between the income and expenses table and added two buttons that will display their respective tables.
+- Israel Briones Jr: I worked on the budget page of the app. Using a GET request, I was able to call the budget table in the backend so that the user could view all of the budgets created. I also implemented a fetch button that is able to showcase a single budget based on the input of a budget ID.
+- Kelvin Bueno: Set up user login implementation using a POST request  that on successful verification, the user is able to see their bank account information using a GET request.
+- Johnny Cortez: **Front-end**: filtered the barchart to allow users to see their budget summary for a given year. Additionally, users can see if they are going over budget based on a red barchart fill. implemented a piechart to allow users to see a visualiation of their category expense breakdown. **Back-end**: created two new routes for the cateogry collection to get users data used on month and year to populate their summary data visualiations.
+
+
 
 **Feature location in code:**
 
@@ -44,7 +53,12 @@ Backend:
 Frontend: 
 - Features: ~/client/src/pages/
 - all files in "/pages/" correspond to demoed features except home.jsx and user.jsx
+- files in "/pages/" may contain components that are located in "/components/" (ex: /components/savingsCat contains the savings goal cards).
+- navigation bar files located in "/components"
+- css files are generally contained in "/styles/"
+
 
 **Demo Video Link**
 
-https://www.loom.com/share/42c9fb37931946b7ba443213b47138db?sid=db880902-7b06-41e2-802f-bbcb178ab9f7 
+Milestone 3: https://www.loom.com/share/42c9fb37931946b7ba443213b47138db?sid=db880902-7b06-41e2-802f-bbcb178ab9f7 
+Milestone 4: 
