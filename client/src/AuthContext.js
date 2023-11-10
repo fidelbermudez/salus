@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }) => {
     const login = (userData) => {
         localStorage.setItem('authToken', userData.token);
         localStorage.setItem('userId', userData.userId);
+        localStorage.setItem('name', userData.name);
         localStorage.setItem('firstName', userData.firstName);
         localStorage.setItem('lastName', userData.lastName);
         localStorage.setItem('email', userData.email);
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
+        localStorage.removeItem('name');
         localStorage.removeItem('firstName');
         localStorage.removeItem('lastName');
         localStorage.removeItem('email');
