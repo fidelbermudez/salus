@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import * as d3 from "d3";
 
-const BarChart = ({year, setMonth, setActive}) => {
+const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
   const svgRef = useRef(null); // Move the useRef here
@@ -115,6 +115,8 @@ const BarChart = ({year, setMonth, setActive}) => {
       // You can add your custom behavior here
       setMonth(d.srcElement.__data__.name);
       setActive(true);
+      setLimit(d.srcElement.__data__.value);
+      setExpenses(d.srcElement.__data__.fill);
     };
 
     // Draw the main bars

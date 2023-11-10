@@ -6,6 +6,8 @@ function Summary() {
   const [year, setYear] = useState(new Date().getFullYear());
   const [active, setActive] = useState(false);
   const [month, setMonth] = useState(null);
+  const [limit, setLimit] = useState(0);
+  const [expenses, setExpenses] = useState(0);
 
   const decreaseYear = () => {
     setYear(year - 1);
@@ -28,8 +30,8 @@ function Summary() {
         <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={increaseYear}>{'>'}</button>
       </div>
       <div style={{display: 'flex'}}>
-      <BarGraph key={year} year={year} setMonth={setMonth} setActive={setActive}/>
-      <PieChart month={month} year={year} active={active}/>
+      <BarGraph key={year} year={year} setMonth={setMonth} setActive={setActive} setLimit={setLimit} setExpenses={setExpenses}/>
+      <PieChart month={month} year={year} active={active} limit={limit} expenses={expenses}/>
       </div>
     </div>
   );

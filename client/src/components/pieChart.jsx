@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from '../AuthContext';
 import * as d3 from "d3";
 
-const PieChart = ({ active, month, year }) => {
+const PieChart = ({ active, month, year, limit, expenses }) => {
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
   const [categoryInfo, setCategoryInfo] = useState([]);
@@ -102,6 +102,21 @@ const PieChart = ({ active, month, year }) => {
       .attr("y", (d, i) => i * 20 + 10) // Adjust the vertical position
       .attr("font-size", "12px")
       .text(d => d.category_name);
+  
+    // Add the two values at the bottom of the key
+    legendGroup
+      .append("text")
+      .attr("x", 0) // Adjust the horizontal position
+      .attr("y", data.length * 20 + 20) // Adjust the vertical position
+      .attr("font-size", "12px")
+      .text(`Total Expenses: $${Math.floor(expenses)}`); // Replace "Your Value" with your desired text
+  
+    legendGroup
+      .append("text")
+      .attr("x", 0) // Adjust the horizontal position
+      .attr("y", data.length * 20 + 40) // Adjust the vertical position
+      .attr("font-size", "12px")
+      .text(`Total Limit: $${Math.floor(limit)}`); // Replace "Your Value" with your desired text
   
     // Add labels to the pie slices
     chartGroup.selectAll("text")
