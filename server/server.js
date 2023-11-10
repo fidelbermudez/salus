@@ -10,6 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const bankAccountRoutes = require('./routes/bankAccountRoutes');
 const budgetRoute = require('./routes/budgetSummaryRoutes');
 const savingsRoutes = require('./routes/savingsRoutes');
+const savingsHistoryRoutes = require('./routes/savingsHistoryRoutes');
 const expensesRoutes = require('./routes/expensesRoutes');
 const categoryRoutes = require('./routes/categoryRoutes')
 const incomeRoutes = require('./routes/incomeRoutes');
@@ -41,6 +42,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api/users', userRoutes);
 app.use('/api/savings', savingsRoutes);
+app.use('/api/savingsHistory', savingsHistoryRoutes);
 app.use('/api/income', incomeRoutes);
 app.use('/api/expense', expensesRoutes);
 app.use('/api/bank', bankAccountRoutes);
