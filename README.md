@@ -60,5 +60,5 @@ Frontend:
 
 **Demo Video Link**
 
-Milestone 3: https://www.loom.com/share/42c9fb37931946b7ba443213b47138db?sid=db880902-7b06-41e2-802f-bbcb178ab9f7 
-Milestone 4: 
+- Milestone 3: https://www.loom.com/share/42c9fb37931946b7ba443213b47138db?sid=db880902-7b06-41e2-802f-bbcb178ab9f7 
+- Milestone 4: https://www.loom.com/share/968187bbce674cf196052c9d0caa1e90?sid=c514292c-5ebe-4471-8816-882737a64294
