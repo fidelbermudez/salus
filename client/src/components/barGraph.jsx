@@ -98,6 +98,9 @@ const BarChart = ({year, setMonth, setActive}) => {
 
     const svg = d3.select(svgRef.current);
 
+    svg.attr("viewBox", `0 0 960 550`);
+    svg.attr("preserveAspectRatio", "xMinYMin meet");
+
     x.domain(
       dataMap.map(function (d) {
         return d.name;
@@ -199,15 +202,15 @@ const BarChart = ({year, setMonth, setActive}) => {
     // Create a legend/key for the blue fill
     svg
     .append("rect")
-    .attr("x", 220) // Adjust the x-position
-    .attr("y", height + 20) // Adjust the y-position
+    .attr("x", 200) // Adjust the x-position
+    .attr("y", height + 25) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
     .style("fill", "black");
 
     svg
     .append("text")
-    .attr("x", 150) // Adjust the x-position
+    .attr("x", 230) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
     .text("Total Expenses") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
@@ -216,31 +219,31 @@ const BarChart = ({year, setMonth, setActive}) => {
 
     svg
     .append("rect")
-    .attr("x", 20) // Adjust the x-position
-    .attr("y", height + 20) // Adjust the y-position
+    .attr("x", 60) // Adjust the x-position
+    .attr("y", height + 25) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
     .style("fill", "#2ca02c");
     
     svg
     .append("text")
-    .attr("x", 50) // Adjust the x-position
+    .attr("x", 90) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Limit") // Change "Fill" to "Expenses"
+    .text("Total Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
     svg
     .append("rect")
-    .attr("x", 320) // Adjust the x-position
-    .attr("y", height + 20) // Adjust the y-position
+    .attr("x", 340) // Adjust the x-position
+    .attr("y", height + 25) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
     .style("fill", "red");
 
     svg
     .append("text")
-    .attr("x", 350) // Adjust the x-position
+    .attr("x", 370) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
     .text("Expenses Over Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
@@ -255,11 +258,9 @@ const BarChart = ({year, setMonth, setActive}) => {
   }, [categoryInfo, change]);
 
   return (
-    <div className="bar-chart">
-      <svg ref={svgRef} width="960" height="550">
+      <svg ref={svgRef} width="700" height="400" style={{marginLeft:"80px"}}>
         {/* Render the bar chart inside this SVG container */}
       </svg>
-    </div>
   );
 };
 

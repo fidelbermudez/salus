@@ -44,84 +44,86 @@ const PieChart = ({ active, month, year }) => {
     }
   }, [categoryInfo, month]);
 
-  // D3.js pie chart creation function
-const createPieChart = (data) => {
-
+  const createPieChart = (data) => {
     d3.select(svgRef.current).selectAll("*").remove();
-
-  // Define the dimensions of the SVG container and the radius of the pie chart
-  const width = 700;
-  const height = 400;
-  const radius = Math.min(width, height) / 2;
-
-  // Select the SVG element using the ref
-  const svg = d3.select(svgRef.current)
-    .attr("width", width)
-    .attr("height", height);
-
-  // Create a group element for the pie chart
-  const pieGroup = svg.append("g")
-    .attr("transform", `translate(${width / 2},${height / 2})`);
-
-  // Define the pie layout
-  const pie = d3.pie().value(d => d.amount_spent)(data);
-
-  // Define the arc generator
-  const arc = d3.arc()
-    .innerRadius(0)
-    .outerRadius(radius);
-
-  // Create the pie slices (paths)
-  const paths = pieGroup.selectAll("path")
-    .data(pie)
-    .enter()
-    .append("path")
-    .attr("d", arc)
-    .attr("fill", (d, i) => d3.schemeCategory10[i]);
-
-  // Create a key (legend) section with category labels and colors
-  const key = svg.append("g")
-    .attr("transform", `translate(${width - 200}, 20)`); // Adjust position as needed
-
-  key.selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("y", (d, i) => i * 20)
-    .attr("width", 10)
-    .attr("height", 10)
-    .attr("fill", (d, i) => d3.schemeCategory10[i]);
-
-  key.selectAll("text")
-    .data(data)
-    .enter()
-    .append("text")
-    .attr("x", 20) // Adjust the distance between color and label
-    .attr("y", (d, i) => i * 20 + 10) // Adjust the vertical position
-    .attr("font-size", "12px")
-    .text(d => d.category_name);
-
-  // Add labels to the pie slices
-  pieGroup.selectAll("text")
-    .data(pie)
-    .enter()
-    .append("text")
-    .attr("transform", d => {
-      const centroid = arc.centroid(d);
-      const x = centroid[0] * 1.5; // Adjust horizontal position
-      const y = centroid[1] * 1.5; // Adjust vertical position
-      return `translate(${x},${y})`;
-    })
-    .attr("text-anchor", "middle")
-    .text(d => "$" + d.data.amount_spent.toFixed(2))
-    .attr("font-size", "12px")
-    .attr("fill", "white")
-    .attr("font-weight", "bold");
-};
+  
+    // Define the dimensions of the SVG container and the radius of the pie chart
+    const containerWidth = 500;
+    const containerHeight = 250;
+    const chartWidth = 250; // Adjust as needed
+    const chartHeight = 250;
+    const legendWidth = 150; // Width of the legend
+    const radius = Math.min(chartWidth, chartHeight) / 2;
+  
+    // Select the SVG element using the ref
+    const svg = d3.select(svgRef.current)
+      .attr("width", containerWidth)
+      .attr("height", containerHeight);
+  
+    // Create a group element for the pie chart
+    const chartGroup = svg.append("g")
+      .attr("transform", `translate(${containerWidth / 4},${containerHeight / 2})`);
+  
+    // Create a group element for the legend
+    const legendGroup = svg.append("g")
+      .attr("transform", `translate(${(containerWidth / 4) + chartWidth - 120},${20})`);
+  
+    // Define the pie layout
+    const pie = d3.pie().value(d => d.amount_spent)(data);
+  
+    // Define the arc generator
+    const arc = d3.arc()
+      .innerRadius(0)
+      .outerRadius(radius);
+  
+    // Create the pie slices (paths)
+    const paths = chartGroup.selectAll("path")
+      .data(pie)
+      .enter()
+      .append("path")
+      .attr("d", arc)
+      .attr("fill", (d, i) => d3.schemeCategory10[i]);
+  
+    // Create a key (legend) section with category labels and colors
+    const keyRects = legendGroup.selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("y", (d, i) => i * 20)
+      .attr("width", 10)
+      .attr("height", 10)
+      .attr("fill", (d, i) => d3.schemeCategory10[i]);
+  
+    const keyText = legendGroup.selectAll("text")
+      .data(data)
+      .enter()
+      .append("text")
+      .attr("x", 15) // Adjust the distance between color and label
+      .attr("y", (d, i) => i * 20 + 10) // Adjust the vertical position
+      .attr("font-size", "12px")
+      .text(d => d.category_name);
+  
+    // Add labels to the pie slices
+    chartGroup.selectAll("text")
+      .data(pie)
+      .enter()
+      .append("text")
+      .attr("transform", d => {
+        const centroid = arc.centroid(d);
+        const x = centroid[0] * 1.5; // Adjust horizontal position
+        const y = centroid[1] * 1.5; // Adjust vertical position
+        return `translate(${x},${y})`;
+      })
+      .attr("text-anchor", "middle")
+      .text(d => "$" + d.data.amount_spent.toFixed(2))
+      .attr("font-size", "12px")
+      .attr("fill", "white")
+      .attr("font-weight", "bold");
+  };
 
   return (
     <div>
-      {active ? <><h1>{month}, {year} Expense Breakdown</h1> <svg ref={svgRef}></svg></>: <h1>Click to See Monthly Breakdown</h1>}
+      {active ? <><h4 style={{marginLeft:'60px'}}>{month}, {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click to See Monthly Breakdown</h4>}
     </div>
   );
 };
