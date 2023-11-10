@@ -119,23 +119,23 @@ const PieChart = ({ active, month, year, limit, expenses }) => {
       .text(`Total Limit: $${Math.floor(limit)}`); // Replace "Your Value" with your desired text
   
     // Add labels to the pie slices
+    // Add labels to the pie slices
     chartGroup.selectAll("text")
-      .data(pie)
-      .enter()
-      .append("text")
-      .attr("transform", d => {
-        const centroid = arc.centroid(d);
-        const x = centroid[0] * 1.5; // Adjust horizontal position
-        const y = centroid[1] * 1.5; // Adjust vertical position
-        return `translate(${x},${y})`;
-      })
-      .attr("text-anchor", "middle")
-      .text(d => "$" + d.data.amount_spent.toFixed(2))
-      .attr("font-size", "12px")
-      .attr("fill", "white")
-      .attr("font-weight", "bold");
-  };
-
+    .data(pie)
+    .enter()
+    .append("text")
+    .attr("transform", d => {
+    const centroid = data.length > 1 ? arc.centroid(d) : [0, 0];
+    const x = centroid[0] * 1.5; // Adjust horizontal position
+    const y = centroid[1] * 1.5; // Adjust vertical position
+    return `translate(${x},${y})`;
+    })
+    .attr("text-anchor", "middle")
+    .text(d => "$" + d.data.amount_spent.toFixed(2))
+    .attr("font-size", "12px")
+    .attr("fill", "white")
+    .attr("font-weight", "bold");
+  }
   return (
     <div>
       {active ? <><h4 style={{marginLeft:'60px'}}>{month}, {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click to See Monthly Breakdown</h4>}
