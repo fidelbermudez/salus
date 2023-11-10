@@ -49,6 +49,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('authToken', userData.token);
         localStorage.setItem('userId', userData.userId);
         localStorage.setItem('name', userData.name);
+        localStorage.setItem('firstName', userData.firstName);
+        localStorage.setItem('lastName', userData.lastName);
+        localStorage.setItem('email', userData.email);
+        localStorage.setItem('phone_number', userData.phone_number);
+
+
         setCurrentUser(userData);
     };
 
@@ -56,6 +62,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('userId');
         localStorage.removeItem('name');
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('email');
+        localStorage.removeItem('phone_number');
+
         setCurrentUser(null);
     };
 

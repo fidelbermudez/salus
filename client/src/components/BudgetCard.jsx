@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios'
 import { useAuth } from '../AuthContext';
 import {MdDeleteForever} from 'react-icons/md';
-
+ 
 export default function BudgetCard({ name, amount, max, grey, categoryId, deletable}) {
     const classNames = []
     if (amount > max) {
@@ -14,10 +14,10 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
     } else if (grey) {
         classNames.push("bg-light")
     }
-
+ 
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
-
+ 
     const handleDeleteElement = async (categoryId) => {
         console.log('Deleting budget with categoryId:', categoryId);
         try {
@@ -35,12 +35,12 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
           setError('Something went wrong! Please try again.');
         }
       };
-
-
+ 
+ 
     return (
         <Card className={classNames.join(" ")}>
             <Card.Body>
-                <Card.Title className="d-flex justify-content-between 
+                <Card.Title className="d-flex justify-content-between
                 align-items-baseline fw-normal">
                 <div className="me-2">{name}</div>
                 <div className="d-flex align-items-baseline">
@@ -50,31 +50,31 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
                     </span>
                 </div>
                 </Card.Title>
-                <ProgressBar 
-                    className="rounded-pill" 
+                <ProgressBar
+                    className="rounded-pill"
                     variant={getProgressBarVariant(amount, max)}
                     min={0}
                     max={max}
                     now={amount}
-
+ 
                 />
                 {/* This is for the trash icon used to click on when you want to delete an indivdual budget (card) */}
                 <div class="pointer">
                 <div className="temp">
                 {deletable &&(
-                    <MdDeleteForever 
-                        className="trash-icon" 
+                    <MdDeleteForever
+                        className="trash-icon"
                         onClick={() => { handleDeleteElement(categoryId); window.location.reload(); }}
                     />
                 )}     
                 </div>
                 </div>
-
+ 
             </Card.Body>
         </Card>
     )
 }
-
+ 
 function getProgressBarVariant(amount, max) {
     const ratio = amount / max
     if (ratio < .5) return "primary"

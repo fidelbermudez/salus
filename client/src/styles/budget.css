@@ -2,8 +2,8 @@
 h1 {
   text-align: center;
   }
-
-/* budget-card css <-DONT NEED ANYMORE PROABLY 
+ 
+/* budget-card css <-DONT NEED ANYMORE PROABLY
 .budget-card {
   border: 1px solid #023e8a;
   border-radius: 8px;
@@ -13,20 +13,24 @@ h1 {
   background-color: transparent;
 }
 */
-
+ 
 /* What I use to make budget cards on one row horizontal and can scroll if they run off page*/
-
+ 
 /* Apply horizontal scrolling using Flexbox */
 .grid-container {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto; /* Enable horizontal scrolling */
 }
-
+ 
 /* Style for individual budget cards */
 .budget-card {
   min-width: 300px; /* Set a minimum width for each card */
   margin-right: 1rem; /* Add spacing between cards */
 }
-
+ 
 .pointer         { cursor: pointer; }
+
+.everything{
+  margin-top: 120px;
+}

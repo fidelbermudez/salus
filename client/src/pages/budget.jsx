@@ -8,15 +8,15 @@ import '../styles/budget.css';
 import BudgetCard from '../components/BudgetCard';
 import AddBudgetModal from '../components/AddBudgetModal';
 import { useAuth } from '../AuthContext';
-
+ 
 import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
 import { AiOutlinePlus } from 'react-icons/ai';
-
+ 
 function NewBudgetForm() {
-
-  const { currentUser } = useAuth(); 
+ 
+  const { currentUser } = useAuth();
   const user = localStorage?.userId;
   
     // variables in budget table
@@ -43,12 +43,12 @@ function NewBudgetForm() {
       // document layout for new doc and post request to add new entry to database
       try {
         const newBudget = {
-          month: getMonth, 
-          year: getYear, 
-          category_name: budgetName, 
-          user: user, 
-          amount_spent: 0, 
-          limit: budgetMax 
+          month: getMonth,
+          year: getYear,
+          category_name: budgetName,
+          user: user,
+          amount_spent: 0,
+          limit: budgetMax
         };
         const response = await axios.post('http://localhost:8081/api/category/insert', newBudget);
         
@@ -82,7 +82,7 @@ function NewBudgetForm() {
              onChange = {(e) => setBudgetMax(e.target.value)}
              required/>
         </Form.Group>
-
+ 
         {/* INPUT BUDGET MONTH */}
         <Form.Group className="mb-3" controlId="formMonth">
           <Form.Label>Month</Form.Label>
@@ -91,7 +91,7 @@ function NewBudgetForm() {
              onChange = {(e) => setMonth(e.target.value)}
              required/>
         </Form.Group>
-
+ 
         {/* INPUT BUDGET YEAR */}
         <Form.Group className="mb-3" controlId="formYear">
           <Form.Label>Year</Form.Label>
@@ -105,7 +105,7 @@ function NewBudgetForm() {
       </Form>
     );
   }
-
+ 
 //Modal function for adding a new budget
 function NewBudgetModal(props) {
   const handleClose = () => {
@@ -131,21 +131,21 @@ function NewBudgetModal(props) {
       </Modal>
     );
   }
-
+ 
 /////MAIN FUNCTION FOR BUDGET PAGE
 ////
 ///
 function Budget() {
   // const to show/hide modal
   const [modalShow, setModalShow] = React.useState(false);
-
+ 
   //show
   const [editShow, setEditShow] = React.useState(false);
-
+ 
   const userId = localStorage?.userId;
-
+ 
   const [budgets, setBudgets] = useState([]); // Define and initialize budgets state
-
+ 
   useEffect(() => {
     // Fetch budgets with category information based on the user
     //Note this happened after I changed api/budgets into api/category down below
@@ -157,10 +157,11 @@ function Budget() {
         console.error('Error fetching budgets:', error);
       });
   }, [userId]);
-
-
+ 
+ 
   return (
     <>
+    <div className="everything">
     <Container className="my-4">
       <Stack direction="horizontal" gap="2" className="mb-4">
       <h1 className="me-auto"> Your Budgets </h1>
@@ -174,9 +175,9 @@ function Budget() {
         onHide={() => setModalShow(false)}
       />
       </Stack>
-
+ 
       {/* Div with <BudgetCard is hardcoded example of how budgets should look like>*/}
-      {/* <div style={{ 
+      {/* <div style={{
         display:"grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
         gap: "1rem",
@@ -188,9 +189,10 @@ function Budget() {
         <BudgetCard name="Entertainment" amount={200} max={1000}></BudgetCard>
         <BudgetCard name="Food" amount={600} max={1000}></BudgetCard>
         <BudgetCard name="leisure" amount={900} max={1000}></BudgetCard> */}
-
+ 
         
         {/* this is making all the budgets appear on the screen right now*/}
+        <div className="everything2">
         <div className="grid-container">
         {budgets.map((budget) => (
           <div className="budget-card" key={budget._id}>
@@ -205,9 +207,13 @@ function Budget() {
           </div>
         ))}
       </div>
+      </div>
     </Container>
+    </div>
   </>
   );
+
 }
 
+ 
 export default Budget;

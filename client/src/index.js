@@ -14,6 +14,7 @@ import Login from './pages/login';
 import { AuthProvider, useAuth } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BudgetsProvider } from './contexts/BudgetsContext';
+import axios from 'axios';
 
 
 function ProtectedRoute({ children }) {
@@ -52,15 +53,9 @@ function App() {
 
 const root = createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
     <AuthProvider> 
-      <BrowserRouter>
-      <BudgetsProvider>
-        <App />
-      </BudgetsProvider>
-      </BrowserRouter>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </AuthProvider>
-  </React.StrictMode>
 );
-
-// reportWebVitals();
