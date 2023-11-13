@@ -47,7 +47,7 @@ const Login = () => {
       return /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
     };
     if (!phoneNumberIsValid(formData.phone_number)) {
-      displayErrorAlert('Phone number must be in the format ###-###-####.');
+      displayErrorAlert('Phone number must be in the format ###-###-####');
       return;
     }
     
