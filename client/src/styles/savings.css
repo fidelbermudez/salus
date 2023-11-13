@@ -244,6 +244,32 @@
     margin-left: 1rem;
     display: inline-block;
 }
+/* delete goal modal */
+
+.modalDel .modal-content{
+    max-width: 60%;
+    margin: auto;
+}
+.modalDel-body{
+    background-color: transparent !important;
+}
+
+.modalDel-body p{
+    background-color: transparent;
+    color: black;
+    text-align: center;
+}
+
+.delButtonGroup{
+    max-width: fit-content;
+    margin: auto;
+}
+
+#deletebtn{
+    background-color: rgb(247, 44, 44);
+    border-color: red;
+    margin-left: 1rem;
+}
 
 /* savingsHist */
 
