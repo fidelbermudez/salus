@@ -120,3 +120,14 @@
     align-items: center;
     margin-top: 50px;
   }
+
+  .addButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 525px;
+    right: 513px;
+    z-index: 10; 
+  }
