@@ -9,6 +9,8 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
+import { local } from 'd3';
+import Alert from 'react-bootstrap/Alert';
 // import { local } from 'd3';
 
 
@@ -47,6 +49,7 @@ function NewGoalForm() {
     setSuccess(null);
 
     // post request to add new entry to database
+    const addGoal = async(e) => {
     try {
       const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed, savings_category: goalName};
       const response = await axios.post('http://localhost:8081/api/savings/insert', newGoal);
@@ -58,7 +61,7 @@ function NewGoalForm() {
       setIsSubmitting(false);
       setError('Something went wrong! Please try again.');
       console.error(err);
-    }
+    }}
 
     const addToHist = async (e) => {
     // request to add entry to database
@@ -78,6 +81,7 @@ function NewGoalForm() {
       }
     };
 
+    addGoal();
     addToHist();
   };
 
@@ -210,10 +214,8 @@ function Savings() {
             );
           })}
           {/* </ul> */}
-        </div>
+         </div>
       </div>
-
-    // </div>
   );
 }
 
