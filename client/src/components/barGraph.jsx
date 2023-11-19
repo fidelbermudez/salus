@@ -214,7 +214,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     .append("text")
     .attr("x", 230) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Total Expenses") // Change "Fill" to "Expenses"
+    .text("Expenses Under Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
@@ -231,13 +231,13 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     .append("text")
     .attr("x", 90) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Total Limit") // Change "Fill" to "Expenses"
+    .text("Total Expenses") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
     svg
     .append("rect")
-    .attr("x", 340) // Adjust the x-position
+    .attr("x", 370) // Adjust the x-position
     .attr("y", height + 25) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
@@ -245,7 +245,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
 
     svg
     .append("text")
-    .attr("x", 370) // Adjust the x-position
+    .attr("x", 400) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
     .text("Expenses Over Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
