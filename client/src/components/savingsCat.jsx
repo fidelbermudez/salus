@@ -165,10 +165,10 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
          readOnly
           />
         <ToggleButtonGroup type="radio" defaultValue={1} name="options" className="add-or-sub">
-          <ToggleButton id="tbg-radio-1" value={1} onClick={setPosToTrue}>
+          <ToggleButton id="addmoney" value={1} onClick={setPosToTrue}>
             +
           </ToggleButton>
-          <ToggleButton id="tbg-radio-2" value={2} onClick={setPosToFalse}>
+          <ToggleButton id="submoney" value={2} onClick={setPosToFalse}>
             -
           </ToggleButton>
         </ToggleButtonGroup>
@@ -230,7 +230,7 @@ function getProgressBarVariant(saved, goal) {
     return "success"
 }
 
-function SavingsCategory({ userID, catId, name, saved, goal}) {
+function SavingsCategory({ userID, catId, name, saved, goal, date}) {
 
   // format currency 
   const currencyFormatter = new Intl.NumberFormat(undefined, {
@@ -286,7 +286,7 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
                 <Button
                 className = "edit-btn"
                 variant = "primary" 
-                onClick={() => setModalShow(true)}> 
+                onClick={() => setModalShow(true)}>
                 <MdEdit id = "pencil"/>
                 </Button>
                 <UpdateGoalModal
@@ -312,6 +312,9 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
           <div className="catName">
            {name}
           </div>
+          <div className="catDate">
+          <p> Started on: {date} </p>
+          </div>
         </Card.Title>
         <ProgressBar 
           className="prog-bar-sav" 
@@ -324,8 +327,8 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
           />
           <div className="goalAmount">
                 {currencyFormatter.format(saved)}
-                <span className="text-muted fs-6 ms-1">
-                 / {currencyFormatter.format(goal)}
+                <span className="totalGoal">
+                  / {currencyFormatter.format(goal)}
                 </span>
           </div>
       </Card.Body>

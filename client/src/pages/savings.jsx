@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import { local } from 'd3';
 import Alert from 'react-bootstrap/Alert';
+import { AiOutlinePlus } from 'react-icons/ai';
 // import { local } from 'd3';
 
 
@@ -51,7 +52,8 @@ function NewGoalForm() {
     // post request to add new entry to database
     const addGoal = async(e) => {
     try {
-      const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed, savings_category: goalName};
+      const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed,
+                       savings_category: goalName, date_created: getDate(), completed: 0};
       const response = await axios.post('http://localhost:8081/api/savings/insert', newGoal);
       
       setIsSubmitting(false);
@@ -137,7 +139,7 @@ function NewGoalModal(props) {
     >
     <Modal.Header>
       <Modal.Title id="contained-modal-title-vcenter">
-          Add a New Savings Goal
+          Add a New Goal
         </Modal.Title>
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
@@ -187,9 +189,10 @@ function Savings() {
 
         <div className = "add">
         {/* button that allows user to add a new savings goal */}
-        <Button variant="primary" className = "button" onClick={() => setModalShow(true)}>
-          Add new goal 
-        </Button>
+        {/* <Button variant="primary" className = "button" onClick={() => setModalShow(true)}>
+          +
+        </Button> */}
+        <AiOutlinePlus className="plusbutton" style={{ fontSize: '2rem' }} onClick={() => setModalShow(true)}/>
         {/* modal for adding new goal */}
         <NewGoalModal
           show={modalShow}
@@ -202,19 +205,18 @@ function Savings() {
        <hr />
 
       {/* map over all goals and create individual displays */}
-      {/* <div className = 'show-categories'> */}
+      <div className = 'show-categories'>
         <div className = "cats">
-          {/* <ul id="catsul"> */}
           {
             sortedGoals.map(goal =>{
             return (
               <div key = {goal._id} className = "goaldiv"> 
-                <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount}/> 
+                <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
               </div>
             );
           })}
-          {/* </ul> */}
          </div>
+      </div>
       </div>
   );
 }
