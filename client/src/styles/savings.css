@@ -49,6 +49,7 @@
 .modal-header{
     background-color: #032754;
     position: relative;
+    width:auto;
 }
 
 .modal-title{
@@ -85,6 +86,9 @@
 .modal-dialog{
     background-color: transparent;
 }
+.modal-footer{
+    background-color: #023E8A;
+   }
 
 /* modal form */
 
