@@ -93,6 +93,7 @@ const AddBankAccountModal = ({
         }
         };
 
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
