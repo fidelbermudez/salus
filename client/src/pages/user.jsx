@@ -258,24 +258,24 @@ const User = () => {
             {errorAlertMessage}
           </Alert>
         )}
-        <div className={styles.confirmModal}>
-        <Modal show={showDeleteConfirmationModal} onHide={closeDeleteConfirmationModal}>
-          <div className={styles.modalBody}>
-            <Modal.Body>
-              <div className={styles.confirmText}>Are you sure you want to delete this account? </div>
-          
-          <div className={styles.twoButtons}>
-            <Button variant="secondary" onClick={closeDeleteConfirmationModal}>
-              Cancel
-            </Button>
-            <Button variant="danger" onClick={handleDeleteAccount}>
-              Yes, Delete
-            </Button>
-          </div>
+        <Modal
+          show={showDeleteConfirmationModal}
+          onHide={closeDeleteConfirmationModal}
+          centered
+          className="confirmModal"
+        >
+          <Modal.Body style={{ backgroundColor: 'whitesmoke', borderRadius: '10px' }}>
+            <div className={styles.confirmText}>Are you sure you want to delete this account?</div>
+            <div className={styles.twoButtons}>
+              <Button variant="secondary" onClick={closeDeleteConfirmationModal}>
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={handleDeleteAccount}>
+                Yes, Delete
+              </Button>
+            </div>
           </Modal.Body>
-          </div>
         </Modal>
-        </div>
         <h2>Welcome {userName}!</h2>
   
         <div className={styles.userInformation}>
