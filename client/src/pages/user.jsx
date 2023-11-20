@@ -6,6 +6,8 @@ import { local } from 'd3';
 import styles from '../styles/user.module.css';
 import Alert from 'react-bootstrap/Alert';
 import AddBankAccountModal from '../components/bankModal';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 
 const User = () => {
@@ -21,8 +23,6 @@ const User = () => {
   const [errorAlertMessage, setErrorAlertMessage] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [successAlertMessage, setSuccessAlertMessage] = useState('');
-  const [showWarningAlert, setWarningAlert] = useState(false);
-  const [WarningAlertMessage, setWarningAlertMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,7 +35,9 @@ const User = () => {
     bankName: '',
     accountType: '',
   });
-
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
+  const [accountIdToDelete, setAccountIdToDelete] = useState(null);
+  
   
 
   const banks = ["Select Bank","Bank of America", "Chase", "Wells Fargo", "CitiBank", "US Bank"];
@@ -54,6 +56,17 @@ const User = () => {
     setTimeout(() => {
       window.location.reload();
     }, 500);
+  };
+  // Function to open the delete confirmation modal
+  const openDeleteConfirmationModal = (accountId) => {
+    setAccountIdToDelete(accountId);
+    setShowDeleteConfirmationModal(true);
+  };
+
+  // Function to close the delete confirmation modal
+  const closeDeleteConfirmationModal = () => {
+    setShowDeleteConfirmationModal(false);
+    setAccountIdToDelete(null);
   };
 
 
@@ -165,26 +178,26 @@ const User = () => {
     setConfirmPassword('');
   };
 
-  const handleDeleteAccount = async (userId, accountId) => {
+  const handleDeleteAccount = async () => {
+    if (!accountIdToDelete) return;
+    
     try {
       const token = localStorage.getItem('authToken');
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  
-      await axios.delete(`http://localhost:8081/api/bank/${userId}/deleteAccount/${accountId}`);
-  
+    
+      await axios.delete(`http://localhost:8081/api/bank/${userId}/deleteAccount/${accountIdToDelete}`);
+    
       displaySuccessAlert('Bank account deleted successfully');
-      
+      closeDeleteConfirmationModal();
       setTimeout(() => {
         window.location.reload();
       }, 2000); // Adjust the timeout to match your alert display duration
-  
-
     } catch (error) {
       console.error(error);
       displayErrorAlert(error.response?.data?.message || 'Failed to delete bank account');
+      closeDeleteConfirmationModal();
     }
-
-};
+  };
   
   const handleSave = async () => {
     // Validate inputs
@@ -247,6 +260,25 @@ const User = () => {
             {errorAlertMessage}
           </Alert>
         )}
+        <Modal show={showDeleteConfirmationModal} onHide={closeDeleteConfirmationModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Account?</Modal.Title>
+          </Modal.Header>
+          <div className={styles.modalBody}>
+            <Modal.Body>
+              <div className={styles.confirmText}>Are you sure you want to delete this account? </div>
+          
+          <div className={styles.twoButtons}>
+            <Button variant="secondary" onClick={closeDeleteConfirmationModal}>
+              No
+            </Button>
+            <Button variant="danger" onClick={handleDeleteAccount}>
+              Yes, Delete
+            </Button>
+          </div>
+          </Modal.Body>
+          </div>
+        </Modal>
         <h2>Welcome {userName}!</h2>
   
         <div className={styles.userInformation}>
@@ -377,10 +409,10 @@ const User = () => {
                 <p><span className={styles.label}>Account ID:</span> <span className={styles.value}>{account.account_id}</span></p>
                 <p><span className={styles.label}>Bank Name:</span> <span className={styles.value}>{account.bankName}</span></p>
                 <p><span className={styles.label}>Account Type:</span> <span className={styles.value}>{account.accountType}</span></p>
-                <div 
-                  className={styles.deleteButton} 
-                  onClick={() => handleDeleteAccount(userId, account.account_id)}
-                >
+                  <div 
+                    className={styles.deleteButton} 
+                    onClick={() => openDeleteConfirmationModal(account.account_id)}
+                  >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FF0000" className="bi bi-trash3" viewBox="0 0 16 16">
                     <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                   </svg>

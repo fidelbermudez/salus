@@ -87,6 +87,7 @@
     /* background-color: #2c2aaf; */
     background-color: #4457ac;
     position: relative;
+    width:auto;
 }
 
 .modal-title{
@@ -133,6 +134,9 @@
 .modal-dialog{
     background-color: transparent;
 }
+.modal-footer{
+    background-color: #023E8A;
+   }
 
 /* modal form */
 
