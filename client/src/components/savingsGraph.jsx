@@ -35,12 +35,13 @@ const SavingsGraph = ({ year }) => {
   const svgRef = useRef();
   const [showLines, setShowLines] = useState({});
 
+
   useEffect(() => {
     const svg = d3.select(svgRef.current);
 
-    const width = 800; // Increase width for legend
+    const width = 550;
     const height = 400;
-    const margin = { top: 20, right: 120, bottom: 30, left: 60 }; // Adjust right margin for legend
+    const margin = { top: 20, right: 120, bottom: 50, left: 60 }; // Increased bottom margin for x-axis labels
 
     svg.attr('width', width).attr('height', height);
 
@@ -53,7 +54,7 @@ const SavingsGraph = ({ year }) => {
 
     const xAxis = g => g
       .attr('transform', `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x).tickFormat(d3.timeFormat('%m/%d/%Y')));
+      .call(d3.axisBottom(x).tickFormat(d3.timeFormat('%b'))); // Format x-axis ticks to display abbreviated months
 
     const yAxis = g => g
       .attr('transform', `translate(${margin.left},0)`)
@@ -74,7 +75,9 @@ const SavingsGraph = ({ year }) => {
         });
       }).flat();
 
-      x.domain(d3.extent(cumulativeData, d => d.date));
+      const dates = cumulativeData.map(d => d.date); // Extract dates for x-axis domain
+
+      x.domain(d3.extent(dates));
       y.domain([0, maxCumulative]).nice();
 
       svg.append('g').attr('class', 'x-axis').call(xAxis);
@@ -101,12 +104,21 @@ const SavingsGraph = ({ year }) => {
           .attr('stroke', d3.schemeCategory10[index % 10])
           .attr('stroke-width', 2)
           .attr('d', line);
+
+        svg.selectAll('.dot')
+          .data(parsedData)
+          .enter().append('circle')
+          .attr('class', 'dot')
+          .attr('cx', d => x(d.date))
+          .attr('cy', d => y(d.amount))
+          .attr('r', 4)
+          .attr('fill', d3.schemeCategory10[index % 10]);
       });
 
-      // Create color legend
+      // Create color legend with abbreviated month names
       const legend = svg.append('g')
         .attr('class', 'legend')
-        .attr('transform', `translate(${width - margin.right + 10},${margin.top})`); // Adjust transform for legend
+        .attr('transform', `translate(${width - margin.right + 10},${margin.top})`);
 
       const legendEntries = legend.selectAll('.legendEntry')
         .data(selectedData)
@@ -129,6 +141,7 @@ const SavingsGraph = ({ year }) => {
         .style('font-size', '12px');
     }
   }, [data, showLines, year]);
+
 
   const handleCheckboxChange = (categoryName) => {
     setShowLines(prevState => ({
