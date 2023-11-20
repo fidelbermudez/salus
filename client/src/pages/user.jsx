@@ -276,7 +276,6 @@ const User = () => {
             </div>
           </Modal.Body>
         </Modal>
-        </div>
         <h2>Welcome {userName}!</h2>
   
         <div className={styles.userInformation}>
