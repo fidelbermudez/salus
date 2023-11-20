@@ -47,7 +47,9 @@ router.post('/insert', async (req, res) => {
       user_id: req.body.user_id,
       goal_amount: req.body.goal_amount,
       amount_contributed: req.body.amount_contributed,
-      savings_category: req.body.savings_category
+      savings_category: req.body.savings_category,
+      date_created: req.body.date_created,
+      completed: req.body.completed
     });
     
     let newData = await newDocument.save(); // Saving the new document in the DB

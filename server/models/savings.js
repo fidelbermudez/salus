@@ -10,8 +10,13 @@ const savingsSchema = new mongoose.Schema({
   amount_contributed: Number,
   savings_category:{
     type: String,
-    unique: true
+    required: true
   },
+  date_created: {
+    type: String,
+    required: true
+  },
+  completed: Number
 }, {collection: "savings"});
 
 module.exports = mongoose.model('savings', savingsSchema);
