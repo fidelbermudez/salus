@@ -341,6 +341,7 @@ function Budget() {
       </div>
     </Container>
     <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+    <Summary />
     </div>
     <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
     <Summary />
