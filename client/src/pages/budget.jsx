@@ -9,6 +9,7 @@ import BudgetCard from '../components/BudgetCard';
 import AddBudgetModal from '../components/AddBudgetModal';
 import { useAuth } from '../AuthContext';
 import PieChart from '../components/pieChartBudget';
+import Summary from './summary';
 import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
@@ -246,6 +247,7 @@ function Budget() {
       </div>
     </Container>
     <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+    <Summary />
     </div>
   </>
   );
