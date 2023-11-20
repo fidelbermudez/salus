@@ -35,7 +35,6 @@ const SavingsGraph = ({ year }) => {
   const svgRef = useRef();
   const [showLines, setShowLines] = useState({});
 
-
   useEffect(() => {
     const svg = d3.select(svgRef.current);
   
@@ -169,7 +168,6 @@ const SavingsGraph = ({ year }) => {
       .style('font-size', '12px');
     }
   }, [data, showLines, year]);
-
 
   const handleCheckboxChange = (categoryName) => {
     setShowLines(prevState => ({
