@@ -86,10 +86,27 @@
   }
 
   
-  .bankAccountHeader {
-    margin-bottom: 20px;
+  .bankAccountsHeader {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: space-between; /* Puts space between items */
+    width: 100%;
+    margin-bottom: 20px; /* Adjust as needed */
   }
   
+  .bankAccountHeader {
+    margin-bottom: 0; /* Remove bottom margin if not needed */
+  }
+  .addButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    top: 525px;
+    margin-right: 15px;
+    /* right: 512px; */
+    z-index: 10; 
+  }
   .label {
     font-weight: bold;
     display: block;
