@@ -12,7 +12,7 @@ router.get('/show/:userId/:catName', async (req, res) => {
     // Find the most recent expense entry in the database and return its 'expense_id'
     const saveHistory = await SavingsHistory.find({user_id: userId, savings_category: savCat});
 
-    if(saveHistory.length === 0) {
+    if(!saveHistory) {
       return res.status(404).json({ message: 'Element not found' });
     }
     res.json(saveHistory);
