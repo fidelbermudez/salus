@@ -214,7 +214,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     .append("text")
     .attr("x", 230) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Expenses Under Limit") // Change "Fill" to "Expenses"
+    .text("Amount Under Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
@@ -247,7 +247,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     .append("text")
     .attr("x", 420) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
-    .text("Expenses Over Limit") // Change "Fill" to "Expenses"
+    .text("Amount Over Limit") // Change "Fill" to "Expenses"
     .style("font-size", "12px")
     .style("alignment-baseline", "middle");
 
