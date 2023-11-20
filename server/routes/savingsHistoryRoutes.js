@@ -66,4 +66,50 @@ router.put('/update/:catName', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
+// route to get summary history based off year and userid
+router.get('/year/:year/:userid', async (req, res) => {
+  try {
+    const requestedYear = parseInt(req.params.year);
+    const userId = parseInt(req.params.userid);
+
+    const saveHistory = await SavingsHistory.aggregate([
+      {
+        $addFields: {
+          year: { $year: { $dateFromString: { dateString: '$date', format: '%m/%d/%Y' } } },
+          // Convert date to ISO 8601 format for sorting purposes
+          isoDate: { $dateFromString: { dateString: '$date', format: '%m/%d/%Y' } }
+        }
+      },
+      {
+        $match: { year: requestedYear, user_id: userId }
+      },
+      {
+        $sort: { isoDate: 1 } // Sort using the newly created isoDate field
+      },
+      {
+        $group: {
+          _id: '$savings_category',
+          data: {
+            $push: {
+              date: '$date',
+              amount: '$amount'
+            }
+          }
+        }
+      }
+    ]);
+
+    if (saveHistory.length === 0) {
+      return res.status(404).json({ message: 'No entries found for the specified year' });
+    }
+
+    res.json(saveHistory);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 module.exports = router;

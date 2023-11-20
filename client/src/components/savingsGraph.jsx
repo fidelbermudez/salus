@@ -1,33 +1,36 @@
 import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useAuth } from '../AuthContext';
 import * as d3 from 'd3';
 
-const SavingsGraph = () => {
-  const data = {
-    car: [
-      { date: '1/3/2023', amount: 800 },
-      { date: '2/17/2023', amount: 1200 },
-      { date: '3/8/2023', amount: 1000 },
-      { date: '4/22/2023', amount: 1600 },
-      { date: '5/12/2023', amount: 1400 },
-      { date: '6/30/2023', amount: 2000 },
-    ],
-    house: [
-      { date: '1/7/2023', amount: 500 },
-      { date: '2/19/2023', amount: 900 },
-      { date: '3/15/2023', amount: 700 },
-      { date: '4/25/2023', amount: 1200 },
-      { date: '5/5/2023', amount: 1000 },
-      { date: '6/10/2023', amount: 1500 },
-    ],
-    vacation: [
-      { date: '1/12/2023', amount: 200 },
-      { date: '2/28/2023', amount: 300 },
-      { date: '3/5/2023', amount: 400 },
-      { date: '4/14/2023', amount: 500 },
-      { date: '5/21/2023', amount: -600 },
-      { date: '6/8/2023', amount: 700 },
-    ]
-  };
+const SavingsGraph = ({ year }) => {
+  const { currentUser, isLoading: authLoading } = useAuth();
+  const userId = localStorage?.userId;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    if (authLoading) return;
+
+    const token = localStorage.getItem('authToken');
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+    const fetchData = async () => {
+      try {
+        const savings = await axios.get(`http://localhost:8081/api/savingsHistory/year/${year}/${userId}`);
+        setData(savings.data);
+      } catch (e) {
+        if (e.response && e.response.status === 404) {
+          console.log('No entries found for the specified year');
+          setData([]);
+        } else {
+          console.error(e);
+          setData([]);
+        }
+      }
+    };
+
+    fetchData();
+  }, [userId, authLoading, year]);
 
   const svgRef = useRef();
   const [showLines, setShowLines] = useState({});
@@ -35,20 +38,17 @@ const SavingsGraph = () => {
   useEffect(() => {
     const svg = d3.select(svgRef.current);
 
-    const width = 600;
+    const width = 800; // Increase width for legend
     const height = 400;
-    const margin = { top: 20, right: 30, bottom: 30, left: 60 };
+    const margin = { top: 20, right: 120, bottom: 30, left: 60 }; // Adjust right margin for legend
 
     svg.attr('width', width).attr('height', height);
 
-    const x = d3.scaleTime()
-      .range([margin.left, width - margin.right]);
-
-    const y = d3.scaleLinear()
-      .range([height - margin.bottom, margin.top]);
+    const x = d3.scaleTime().range([margin.left, width - margin.right]);
+    const y = d3.scaleLinear().range([height - margin.bottom, margin.top]);
 
     const line = d3.line()
-      .x(d => x(d.date))
+      .x(d => x(new Date(d.date)))
       .y(d => y(d.amount));
 
     const xAxis = g => g
@@ -61,16 +61,16 @@ const SavingsGraph = () => {
 
     svg.selectAll('*').remove();
 
-    if (Object.keys(data).length > 0) {
+    if (data.length > 0) {
       let maxCumulative = 0;
-      const selectedData = Object.keys(data).filter(key => showLines[key]);
+      const selectedData = data.filter(category => showLines[category._id]);
 
-      const cumulativeData = selectedData.map(key => {
+      const cumulativeData = selectedData.map(category => {
         let cumulativeAmount = 0;
-        return data[key].map(d => {
+        return category.data.map(d => {
           cumulativeAmount += d.amount;
           maxCumulative = Math.max(maxCumulative, cumulativeAmount);
-          return { date: d3.timeParse('%m/%d/%Y')(d.date), amount: cumulativeAmount };
+          return { date: new Date(d.date), amount: cumulativeAmount };
         });
       }).flat();
 
@@ -79,55 +79,81 @@ const SavingsGraph = () => {
 
       svg.append('g').attr('class', 'x-axis').call(xAxis);
       svg.append('g').attr('class', 'y-axis').call(yAxis);
-      Object.keys(data).forEach(key => {
-        if (showLines[key]) {
-          const parsedData = [];
-          let cumulativeAmount = 0;
 
-          data[key].forEach(d => {
-            cumulativeAmount += d.amount;
-            const parsedDate = d3.timeParse('%m/%d/%Y')(d.date);
+      selectedData.forEach((category, index) => {
+        const parsedData = [];
+        let cumulativeAmount = 0;
 
-            if (isNaN(cumulativeAmount) || isNaN(parsedDate)) {
-              console.error('NaN values detected:', key, d);
-            }
+        category.data.forEach(d => {
+          cumulativeAmount += d.amount;
+          const parsedDate = new Date(d.date);
 
-            parsedData.push({ date: parsedDate, amount: cumulativeAmount });
-          });
+          if (isNaN(cumulativeAmount) || isNaN(parsedDate)) {
+            console.error('NaN values detected:', category._id, d);
+          }
 
-          svg.append('path')
-            .datum(parsedData)
-            .attr('fill', 'none')
-            .attr('stroke', d3.schemeCategory10[Object.keys(data).indexOf(key) % 10])
-            .attr('stroke-width', 2)
-            .attr('d', line);
-        }
+          parsedData.push({ date: parsedDate, amount: cumulativeAmount });
+        });
+
+        svg.append('path')
+          .datum(parsedData)
+          .attr('fill', 'none')
+          .attr('stroke', d3.schemeCategory10[index % 10])
+          .attr('stroke-width', 2)
+          .attr('d', line);
       });
-    }
-  }, [data, showLines]);
 
-  const handleCheckboxChange = (lineName) => {
-    setShowLines((prevState) => ({
+      // Create color legend
+      const legend = svg.append('g')
+        .attr('class', 'legend')
+        .attr('transform', `translate(${width - margin.right + 10},${margin.top})`); // Adjust transform for legend
+
+      const legendEntries = legend.selectAll('.legendEntry')
+        .data(selectedData)
+        .enter()
+        .append('g')
+        .attr('class', 'legendEntry')
+        .attr('transform', (d, i) => `translate(0, ${i * 20})`);
+
+      legendEntries.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', 10)
+        .attr('height', 10)
+        .attr('fill', (d, i) => d3.schemeCategory10[i % 10]);
+
+      legendEntries.append('text')
+        .attr('x', 15)
+        .attr('y', 10)
+        .text(d => d._id)
+        .style('font-size', '12px');
+    }
+  }, [data, showLines, year]);
+
+  const handleCheckboxChange = (categoryName) => {
+    setShowLines(prevState => ({
       ...prevState,
-      [lineName]: !prevState[lineName],
+      [categoryName]: !prevState[categoryName],
     }));
   };
 
   return (
     <div>
-      {Object.keys(data).map((lineName, index) => (
-        <div key={index}>
-          <label>
-            <input
-              type="checkbox"
-              checked={showLines[lineName] || false}
-              onChange={() => handleCheckboxChange(lineName)}
-            />
-            {lineName}
-          </label>
-        </div>
-      ))}
       <svg ref={svgRef}></svg>
+      <div>
+        {data.length > 0 && data.map((category, index) => (
+          <div key={index}>
+            <label>
+              <input
+                type="checkbox"
+                checked={showLines[category._id] || false}
+                onChange={() => handleCheckboxChange(category._id)}
+              />
+              {category._id}
+            </label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
