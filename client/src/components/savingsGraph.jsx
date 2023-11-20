@@ -114,10 +114,11 @@ const SavingsGraph = ({ year }) => {
           .attr('stroke-width', 2)
           .attr('d', line);
 
-        svg.selectAll('.dot')
+        svg.selectAll('.dot-' + index) // Use a unique identifier for dots
           .data(parsedData)
-          .enter().append('circle')
-          .attr('class', 'dot')
+          .enter()
+          .append('circle')
+          .attr('class', 'dot-' + index) // Assign a unique class based on category index
           .attr('cx', d => x(d.date))
           .attr('cy', d => y(d.amount))
           .attr('r', 4)
