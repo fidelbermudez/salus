@@ -125,20 +125,3 @@
     right: 513px;
     z-index: 10; 
   }
-.twoButtons {
-    display: flex;
-    justify-content: center; /* Center the buttons */
-    margin-top: 15px;
-}
-
-.twoButtons button:first-child {
-    margin-right: 10px;
-}
- .confirmText{
-    display: flex;
-    margin-bottom: 10px;
-    text-align: center;
-    justify-content: center;
-    color: black23;
-    
- }
