@@ -35,7 +35,6 @@ const SavingsGraph = ({ year }) => {
   const svgRef = useRef();
   const [showLines, setShowLines] = useState({});
 
-
   useEffect(() => {
     const svg = d3.select(svgRef.current);
 
@@ -54,7 +53,7 @@ const SavingsGraph = ({ year }) => {
 
     const xAxis = g => g
       .attr('transform', `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x).tickFormat(d3.timeFormat('%b'))); // Format x-axis ticks to display abbreviated months
+      .call(d3.axisBottom(x).tickFormat(d3.timeFormat('%b')).tickArguments([d3.timeMonth.every(1)])); // Display one tick per month
 
     const yAxis = g => g
       .attr('transform', `translate(${margin.left},0)`)
@@ -75,9 +74,17 @@ const SavingsGraph = ({ year }) => {
         });
       }).flat();
 
-      const dates = cumulativeData.map(d => d.date); // Extract dates for x-axis domain
+      const uniqueDates = Array.from(new Set(cumulativeData.map(d => d.date.getMonth())))
+        .map(month => new Date(year, month, 1));
 
-      x.domain(d3.extent(dates));
+      const maxDate = d3.max(uniqueDates);
+
+      // Add an extra month after the last displayed month
+      const nextMonth = d3.timeMonth.offset(maxDate, 1);
+
+      uniqueDates.push(nextMonth);
+
+      x.domain([d3.min(uniqueDates), d3.max(uniqueDates)]);
       y.domain([0, maxCumulative]).nice();
 
       svg.append('g').attr('class', 'x-axis').call(xAxis);
@@ -98,6 +105,8 @@ const SavingsGraph = ({ year }) => {
           parsedData.push({ date: parsedDate, amount: cumulativeAmount });
         });
 
+        parsedData.unshift({ date: x.domain()[0], amount: 0 }); // Add origin point
+
         svg.append('path')
           .datum(parsedData)
           .attr('fill', 'none')
@@ -115,7 +124,7 @@ const SavingsGraph = ({ year }) => {
           .attr('fill', d3.schemeCategory10[index % 10]);
       });
 
-      // Create color legend with abbreviated month names
+      // Create color legend with category names
       const legend = svg.append('g')
         .attr('class', 'legend')
         .attr('transform', `translate(${width - margin.right + 10},${margin.top})`);
@@ -141,7 +150,6 @@ const SavingsGraph = ({ year }) => {
         .style('font-size', '12px');
     }
   }, [data, showLines, year]);
-
 
   const handleCheckboxChange = (categoryName) => {
     setShowLines(prevState => ({
