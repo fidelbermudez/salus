@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../AuthContext';
-import Summary from './summary';
-import { local } from 'd3';
 import styles from '../styles/user.module.css';
 import Alert from 'react-bootstrap/Alert';
 import AddBankAccountModal from '../components/bankModal';
