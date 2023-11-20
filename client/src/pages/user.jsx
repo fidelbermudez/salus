@@ -258,17 +258,15 @@ const User = () => {
             {errorAlertMessage}
           </Alert>
         )}
+        <div className={styles.confirmModal}>
         <Modal show={showDeleteConfirmationModal} onHide={closeDeleteConfirmationModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete Account?</Modal.Title>
-          </Modal.Header>
           <div className={styles.modalBody}>
             <Modal.Body>
               <div className={styles.confirmText}>Are you sure you want to delete this account? </div>
           
           <div className={styles.twoButtons}>
             <Button variant="secondary" onClick={closeDeleteConfirmationModal}>
-              No
+              Cancel
             </Button>
             <Button variant="danger" onClick={handleDeleteAccount}>
               Yes, Delete
@@ -277,6 +275,7 @@ const User = () => {
           </Modal.Body>
           </div>
         </Modal>
+        </div>
         <h2>Welcome {userName}!</h2>
   
         <div className={styles.userInformation}>
