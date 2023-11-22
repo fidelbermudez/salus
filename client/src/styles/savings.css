@@ -49,6 +49,7 @@
 .modal-header{
     background-color: #032754;
     position: relative;
+    width:auto;
 }
 
 .modal-title{
@@ -73,7 +74,7 @@
 }
 
 .modal-body button{
-    background-color: #0077B6;
+    background-color: none;
     outline-color: white;
     margin: auto;
     width: fit-content;
@@ -81,13 +82,13 @@
     margin-right: auto;
 }
 
-.modal-body button:hover{
-    background-color: #1385c2;
-}
 
 .modal-dialog{
     background-color: transparent;
 }
+.modal-footer{
+    background-color: #023E8A;
+   }
 
 /* modal form */
 
