@@ -8,7 +8,8 @@ import '../styles/budget.css';
 import BudgetCard from '../components/BudgetCard';
 import AddBudgetModal from '../components/AddBudgetModal';
 import { useAuth } from '../AuthContext';
- 
+import PieChart from '../components/pieChartBudget';
+import Summary from './summary';
 import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
@@ -143,12 +144,16 @@ function Budget() {
   const [editShow, setEditShow] = React.useState(false);
  
   const userId = localStorage?.userId;
- 
+
+  const [expenses, setExpenses] = useState(0);
+  const [limit, setLimit] = useState(0);
+  const [categoryInfo, setCategoryInfo] = useState([]);
   const [budgets, setBudgets] = useState([]); // Define and initialize budgets state
- 
+  const [currYear, setCurrYear] = useState(new Date().getFullYear());
+  const [currMonth, setCurrMonth] = useState(new Date().getMonth() + 1);
+
   useEffect(() => {
     // Fetch budgets with category information based on the user
-    //Note this happened after I changed api/budgets into api/category down below
     axios.get(`http://localhost:8081/api/category/user/${userId}`)
       .then(response => {
         setBudgets(response.data);
@@ -156,7 +161,39 @@ function Budget() {
       .catch(error => {
         console.error('Error fetching budgets:', error);
       });
-  }, [userId]);
+  
+    const fetchData = async () => {
+      try {
+        if (currMonth != null) {
+          const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`);
+          const fetchedCategoryInfo = categoryResponse.data;
+          console.log(fetchedCategoryInfo)
+  
+          // Calculate total expenses and limits
+          let totalExpenses = 0;
+          let totalLimit = 0;
+  
+          fetchedCategoryInfo.forEach(expense => {
+            totalExpenses += (expense.amount_spent || 0);
+            totalLimit += (expense.limit || 0);
+          });
+  
+          // Update the state after calculating totals
+          setCategoryInfo(fetchedCategoryInfo);
+          setExpenses(totalExpenses);
+          setLimit(totalLimit);
+        }
+      } catch (e) {
+        if (e.response && e.response.status === 404) {
+          setCategoryInfo([]);
+        } else {
+          console.error(e);
+        }
+      }
+    };
+  
+    fetchData();
+  }, [userId, currMonth, currYear]);
  
  
   return (
@@ -209,6 +246,8 @@ function Budget() {
       </div>
       </div>
     </Container>
+    <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+    <Summary />
     </div>
   </>
   );

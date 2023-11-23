@@ -3,48 +3,28 @@ import axios from "axios";
 import { useAuth } from '../AuthContext';
 import * as d3 from "d3";
 
-const PieChart = ({ active, month, year, limit, expenses }) => {
+const PieChart = ({ active, month, year, data, limit, expenses }) => {
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
-  const [categoryInfo, setCategoryInfo] = useState([]);
   const svgRef = useRef(null);
 
   const months = {
-    "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
-    "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12
+    1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June",
+    7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12:"December"
   };
 
   useEffect(() => {
     if (authLoading) return;
-
     const token = localStorage.getItem('authToken');
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-
-    const fetchData = async () => {
-      try {
-        if (month != null) {
-          const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}/${year}/${months[month]}`);
-          setCategoryInfo(categoryResponse.data);
-          console.log(categoryResponse.data);
-        }
-      } catch (e) {
-        if (e.response && e.response.status === 404) {
-          setCategoryInfo([]);
-        } else {
-          console.error(e);
-        }
-      }
-    };
-    fetchData();
-  }, [userId, authLoading, month]);
+  }, [userId, authLoading]);
 
   useEffect(() => {
-    if (categoryInfo.length > 0) {
-      createPieChart(categoryInfo);
-    }
-  }, [categoryInfo, month]);
+      createPieChart(data);
+  }, [data]);
 
   const createPieChart = (data) => {
+    console.log("data", data)
     d3.select(svgRef.current).selectAll("*").remove();
   
     // Define the dimensions of the SVG container and the radius of the pie chart
@@ -137,8 +117,9 @@ const PieChart = ({ active, month, year, limit, expenses }) => {
     .attr("font-weight", "bold");
   }
   return (
-    <div>
-      {active ? <><h4 style={{marginLeft:'60px'}}>{month}, {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
+    <div style={{textAlign: "center" , margin: '2%'}}>
+        <h2>Expense Breakdown This Month</h2>
+      {active ? <><h4 style={{marginLeft:'60px'}}>{months[month]}, {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
     </div>
   );
 };
