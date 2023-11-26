@@ -20,16 +20,16 @@ function Summary() {
   };
 
   return (
-    <div>
-      <h1>Welcome to your Summary!</h1>
-      <br />
-      <h1 style={{textAlign: 'center', margin: '12px'}}>Budget History</h1>
-      <div style={{ display: 'flex', alignItems: 'center', marginLeft:"375px"}}>
-        <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>
-        <h5 style={{ textAlign: 'center', marginLeft: "10px", marginRight: "10px"}}>{year}</h5>
-        <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={increaseYear}>{'>'}</button>
+    <div style={{textAlign: 'center', margin: '2%'}}>
+      <h2>Budget History</h2>
+      <div>
+        <h5>
+          <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>
+          {year}
+          <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={increaseYear}>{'>'}</button>
+        </h5>
       </div>
-      <div style={{display: 'flex'}}>
+      <div style={{display: "flex", justifyContent: "center"}}>
       <BarGraph key={year} year={year} setMonth={setMonth} setActive={setActive} setLimit={setLimit} setExpenses={setExpenses}/>
       <PieChart month={month} year={year} active={active} limit={limit} expenses={expenses}/>
       </div>

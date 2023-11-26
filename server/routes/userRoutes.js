@@ -13,7 +13,6 @@ router.get('/all', async (req, res) => {
     const allUsers = await User.find();
     res.json(allUsers);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
@@ -23,7 +22,6 @@ router.get('/show/:userId', async (req, res) => {
     const userId = parseInt(req.params.userId);
 
     const user = await User.findOne({ id: userId });
-    console.log(userId,user)
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -31,14 +29,12 @@ router.get('/show/:userId', async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
 router.post('/login', async (req, res) => {
   try {
-      console.log('Login attempt:', req.body);
       const { email, password } = req.body;
       
       const user = await User.findOne({ email }).select('+password');
@@ -69,7 +65,6 @@ router.post('/login', async (req, res) => {
           return res.status(401).json({ message: 'Invalid credentials' });
       }
   } catch (error) {
-      console.log(error)
       return res.status(500).json({ message: 'Server error' });
   }
 });
@@ -91,7 +86,6 @@ router.get('/me', verifyToken, async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -99,7 +93,6 @@ router.get('/me', verifyToken, async (req, res) => {
 
 router.post('/signup', async (req, res) => {
   const { email, password, first_name, last_name, phone_number } = req.body;
-  console.log(req.body)
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -131,7 +124,6 @@ router.post('/signup', async (req, res) => {
       await newUser.save();
       res.status(201).send({ message: 'User registered successfully', id: newUserId });
   } catch (error) {
-      console.error("Signup Error:", error);
       res.status(500).send({ message: 'Error registering user' });
   }
 });
@@ -142,8 +134,6 @@ router.patch('/updatePhoneNumber/:userId', async (req, res) => {
     const userId = parseInt(req.params.userId);
     const { phone_number } = req.body;
 
-    // Validate new phone number format here if needed
-
     const updatedUser = await User.findOneAndUpdate({ id: userId }, { phone_number }, { new: true });
 
     if (!updatedUser) {
@@ -152,7 +142,6 @@ router.patch('/updatePhoneNumber/:userId', async (req, res) => {
 
     res.status(200).json({ message: 'Phone number updated successfully' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -161,12 +150,15 @@ router.patch('/updatePhoneNumber/:userId', async (req, res) => {
 router.patch('/updatePassword/:userId', async (req, res) => {
   try {
     const userId = parseInt(req.params.userId);
-    const { password } = req.body;
+    const { newPassword: password } = req.body; // Extracting newPassword as password
 
-    // Perform password validation here if needed
+    if (!password || typeof password !== 'string') {
+      return res.status(400).json({ message: 'Password is required' });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    console.log(hashedPassword)
 
     const updatedUser = await User.findOneAndUpdate({ id: userId }, { password: hashedPassword }, { new: true });
 
@@ -176,7 +168,6 @@ router.patch('/updatePassword/:userId', async (req, res) => {
 
     res.status(200).json({ message: 'Password updated successfully' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 });
@@ -190,7 +181,7 @@ router.patch('/updateEmail/:userId', async (req, res) => {
     // Validate new email format here if needed
     // Check for existing email if needed
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email, id: { $ne: userId } });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already in use.' });
     }
@@ -203,7 +194,6 @@ router.patch('/updateEmail/:userId', async (req, res) => {
 
     res.status(200).json({ message: 'Email updated successfully' });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 });

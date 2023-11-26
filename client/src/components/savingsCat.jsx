@@ -13,6 +13,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import SavingsHist from './savingsHist';
+import ConfirmDelete from './confirmDelete';
 // import { currencyFormatter } from "./utils";
 
 function NewGoalForm({ userID, catId, name, saved, goal}) {
@@ -43,7 +44,7 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
   // handle form submit
   const handleSubmit = async (e) => {
     console.log("new: " + goalName + "old: " + name);
-     e.preventDefault();
+    e.preventDefault();
     setIsSubmitting(true);
     setError(null);
     setSuccess(null);
@@ -256,23 +257,26 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
   const [modalShow, setModalShow] = React.useState(false);
   // show or close savings history modal
   const [histShow, setHistShow] = React.useState(false);
+  // show or close confirm delete modal 
+  const[delShow, setDelShow] = React.useState(false);
 
 
-  const handleDeleteElement = async (catId) => {
-    console.log(catId, typeof(catId))
-    try {
-      const response = await axios.delete(`http://localhost:8081/api/savings/delete/${catId}`);
+  // const handleDeleteElement = (catId) => {
+   
+    // console.log(catId, typeof(catId))
+    // try {
+    //   const response = await axios.delete(`http://localhost:8081/api/savings/delete/${catId}`);
 
-      if (response.status === 200) {
-        setSuccess('Element deleted successfully');
-      } else {
-        setError('Element not found');
-      }
-    } catch (err) {
-      setError('Something went wrong! Please try again.');
-      console.error(err);
-    }
-  };
+    //   if (response.status === 200) {
+    //     setSuccess('Element deleted successfully');
+    //   } else {
+    //     setError('Element not found');
+    //   }
+    // } catch (err) {
+    //   setError('Something went wrong! Please try again.');
+    //   console.error(err);
+    // }
+  // };
 
   
   return (
@@ -296,9 +300,10 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
                 />
               </div>
               <div className="removeCat">
-                <Button className="delete" onClick={() => handleDeleteElement(catId)}>
+                <Button className="delete" onClick={() => setDelShow(true)}>
                   <FiX id="xdel"/>
                 </Button>
+
               </div>
             </div>
       <button className="btnastext" onClick={() => setHistShow(true)}>
@@ -332,6 +337,12 @@ function SavingsCategory({ userID, catId, name, saved, goal}) {
       catID = {catId}
       name = {name}
       userID = {userID}/>
+
+    <ConfirmDelete 
+      show={delShow}
+      onHide={() => setDelShow(false)}
+      catID = {catId}>
+    </ConfirmDelete>
 
     </Card>
 

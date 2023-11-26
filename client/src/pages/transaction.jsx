@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
+import CsvDownloadButton from '../components/transactionsDownload.jsx';
 
 function NewExpenseForm({ onSubmit }) {
 
@@ -554,6 +555,9 @@ function Transaction() {
       <div className="add-both">
         <div className="upload-button-container">
           <div className="input-csv">
+            <div className="download-csv">
+              <CsvDownloadButton/>
+            </div>
             <input type="file" accept=".csv" onChange={handleCsvFileChange} />
             <button onClick={handleUploadCsv}>Upload</button>
           </div>

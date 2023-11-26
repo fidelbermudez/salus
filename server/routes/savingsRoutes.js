@@ -110,6 +110,4 @@ router.put('/update/:categoryId', async (req, res) => {
   }
 });
 
-
-
 module.exports = router;
