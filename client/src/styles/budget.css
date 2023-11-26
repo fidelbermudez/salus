@@ -29,8 +29,11 @@ h1 {
   margin-right: 1rem; /* Add spacing between cards */
 }
  
-.pointer         { cursor: pointer; }
+.pointer {
+  cursor: pointer; 
+}
 
 .everything{
   margin-top: 120px;
+  padding-top: 10px; /* Padding for the top of the 'row' with Your Budgets text and plus symbol to add budgets to not touch the nav bar */
 }

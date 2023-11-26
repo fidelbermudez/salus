@@ -139,10 +139,8 @@ function NewBudgetModal(props) {
 function Budget() {
   // const to show/hide modal
   const [modalShow, setModalShow] = React.useState(false);
- 
   //show
   const [editShow, setEditShow] = React.useState(false);
- 
   const userId = localStorage?.userId;
 
   const [expenses, setExpenses] = useState(0);
@@ -229,7 +227,6 @@ function Budget() {
  
         
         {/* this is making all the budgets appear on the screen right now*/}
-        <div className="everything2">
         <div className="grid-container">
         {budgets.map((budget) => (
           <div className="budget-card" key={budget._id}>
@@ -244,14 +241,12 @@ function Budget() {
           </div>
         ))}
       </div>
-      </div>
     </Container>
     <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
     <Summary />
     </div>
   </>
   );
-
 }
 
  
