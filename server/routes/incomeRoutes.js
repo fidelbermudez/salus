@@ -131,5 +131,101 @@ router.post('/upload-income', upload.single('csvFile'), async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 });
+
+//controller to aggregate income by month for a given year
+router.get('/totals/:user_id/:year', async (req, res) => {
+  try {
+    const { user_id, year } = req.params;
+
+    const totalIncome = await Income.aggregate([
+      {
+        $match: {
+          user_id: parseInt(user_id),
+          $expr: {
+            $eq: [
+              { $year: { $dateFromString: { dateString: "$date", format: "%m/%d/%Y" } } },
+              parseInt(year)
+            ]
+          }
+        }
+      },
+      {
+        $project: {
+          month: { $month: { $dateFromString: { dateString: "$date", format: "%m/%d/%Y" } } },
+          totalAmount: "$amount"
+        }
+      },
+      {
+        $group: {
+          _id: "$month",
+          totalIncome: { $sum: "$totalAmount" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id",
+          totalIncome: 1
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          data: { $push: "$$ROOT" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          data: {
+            $map: {
+              input: { $range: [1, 13] },
+              as: "m",
+              in: {
+                $cond: [
+                  { $in: ["$$m", "$data.month"] },
+                  {
+                    $arrayElemAt: [
+                      {
+                        $filter: {
+                          input: "$data",
+                          cond: { $eq: ["$$this.month", "$$m"] }
+                        }
+                      },
+                      0
+                    ]
+                  },
+                  { month: "$$m", totalIncome: 0 }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        $unwind: "$data"
+      },
+      {
+        $replaceRoot: { newRoot: "$data" }
+      },
+      {
+        $project: {
+          month: 1,
+          totalIncome: 1
+        }
+      }
+    ]);
+
+    if (totalIncome.length === 0) {
+      return res.status(404).json({ message: 'No income data found for the given user and year.' });
+    }
+
+    res.json(totalIncome);
+  } catch (error) {
+    console.error('Error fetching total income:', error);
+    res.status(500).json({ error: 'Server error', message: error.message });
+  }
+});
+
   
 module.exports = router;

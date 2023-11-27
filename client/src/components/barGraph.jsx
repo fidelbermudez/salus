@@ -204,7 +204,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     // Create a legend/key for the blue fill
     svg
     .append("rect")
-    .attr("x", 200) // Adjust the x-position
+    .attr("x", 220) // Adjust the x-position
     .attr("y", height + 25) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
@@ -212,10 +212,10 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
 
     svg
     .append("text")
-    .attr("x", 230) // Adjust the x-position
+    .attr("x", 250) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
     .text("Amount Under Limit") // Change "Fill" to "Expenses"
-    .style("font-size", "12px")
+    .style("font-size", "16px")
     .style("alignment-baseline", "middle");
 
 
@@ -232,12 +232,12 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     .attr("x", 90) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
     .text("Total Expenses") // Change "Fill" to "Expenses"
-    .style("font-size", "12px")
+    .style("font-size", "16px")
     .style("alignment-baseline", "middle");
 
     svg
     .append("rect")
-    .attr("x", 360) // Adjust the x-position
+    .attr("x", 420) // Adjust the x-position
     .attr("y", height + 25) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
@@ -245,10 +245,10 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
 
     svg
     .append("text")
-    .attr("x", 390) // Adjust the x-position
+    .attr("x", 450) // Adjust the x-position
     .attr("y", height + 30) // Adjust the y-position
     .text("Amount Over Limit") // Change "Fill" to "Expenses"
-    .style("font-size", "12px")
+    .style("font-size", "16px")
     .style("alignment-baseline", "middle");
 
     svg
