@@ -217,7 +217,8 @@ router.get('/totals/:user_id/:year', async (req, res) => {
     ]);
 
     if (totalIncome.length === 0) {
-      return res.status(404).json({ message: 'No income data found for the given user and year.' });
+      const emptyData = Array.from({ length: 12 }, (_, idx) => ({ month: idx + 1, totalIncome: 0 }));
+      return res.json(emptyData);    
     }
 
     res.json(totalIncome);
