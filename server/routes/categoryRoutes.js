@@ -1,4 +1,8 @@
 const express = require('express');
+const multer = require('multer'); // For handling file uploads
+const csv = require('csv-parser'); // For parsing CSV files
+const fs = require('fs'); // For working with the file system
+const { Readable } = require('stream'); // For working with streams
 const router = express.Router();
 const categories = require('../models/category.js');
  
@@ -90,6 +94,55 @@ router.put('/incrementAmount', async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+const upload = multer();
+router.put('/incrementAmountCsv', upload.single('csvFile'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded.' });
+    }
+
+    // Parse the CSV data from the uploaded file
+    const csvData = req.file.buffer.toString('utf8');
+    const userId = req.body.user_id;
+    const results = [];
+    const stream = Readable.from(csvData);
+
+    // Parse CSV data using 'csv-parser' library
+    stream.pipe(csv())
+      .on('data', (row) => {
+        const { expenses, category, day, month, year, amount, description } = row;
+
+        // Convert month to a number (e.g., "06" to 6)
+        const numericMonth = parseInt(month, 10);
+
+        // Define the query to find the document to update
+        const query = {
+          user: userId,
+          year,
+          month: numericMonth,
+          category_name: category
+        };
+
+        // Define the update to increment the amount_spent value
+        const update = {
+          $inc: { amount_spent: amount }
+        };
+
+        // Use findOneAndUpdate to find and update the document that matches the criteria
+        results.push(categories.findOneAndUpdate(query, update));
+      })
+      .on('end', async () => {
+        // Wait for all findOneAndUpdate promises to resolve
+        const updatedDocuments = await Promise.all(results);
+
+        res.json({ message: 'Budgets updated successfully from CSV.', updatedDocuments });
+      });
+  } catch (error) {
+    console.error('Error during CSV data update:', error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
