@@ -219,9 +219,10 @@ router.get('/totals/:user_id/:year', async (req, res) => {
     ]);
 
     if (totalExpense.length === 0) {
-      return res.status(404).json({ message: 'No expense data found for the given user and year.' });
+      const emptyData = Array.from({ length: 12 }, (_, idx) => ({ month: idx + 1, totalExpense: 0 }));
+      return res.json(emptyData);    
     }
-
+    
     res.json(totalExpense);
   } catch (error) {
     console.error('Error fetching total expense:', error);
