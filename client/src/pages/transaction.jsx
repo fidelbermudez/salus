@@ -526,6 +526,7 @@ function Transaction() {
     // Use POST request to upload expenses
     axios.post('http://localhost:8081/api/expense/upload-expenses', formData)
       .then((response) => {
+        window.location.reload();
         console.log('Expenses CSV data uploaded successfully');
   
         // Use PUT request to update budgets from CSV
