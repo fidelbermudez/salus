@@ -118,12 +118,12 @@
 
 .modal-body button{
     border-color: transparent;
-    background-color: none;
     outline-color: white;
     margin: auto;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    background-color: #4457ac;
 }
 
 .modal-body button:hover{
