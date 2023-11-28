@@ -12,7 +12,8 @@ body {
     justify-content: space-between;
     padding: 25px 35px;
     color: #E6FAFA; /* Adjusted for better contrast */
-    background-color: #607EAA; /* New navbar color */
+    /* background-color: #607EAA; New navbar color */
+    background-color: #5164ba;
     position: fixed; /* Fixed positioning relative to the viewport */
     top: 0; /* Align to the top */
     left: 0; /* Align to the left */
@@ -65,7 +66,8 @@ body {
 }
 .nav a.active {
     background-color: transparent; /* Background color for active tab */
-    color: #1C3879; /* Text color for active tab */
+    /* color: #1C3879; Text color for active tab */
+    color: #3926a1;
     
 }
 
@@ -94,7 +96,7 @@ body {
 }
 
 .nav a:hover, .nav button:hover {
-    color: #1C3879;
+    color: #3926a1;
     background-color: transparent; /* No background color change on hover */
     border: 2px solid transparent; /* Keep the border transparent on hover */
 }
@@ -124,7 +126,7 @@ body {
 
 /* Hover styles for links and buttons */
 .nav a:hover, .nav button:hover {
-    color: #1C3879; 
+    color: #3926a1; 
     
 }
 

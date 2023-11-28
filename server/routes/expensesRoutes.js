@@ -134,5 +134,103 @@ router.post('/upload-expenses', upload.single('csvFile'), async (req, res) => {
   }
 });
 
+//controller to aggregate expenses by month for a given year
+router.get('/totals/:user_id/:year', async (req, res) => {
+  try {
+    const { user_id, year } = req.params;
+
+    const totalExpense = await Expenses.aggregate([
+      {
+        $match: {
+          user_id: parseInt(user_id),
+          $expr: {
+            $eq: [
+              { $year: { $dateFromString: { dateString: "$date", format: "%m/%d/%Y" } } },
+              parseInt(year)
+            ]
+          }
+        }
+      },
+      {
+        $project: {
+          month: { $month: { $dateFromString: { dateString: "$date", format: "%m/%d/%Y" } } },
+          amount: "$amount"
+        }
+      },
+      {
+        $group: {
+          _id: "$month",
+          totalExpense: { $sum: "$amount" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id",
+          totalExpense: 1
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          data: { $push: "$$ROOT" }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          data: {
+            $map: {
+              input: { $range: [1, 13] },
+              as: "m",
+              in: {
+                $cond: [
+                  { $in: ["$$m", "$data.month"] },
+                  {
+                    $arrayElemAt: [
+                      {
+                        $filter: {
+                          input: "$data",
+                          cond: { $eq: ["$$this.month", "$$m"] }
+                        }
+                      },
+                      0
+                    ]
+                  },
+                  { month: "$$m", totalExpense: 0 }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        $unwind: "$data"
+      },
+      {
+        $replaceRoot: { newRoot: "$data" }
+      },
+      {
+        $project: {
+          month: 1,
+          totalExpense: 1
+        }
+      }
+    ]);
+
+    if (totalExpense.length === 0) {
+      const emptyData = Array.from({ length: 12 }, (_, idx) => ({ month: idx + 1, totalExpense: 0 }));
+      return res.json(emptyData);    
+    }
+    
+    res.json(totalExpense);
+  } catch (error) {
+    console.error('Error fetching total expense:', error);
+    res.status(500).json({ error: 'Server error', message: error.message });
+  }
+});
+
+
+
 
 module.exports = router;

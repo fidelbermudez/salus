@@ -25,7 +25,7 @@ function Summary() {
       <div>
         <h5>
           <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>
-          {year}
+          {`  ${year}  `}
           <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={increaseYear}>{'>'}</button>
         </h5>
       </div>

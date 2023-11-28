@@ -1,7 +1,7 @@
-import SavingsGraph from "../components/savingsGraph";
+import TransactionsGraph from "../components/transactionsGraph";
 import React, {useState } from 'react';
 
-const SavingsSummary = () => {
+const TransactionSummary = () => {
     const [year, setYear] = useState(new Date().getFullYear());
 
     const decreaseYear = () => {
@@ -13,10 +13,10 @@ const SavingsSummary = () => {
     };
   
     return (
-      <div style={{textAlign: 'center', margin: '2%'}}>
+    <div style={{textAlign: 'center', margin: '2%'}}>
         <h1>Welcome to your Summary!</h1>
         <br />
-        <h2>Savings History</h2>
+        <h2>Transaction History</h2>
         <div>
           <h5>
             <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>
@@ -25,10 +25,10 @@ const SavingsSummary = () => {
           </h5>
         </div>
         <div style={{display: "flex", justifyContent: "center"}}>
-        <SavingsGraph year={year}/>
+            <TransactionsGraph key={year} year={year} />
         </div>
-      </div>
+    </div>
     );
 }
 
-export default SavingsSummary;
+export default TransactionSummary;
