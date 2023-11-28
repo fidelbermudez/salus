@@ -178,6 +178,16 @@ function Budget() {
   };
   
 
+  //function takes monthNumber, which is a number representing a month, convert it to the month name and return to show on client
+  const getMonthName = (monthNumber) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return months[monthNumber - 1];
+  };
+  
+
   useEffect(() => {
     // Fetch budgets with category information based on the user
     const fetchData = async () => {
@@ -338,6 +348,16 @@ function Budget() {
             ></BudgetCard>
           </div>
         ))}
+
+        {/* New budget card for total budget and amount spent */}
+        <div className="budget-card" key="total-budget">
+          <BudgetCard
+            name="Total Budget"
+            amount={totalSpent}
+            max={totalBudget}
+            grey={true} // You can customize the appearance for the total budget card
+          ></BudgetCard>
+        </div>
       </div>
     </Container>
     <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
