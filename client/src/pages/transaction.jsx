@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
+import CsvDownloadButton from '../components/transactionsDownload.jsx';
 
 function NewExpenseForm({ onSubmit }) {
 
@@ -522,10 +523,20 @@ function Transaction() {
     formData.append('bank_id', userId);
     formData.append('csvFile', csvFile);
   
+    // Use POST request to upload expenses
     axios.post('http://localhost:8081/api/expense/upload-expenses', formData)
       .then((response) => {
         window.location.reload();
         console.log('Expenses CSV data uploaded successfully');
+  
+        // Use PUT request to update budgets from CSV
+        axios.put('http://localhost:8081/api/category/incrementAmountCsv', formData)
+          .then((response) => {
+            console.log('Budgets updated successfully from CSV');
+          })
+          .catch((error) => {
+            console.error('Error updating budgets from CSV:', error);
+          });
       })
       .catch((error) => {
         console.error('Error uploading Expenses CSV data:', error);
@@ -554,6 +565,9 @@ function Transaction() {
       <div className="add-both">
         <div className="upload-button-container">
           <div className="input-csv">
+            <div className="download-csv">
+              <CsvDownloadButton/>
+            </div>
             <input type="file" accept=".csv" onChange={handleCsvFileChange} />
             <button onClick={handleUploadCsv}>Upload</button>
           </div>

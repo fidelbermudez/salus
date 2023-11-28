@@ -78,7 +78,7 @@ table td:last-child {
   
 .button-container {
     position: relative;
-    margin-top: 75px;
+    margin-top: 118px;
     margin-left: 18%;
   }
   
@@ -154,4 +154,15 @@ table td:last-child {
 
 .everything {
     margin-top: 80px;
+}
+
+.download-csv button {
+    background-color: #023E8A;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 5px;
+    width: 10%;
+    min-width: 230px;
+    margin-bottom: 10px;
 }
