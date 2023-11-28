@@ -10,8 +10,8 @@ const PieChart = ({ active, month, year, limit, expenses }) => {
   const svgRef = useRef(null);
 
   const months = {
-    "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
-    "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12
+    "Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "June": 6,
+    "July": 7, "Aug": 8, "Sept": 9, "Oct": 10, "Nov": 11, "Dec": 12
   };
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const PieChart = ({ active, month, year, limit, expenses }) => {
   }
   return (
     <div>
-      {active ? <><h4 style={{marginLeft:'60px'}}>{month}, {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
+      {active ? <><h4 style={{marginLeft:'60px'}}>{month} {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
     </div>
   );
 };

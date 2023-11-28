@@ -13,14 +13,14 @@ const SavingsSummary = () => {
     };
   
     return (
-      <div>
+      <div style={{textAlign: 'center', margin: '2%'}}>
         <h1>Welcome to your Summary!</h1>
         <br />
-        <h1 style={{textAlign: 'center', margin: '12px'}}>Savings History</h1>
+        <h2>Savings History</h2>
         <div>
-          <h5 style={{ textAlign: 'center'}}>
+          <h5>
             <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>
-            {year}
+            {`  ${year}  `}
             <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={increaseYear}>{'>'}</button>
           </h5>
         </div>
