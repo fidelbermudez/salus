@@ -183,7 +183,7 @@ router.delete('/delete/:categoryId', async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: 'Element not found' });
     }
-    window.location.reload();
+    //window.location.reload();
     res.json(result);
   } catch (error) {
     console.error(error);
