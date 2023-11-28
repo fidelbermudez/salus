@@ -178,10 +178,10 @@ function Savings() {
   })
   
   return (
+    <div className="all">
     <div className="Saving">
       {/* <h1 id="savings-title"> Savings </h1> */}
-
-    <div className= "float-container">
+    <div className= "float-container">   
       {/* display of existing savings goals and goal progress */}
         <div className = "goals"> 
           <h3 id="goals-title">Your Saving Goals </h3>
@@ -216,6 +216,7 @@ function Savings() {
             );
           })}
          </div>
+      </div>
       </div>
       </div>
   );
