@@ -102,7 +102,11 @@ function NewBudgetForm() {
              required/>
         </Form.Group>
       
-        <Button type = "submit" onClick={handleSubmit} disabled={isSubmitting}> {isSubmitting ? 'Adding Budget...' : 'Add Budget'} </Button>
+        <Button 
+          type = "submit" 
+          onClick={handleSubmit} 
+          disabled={isSubmitting}> {isSubmitting ? 'Adding Budget...' : 'Add Budget'} 
+        </Button>
       </Form>
     );
   }
@@ -147,12 +151,23 @@ function Budget() {
   const [limit, setLimit] = useState(0);
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [budgets, setBudgets] = useState([]); // Define and initialize budgets state
+  //using the two below to help show the current month and year and filter budget cards based on that; also used for graphs
   const [currYear, setCurrYear] = useState(new Date().getFullYear());
   const [currMonth, setCurrMonth] = useState(new Date().getMonth() + 1);
 
+  //function takes monthNumber, which is a number representing a month, convert it to the month name and return to show on client
+  const getMonthName = (monthNumber) => {
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    return months[monthNumber - 1];
+  };
+  
+
   useEffect(() => {
     // Fetch budgets with category information based on the user
-    axios.get(`http://localhost:8081/api/category/user/${userId}`)
+    axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`)
       .then(response => {
         setBudgets(response.data);
       })
@@ -167,7 +182,8 @@ function Budget() {
           const fetchedCategoryInfo = categoryResponse.data;
           console.log(fetchedCategoryInfo)
   
-          // Calculate total expenses and limits
+          
+          // Calculate total expenses and limits for total budget card
           let totalExpenses = 0;
           let totalLimit = 0;
   
@@ -192,14 +208,48 @@ function Budget() {
   
     fetchData();
   }, [userId, currMonth, currYear]);
+
+  //function is used to handle changes to the current month in the budget page, also makes sure to to clear for duplicates
+  const handleMonthChange = (change) => {
+    const newMonth = currMonth + change;
+    if (newMonth >= 1 && newMonth <= 12) {
+      setCurrMonth(newMonth);
+      setBudgets([]);
+    } else if (newMonth === 0) {
+      setCurrMonth(12);
+      setCurrYear(currYear - 1);
+      setBudgets([]);
+    } else if (newMonth === 13) {
+      setCurrMonth(1);
+      setCurrYear(currYear + 1);
+      setBudgets([]);
+    }
+  };
+
+ // Calculate total budget and total spent for the current month for total budget card
+ const totalBudget = budgets.reduce((total, budget) => total + parseInt(budget.limit || 0), 0);
+ const totalSpent = budgets.reduce((total, budget) => total + parseInt(budget.amount_spent || 0), 0);
+
  
  
   return (
     <>
     <div className="everything">
     <Container className="my-4">
+    {/* this is where the static 'Current Month' is place at the top of page and center as well as the
+    dynmaic current month and year which is just below it and in the center as well */}
+    <div className="month-container">
+      <h1> Current Month </h1>
+      {/* Previous and Next Month Buttons */}
+        <div className="month-buttons">
+          <button onClick={() => handleMonthChange(-1)}>Prev</button>
+          <h1>{getMonthName(currMonth)} {currYear}</h1>
+          <button onClick={() => handleMonthChange(1)}>Next</button>
+        </div>
+    </div>
+    
       <Stack direction="horizontal" gap="2" className="mb-4">
-      <h1 className="me-auto"> Your Budgets </h1>
+      <h2 className="me-auto"> Your Budgets </h2>
       
       {/* Plus icon to add new budget and make it show up when clicked */}
       <div class="pointer">
@@ -224,7 +274,7 @@ function Budget() {
         <BudgetCard name="Entertainment" amount={200} max={1000}></BudgetCard>
         <BudgetCard name="Food" amount={600} max={1000}></BudgetCard>
         <BudgetCard name="leisure" amount={900} max={1000}></BudgetCard> */}
- 
+        
         
         {/* this is making all the budgets appear on the screen right now*/}
         <div className="grid-container">
@@ -240,6 +290,16 @@ function Budget() {
             ></BudgetCard>
           </div>
         ))}
+
+        {/* New budget card for total budget and amount spent */}
+        <div className="budget-card" key="total-budget">
+          <BudgetCard
+            name="Total Budget"
+            amount={totalSpent}
+            max={totalBudget}
+            grey={true} // You can customize the appearance for the total budget card
+          ></BudgetCard>
+        </div>
       </div>
     </Container>
     <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
