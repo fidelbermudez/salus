@@ -14,8 +14,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
   // Define the processData function to process data and create an array of objects
   const processData = () => {
     const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
     ];
     
     let dataMap = new Map();
@@ -199,13 +198,18 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
       .append("g")
       .attr("class", "y-axis")
       .attr("transform", "translate(" + margin.left + ",0)") // Adjust the x-position
-      .call(d3.axisLeft(y).tickFormat(dollarFormat));
+      .call(d3.axisLeft(y).tickFormat(function(d) {
+        if (d >= 1e3) {
+          return d3.format("$.2s")(d).replace('G', 'B'); // Using B instead of G for billions
+        }
+        return d3.format("$,.0f")(d);
+      }));
 
     // Create a legend/key for the blue fill
     svg
     .append("rect")
     .attr("x", 220) // Adjust the x-position
-    .attr("y", height + 25) // Adjust the y-position
+    .attr("y", height + 55) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
     .style("fill", "#2ca02c");
@@ -213,7 +217,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     svg
     .append("text")
     .attr("x", 250) // Adjust the x-position
-    .attr("y", height + 30) // Adjust the y-position
+    .attr("y", height + 60) // Adjust the y-position
     .text("Amount Under Limit") // Change "Fill" to "Expenses"
     .style("font-size", "16px")
     .style("alignment-baseline", "middle");
@@ -222,7 +226,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     svg
     .append("rect")
     .attr("x", 60) // Adjust the x-position
-    .attr("y", height + 25) // Adjust the y-position
+    .attr("y", height + 55) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
     .style("fill", "black");
@@ -230,7 +234,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     svg
     .append("text")
     .attr("x", 90) // Adjust the x-position
-    .attr("y", height + 30) // Adjust the y-position
+    .attr("y", height + 60) // Adjust the y-position
     .text("Total Expenses") // Change "Fill" to "Expenses"
     .style("font-size", "16px")
     .style("alignment-baseline", "middle");
@@ -238,7 +242,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     svg
     .append("rect")
     .attr("x", 420) // Adjust the x-position
-    .attr("y", height + 25) // Adjust the y-position
+    .attr("y", height + 55) // Adjust the y-position
     .attr("width", 20)
     .attr("height", 10)
     .style("fill", "red");
@@ -246,7 +250,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     svg
     .append("text")
     .attr("x", 450) // Adjust the x-position
-    .attr("y", height + 30) // Adjust the y-position
+    .attr("y", height + 60) // Adjust the y-position
     .text("Amount Over Limit") // Change "Fill" to "Expenses"
     .style("font-size", "16px")
     .style("alignment-baseline", "middle");
@@ -256,12 +260,27 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
 
+    // Add X axis label
+    svg
+    .append("text")
+    .attr("transform", `translate(${width / 2},${height + margin.top + 20})`) // Adjust position as needed
+    .style("text-anchor", "middle")
+    .text("Month");
+
+    // Add Y axis label
+    svg
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - 6)
+      .attr("x", 0 - height / 2)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Amount");
 
   }, [categoryInfo, change]);
 
   return (
       <svg ref={svgRef} width="700" height="400" style={{marginLeft:"80px"}}>
-        {/* Render the bar chart inside this SVG container */}
       </svg>
   );
 };
