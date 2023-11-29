@@ -11,6 +11,7 @@ import User from './pages/user';
 import Savings from './pages/savings';
 import Summary from './pages/summary';
 import SavingsSummary from './pages/savingsSummary';
+import TransactionSummary from './pages/transactionSummary.jsx';
 import Login from './pages/login';
 import { AuthProvider, useAuth } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/savings" element={<ProtectedRoute><Savings /></ProtectedRoute>} />
                 <Route path="/budgetHistory" element={<ProtectedRoute><Summary /></ProtectedRoute>} />
                 <Route path="/savingHistory" element={<ProtectedRoute><SavingsSummary /></ProtectedRoute>} />
+                <Route path="/transactionHistory" element={<ProtectedRoute><TransactionSummary /></ProtectedRoute>} />
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div>
