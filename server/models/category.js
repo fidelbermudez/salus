@@ -6,7 +6,7 @@ const cateogrySchema = new mongoose.Schema({
     category_name: String,
     user: Number,
     amount_spent: Number,
-    limit: Number
+    limit: { type: Number, default: 0 }
 }, {collection: "category"});
 
 module.exports = mongoose.model('category', cateogrySchema);
