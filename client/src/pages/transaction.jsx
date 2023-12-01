@@ -572,23 +572,30 @@ function Transaction() {
             <button onClick={handleUploadCsv}>Upload</button>
           </div>
         </div>
-        <div className="add-expense">
-          <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
-            Add expense
-          </Button>
-          <NewExpenseModal
-            show={expenseModalShow}
-            onHide={() => setExpenseModalShow(false)}
-          />
-        </div>
-        <div className="add-income">
-          <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
-            Add income
-          </Button>
-          <NewIncomeModal
-            show={incomeModalShow}
-            onHide={() => setIncomeModalShow(false)}
-          />
+        <div className="button-container2">
+          <div className="add-expense">
+            <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
+              Add expense
+            </Button>
+            <NewExpenseModal
+              show={expenseModalShow}
+              onHide={() => setExpenseModalShow(false)}
+            />
+          </div>
+          <div className="add-income">
+            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+              Add income
+            </Button>
+            <NewIncomeModal
+              show={incomeModalShow}
+              onHide={() => setIncomeModalShow(false)}
+            />
+          </div>
+          <div className="add-income">
+            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+              See history
+            </Button>
+          </div>
         </div>
         <div className="search-income-expense">
           <div className="date-input-container">
