@@ -243,13 +243,13 @@ function Budget() {
       {/* Previous and Next Month Buttons */}
         <div className="month-buttons">
           <button onClick={() => handleMonthChange(-1)}>Prev</button>
-          <h1>{getMonthName(currMonth)} {currYear}</h1>
+          <h1 style={{marginLeft: "2%", marginRight: "2%", width: "27%"}}>{getMonthName(currMonth)} {currYear}</h1>
           <button onClick={() => handleMonthChange(1)}>Next</button>
         </div>
     </div>
     
       <Stack direction="horizontal" gap="2" className="mb-4">
-      <h2 className="me-auto"> Your Budgets </h2>
+      <h2 style={{marginRight: "2%"}}> Your Budgets </h2>
       
       {/* Plus icon to add new budget and make it show up when clicked */}
       <div class="pointer">

@@ -6,7 +6,7 @@ h1 {
 /* Handles the placement of the buttons Prev and Next */
 .month-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
 }

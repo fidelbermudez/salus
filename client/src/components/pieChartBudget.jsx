@@ -89,14 +89,16 @@ const PieChart = ({ active, month, year, data, limit, expenses }) => {
       .attr("x", 0) // Adjust the horizontal position
       .attr("y", data.length * 20 + 20) // Adjust the vertical position
       .attr("font-size", "12px")
-      .text(`Total Expenses: $${Math.floor(expenses)}`); // Replace "Your Value" with your desired text
+      .text(`Total Expenses: $${Math.floor(expenses)}`) // Replace "Your Value" with your desired text
+      .attr("font-weight", "600"); 
   
     legendGroup
       .append("text")
       .attr("x", 0) // Adjust the horizontal position
       .attr("y", data.length * 20 + 40) // Adjust the vertical position
       .attr("font-size", "12px")
-      .text(`Total Limit: $${Math.floor(limit)}`); // Replace "Your Value" with your desired text
+      .text(`Total Limit: $${Math.floor(limit)}`) // Replace "Your Value" with your desired text
+      .attr("font-weight", "600"); 
   
     // Add labels to the pie slices
     // Add labels to the pie slices
@@ -117,8 +119,8 @@ const PieChart = ({ active, month, year, data, limit, expenses }) => {
     .attr("font-weight", "bold");
   }
   return (
-    <div style={{textAlign: "center" , margin: '2%'}}>
-        <h2>Expense Breakdown This Month</h2>
+    <div style={{textAlign: "center" , margin: "2% 0 2%", borderTop: "1px solid black", borderBottom: "1px solid black", padding: "2%"}}>
+        <h3>Expense Breakdown</h3>
       {active ? <> <svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
     </div>
   );
