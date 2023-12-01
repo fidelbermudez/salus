@@ -113,7 +113,7 @@ router.put('/incrementAmountCsv', upload.single('csvFile'), async (req, res) => 
 
     // Parse CSV data using 'csv-parser' library
     stream.pipe(csv())
-      .on('data', (row) => {
+      .on('data', async (row) => {
         const { expenses, category, day, month, year, amount, description } = row;
 
         // Convert month to a number (e.g., "06" to 6)
@@ -132,8 +132,30 @@ router.put('/incrementAmountCsv', upload.single('csvFile'), async (req, res) => 
           $inc: { amount_spent: amount }
         };
 
-        // Use findOneAndUpdate to find and update the document that matches the criteria
-        results.push(categories.findOneAndUpdate(query, update));
+        try {
+          // Use findOneAndUpdate to find and update the document that matches the criteria
+          const updatedDocument = await categories.findOneAndUpdate(query, update, { new: true, upsert: true });
+
+          if (updatedDocument) {
+            console.log('Document updated successfully:', updatedDocument);
+            results.push(updatedDocument);
+          } else {
+            // If the document is not found, create a new budget with the limit set to 0
+            const newBudget = await categories.create({
+              user: userId,
+              year,
+              month: numericMonth,
+              category_name: category,
+              amount_spent: amount,
+              limit: 0  // Set the limit to 0 for a new budget
+            });
+
+            console.log('New budget created:', newBudget);
+            results.push(newBudget);
+          }
+        } catch (error) {
+          console.error('Error updating or creating budget:', error);
+        }
       })
       .on('end', async () => {
         // Wait for all findOneAndUpdate promises to resolve
@@ -183,7 +205,7 @@ router.delete('/delete/:categoryId', async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: 'Element not found' });
     }
-    window.location.reload();
+    //window.location.reload();
     res.json(result);
   } catch (error) {
     console.error(error);
