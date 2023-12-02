@@ -11,13 +11,18 @@ import {FiX} from 'react-icons/fi';
 import ConfirmDeleteCard from './confirmDeleteBudget';
 
  
-export default function BudgetCard({ name, amount, max, grey, categoryId, deletable}) {
-    const classNames = []
-    if (amount > max) {
-        classNames.push("bg-danger", "bg-opacity-10")
-    } else if (grey) {
-        classNames.push("bg-light")
-    }
+export default function BudgetCard({ name, amount, max, grey, categoryId, deletable, customStyle, bool, setBool}) {
+    const cardClassNames = () => {
+        const classNames = ["Budgetcard"];
+
+        if (amount > max) {
+            classNames.push("bg-danger", "bg-opacity-10");
+        } else if (grey) {
+            classNames.push("bg-light");
+        }
+
+        return classNames.join(" ");
+    };
  
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
@@ -44,14 +49,17 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
 
         // calculate percentage contributed toward max budget based on contirbuted amount
         const num = amount/max;
-        const prog = Math.round(num * 100);
+        //const prog = Math.round(num * 100);
+        //this is the const prog to use below if you want to replace NaN with 0 when there are no budgets for a month
+        const prog = isNaN(num) ? '0' : `${Math.round(num * 100)}%`;
 
         // help with showing the pop up asking if you really want to delete a budget card
         const[delShow, setDelShow] = React.useState(false);
  
  
+        // style={name === "Total Budget" ? customStyle : null} <- helps to make total budget card different
     return (
-        <Card className={classNames.join(" ")}>
+        <Card className={cardClassNames()} style={name === "Total Budget" ? customStyle : null}>
 
             <div class="pointer">
             <div className="placement-button">
@@ -91,8 +99,10 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
             <ConfirmDeleteCard
                 show={delShow}
                 onHide={() => setDelShow(false)}
-                categoryId={categoryId}>
-              </ConfirmDeleteCard>
+                categoryId={categoryId}
+                bool={bool}
+                setBool={setBool}
+                />
         </Card>
     )
 }
