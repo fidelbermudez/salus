@@ -270,6 +270,12 @@ function Budget() {
   margin: "0 auto", // Center the card
 });
 
+ //This allows for the total budget card to change the min-width to be different from the other budget cards
+ const [totalBudgetCardStyle, setTotalBudgetCardStyle] = useState({
+  minWidth: "60%", // Set your desired minWidth here
+  margin: "0 auto", // Center the card
+});
+
  
  
   return (
@@ -348,19 +354,9 @@ function Budget() {
             ></BudgetCard>
           </div>
         ))}
-
-        {/* New budget card for total budget and amount spent */}
-        <div className="budget-card" key="total-budget">
-          <BudgetCard
-            name="Total Budget"
-            amount={totalSpent}
-            max={totalBudget}
-            grey={true} // You can customize the appearance for the total budget card
-          ></BudgetCard>
-        </div>
       </div>
     </Container>
-    <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+    <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
     <Summary />
     </div>
     <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
