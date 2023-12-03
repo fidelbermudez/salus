@@ -42,7 +42,6 @@ function ConfirmDeleteCard(props) {
     }
     }
     deleteBudget();
-    setBool(!bool)
   };
 
   return (
