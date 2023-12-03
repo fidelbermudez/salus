@@ -9,7 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 function ConfirmDeleteCard(props) {
-  const {show, onHide, categoryId} = props;
+  const {show, onHide, categoryId, bool, setBool} = props;
   const [showDel, setShowDel] = useState(show);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -31,6 +31,7 @@ function ConfirmDeleteCard(props) {
 
       if (response.status === 200) {
         setSuccess('Element deleted successfully');
+        setBool(!bool)
         //window.location.reload();
       } else {
         setError('Element not found');
