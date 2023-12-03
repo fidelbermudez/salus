@@ -16,7 +16,6 @@ import Form from 'react-bootstrap/Form';
 import { AiOutlinePlus } from 'react-icons/ai';
  
 function NewBudgetForm({bool, setBool}) {
- 
   const { currentUser } = useAuth();
   const user = localStorage?.userId;
   
@@ -39,9 +38,7 @@ function NewBudgetForm({bool, setBool}) {
       e.preventDefault();
       setIsSubmitting(true);
       setError(null);
-      setSuccess(null);
-      setBool(!bool)
-  
+      setSuccess(null);  
       // document layout for new doc and post request to add new entry to database
       const addBudget = async (e) => {
       try {
@@ -59,6 +56,7 @@ function NewBudgetForm({bool, setBool}) {
         setSuccess('Data successfully saved!');
         console.log('Data saved: ', response.data);
         //window.location.reload();
+        setBool(!bool)
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
@@ -116,6 +114,7 @@ function NewBudgetForm({bool, setBool}) {
  
 //Modal function for adding a new budget
 function NewBudgetModal(props) {
+  console.log(props)
   const handleClose = () => {
     props.onHide();
   };
@@ -158,6 +157,9 @@ function Budget() {
   const [currYear, setCurrYear] = useState(new Date().getFullYear());
   const [currMonth, setCurrMonth] = useState(new Date().getMonth() + 1);
   const [bool, setBool] = useState(false);
+  const [bool2, setBool2] = useState(true)
+  const [totalSpent, setTotalSpent] = useState(0)
+  const [totalBudget, setTotalBudget] = useState(0)
 
   //function takes monthNumber, which is a number representing a month, convert it to the month name and return to show on client
   const getMonthName = (monthNumber) => {
@@ -171,24 +173,28 @@ function Budget() {
 
   useEffect(() => {
     // Fetch budgets with category information based on the user
-
     const fetchData = async () => {
-      try{
-          const response = await axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`)
-          const budgetData = response.data
-          setBudgets(budgetData)
-      }
-      catch(e) {
+      try {
+        const response = await axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`);
+        const budgetData = response.data;
+        setBudgets(budgetData);
+        setTotalBudget(budgetData.reduce((total, budget) => total + parseInt(budget.limit || 0), 0));
+        setTotalSpent(budgetData.reduce((total, budget) => total + parseInt(budget.amount_spent || 0), 0));
+        setBool2(false)
+      } catch (e) {
         if (e.response && e.response.status === 404) {
           setBudgets([]);
+          setTotalSpent(0);
+          setTotalBudget(0);
+          setBool2(true)
         } else {
           console.error(e);
         }
       }
-      }
-      fetchData()
-    }
-    );
+    };
+  
+    fetchData();
+  }, [userId, currMonth, currYear, bool]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -213,6 +219,8 @@ function Budget() {
       } catch (e) {
         if (e.response && e.response.status === 404) {
           setCategoryInfo([]);
+          setLimit(0)
+          setExpenses(0)
         } else {
           console.error(e);
         }
@@ -227,21 +235,17 @@ function Budget() {
     const newMonth = currMonth + change;
     if (newMonth >= 1 && newMonth <= 12) {
       setCurrMonth(newMonth);
-      setBudgets([]);
     } else if (newMonth === 0) {
       setCurrMonth(12);
       setCurrYear(currYear - 1);
-      setBudgets([]);
     } else if (newMonth === 13) {
       setCurrMonth(1);
       setCurrYear(currYear + 1);
-      setBudgets([]);
     }
   };
 
  // Calculate total budget and total spent for the current month for total budget card
- const totalBudget = budgets.reduce((total, budget) => total + parseInt(budget.limit || 0), 0);
- const totalSpent = budgets.reduce((total, budget) => total + parseInt(budget.amount_spent || 0), 0);
+
 
  //This allows for the total budget card to change the min-width to be different from the other budget cards
  const [totalBudgetCardStyle, setTotalBudgetCardStyle] = useState({
@@ -273,6 +277,7 @@ function Budget() {
         name="Total Budget"
         amount={totalSpent}
         max={totalBudget}
+        bool2={bool2}
         grey={true}
         customStyle={totalBudgetCardStyle}
       />

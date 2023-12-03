@@ -31,6 +31,7 @@ function ConfirmDeleteCard(props) {
 
       if (response.status === 200) {
         setSuccess('Element deleted successfully');
+        setBool(!bool)
         //window.location.reload();
       } else {
         setError('Element not found');
@@ -41,7 +42,6 @@ function ConfirmDeleteCard(props) {
     }
     }
     deleteBudget();
-    setBool(!bool)
   };
 
   return (
