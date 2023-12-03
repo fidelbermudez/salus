@@ -595,6 +595,10 @@ function Transaction() {
             <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
               See history
             </Button>
+            <NewIncomeModal
+              show={incomeModalShow}
+              onHide={() => setIncomeModalShow(false)}
+            />
           </div>
         </div>
         <div className="search-income-expense">
