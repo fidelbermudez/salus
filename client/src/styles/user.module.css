@@ -86,10 +86,27 @@
   }
 
   
-  .bankAccountHeader {
-    margin-bottom: 20px;
+  .bankAccountsHeader {
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    justify-content: space-between; /* Puts space between items */
+    width: 100%;
+    margin-bottom: 20px; /* Adjust as needed */
   }
   
+  .bankAccountHeader {
+    margin-bottom: 0; /* Remove bottom margin if not needed */
+  }
+  .addButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    top: 525px;
+    margin-right: 15px;
+    /* right: 512px; */
+    z-index: 10; 
+  }
   .label {
     font-weight: bold;
     display: block;
@@ -115,16 +132,6 @@
     margin-top: 50px;
   }
 
-  .addButton {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 525px;
-    right: 513px;
-    z-index: 10; 
-  }
 .twoButtons {
     display: flex;
     justify-content: center; /* Center the buttons */
@@ -134,11 +141,11 @@
 .twoButtons button:first-child {
     margin-right: 10px;
 }
- .confirmText{
+.confirmText{
     display: flex;
     margin-bottom: 10px;
     text-align: center;
     justify-content: center;
-    color: black23;
-    
+    color: black23; 
+
  }
