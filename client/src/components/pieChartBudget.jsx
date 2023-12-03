@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from '../AuthContext';
 import * as d3 from "d3";
 
-const PieChart = ({ active, month, year, data, limit, expenses }) => {
+const PieChart = ({ active, data, limit, expenses }) => {
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
   const svgRef = useRef(null);
@@ -119,7 +119,7 @@ const PieChart = ({ active, month, year, data, limit, expenses }) => {
   return (
     <div style={{textAlign: "center" , margin: '2%'}}>
         <h2>Expense Breakdown This Month</h2>
-      {active ? <><h4 style={{marginLeft:'60px'}}>{months[month]} {year}</h4> <svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
+      {active ? <><svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
     </div>
   );
 };

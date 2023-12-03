@@ -118,6 +118,7 @@
 }
 
 .modal-body button{
+    background-color: #5e70c2;
     border-color: transparent;
     outline-color: white;
     margin: auto;
