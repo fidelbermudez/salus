@@ -6,7 +6,7 @@ h1 {
 /* Handles the placement of the buttons Prev and Next */
 .month-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 }
@@ -17,7 +17,7 @@ h1 {
   font-size: 1rem;
   background-color: #5164ba;
   color: white;
-  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
  
@@ -39,6 +39,22 @@ h1 {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+/* Increase specificity to override styles from savings.css for the total budget card */
+/* Match the same with version in budget.jsx so it works properly / sizes itself appropriately depedning on window's size */
+.total-budget-card {
+  min-width: 60%;
+  margin: 0 auto;
+}
+
+/* Budget version of card from savings.css to prevent overwritten stuff */
+.Budgetcard{
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 15vh;
+  max-width: 300px;
+  border-color: black !important;
 }
  
 /* Style for individual budget cards */
@@ -82,7 +98,8 @@ h1 {
 
 /* Style of budget card 'x' icon to delete a card */
 .trash-icon{
-    background-color: #023E8A !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
     max-height: 22px;
     max-width: 20px;
     line-height: 10px;

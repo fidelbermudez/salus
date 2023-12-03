@@ -96,6 +96,7 @@
     transform: translateX(-50%);
     /* color: #142857; */
     color: white;
+    width: max-content;
 }
 
 .modal-body{
@@ -117,10 +118,11 @@
 }
 
 .modal-body button{
+    background-color: #5e70c2;
     border-color: transparent;
     outline-color: white;
     margin: auto;
-    width: fit-content;
+    width: max-content;
     margin-left: auto;
     margin-right: auto;
     background-color: #4457ac;
