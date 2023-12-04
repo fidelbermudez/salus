@@ -6,7 +6,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const secret = process.env.JWT_SECRET;
 const verifyToken = require('../middleware/verifyToken');
-
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+const {PASS} = process.env;
 
 router.get('/all', async (req, res) => {
   try {
@@ -43,24 +45,20 @@ router.post('/login', async (req, res) => {
           return res.status(401).json({ message: 'User not found' });
       }
       if (!password || !user.password) {
-
         return res.status(400).json({ message: 'Bad Request' });
-    }    
+      }    
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (isMatch) {
-        const token = jwt.sign({ id: user.id, email: user.email }, secret, { expiresIn: '1h' });
-          return res.json(
-              {
-                  message: 'Login successful',
-                  userId: user.id,
-                  firstName: user.first_name,
-                  lastName: user.last_name,
-                  phone_number: user.phone_number,
-                  email: user.email,
-                  token: token
-              }
-          );
+          const otp = generateCode(); // Call your function to generate an OTP
+          send2FACode(email, otp); // Send the OTP via email
+
+          // Store OTP in the user's record with an expiration time
+          user.otp = otp;
+          user.otpExpires = new Date(Date.now() + 300000); // Expires in 5 minutes
+          await user.save();
+
+          res.status(200).json({ message: 'OTP sent to email' });
       } else {
           return res.status(401).json({ message: 'Invalid credentials' });
       }
@@ -68,6 +66,7 @@ router.post('/login', async (req, res) => {
       return res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 router.get('/me', verifyToken, async (req, res) => {
   try {
@@ -197,6 +196,76 @@ router.patch('/updateEmail/:userId', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+router.post('/verify-otp', async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+          return res.status(401).json({ message: 'User not found' });
+      }
+
+      if (user.otp !== otp || user.otpExpires < Date.now()) {
+          return res.status(401).json({ message: 'Invalid or expired OTP' });
+      }
+
+      // OTP is correct and not expired, proceed to log the user in
+      const token = jwt.sign({ id: user.id, email: user.email }, secret, { expiresIn: '1h' });
+
+      res.json({
+          message: 'Login successful',
+          userId: user.id,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          phone_number: user.phone_number,
+          email: user.email,
+          token: token
+      });
+  } catch (error) {
+      return res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+// Generate a random 6-digit code
+function generateCode() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+
+// Create a Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: '316salus@gmail.com',
+    pass: PASS
+  }
+});
+
+// Send the 2FA code to the user's email
+function send2FACode(email, code) {
+  const mailOptions = {
+    from: '316salus@gmail.com',
+    to: email,
+    subject: '2FA Code',
+    text: `Your 2FA code is: ${code}`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log('Error sending email:', error);
+    } else {
+      console.log('Email sent:', info.response);
+    }
+  });
+}
+
+// Example usage
+const email = 'kelvinbueno41@gmail.com';
+const code = generateCode();
+send2FACode(email, code);
+
 
 
 
