@@ -12,6 +12,7 @@ import { useAuth } from '../AuthContext';
 import { local } from 'd3';
 import Alert from 'react-bootstrap/Alert';
 import { AiOutlinePlus } from 'react-icons/ai';
+import SavingsSummary from './savingsSummary';
 // import { local } from 'd3';
 
 
@@ -178,7 +179,7 @@ function Savings() {
   })
   
   return (
-    <div className="all">
+    <div className="all" style={{display: "flex"}}>
     <div className="Saving">
       {/* <h1 id="savings-title"> Savings </h1> */}
     <div className= "float-container">   
@@ -217,6 +218,9 @@ function Savings() {
           })}
          </div>
       </div>
+      </div>
+      <div className="Saving" style={{background: "white"}}>
+          <SavingsSummary/>
       </div>
       </div>
   );
