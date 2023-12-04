@@ -42,7 +42,7 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
         </Card.Title>
         {bool2 && <ProgressBar style={{ height: '25px' }} />}
         {!bool2 && <ProgressBar
-          className="rounded-pill"
+          //className="rounded-pill"
           variant={getProgressBarVariant(amount, max)}
           min={0}
           max={max}
@@ -52,7 +52,7 @@ export default function BudgetCard({ name, amount, max, grey, categoryId, deleta
         />}
         <div className="amount-max">
           {currencyFormatter.format(amount)}
-          <span className="text-muted fs-6 ms-1">/ {currencyFormatter.format(max)}</span>
+          <span className="fs-6 ms-1">/ {currencyFormatter.format(max)}</span>
         </div>
       </Card.Body>
       <ConfirmDeleteCard show={delShow} onHide={() => setDelShow(false)} categoryId={categoryId} bool={bool} setBool={setBool} />
