@@ -261,11 +261,6 @@ function send2FACode(email, code) {
   });
 }
 
-// Example usage
-const email = 'kelvinbueno41@gmail.com';
-const code = generateCode();
-send2FACode(email, code);
-
 
 
 
