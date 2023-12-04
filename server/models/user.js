@@ -44,6 +44,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  otp: {
+    type: String,
+    trim: true,
+  },
+  otpExpires: {
+    type: Date,
+  },
 }, { collection: "users" });
 
 userSchema.pre("save", async function (next) {
@@ -51,7 +58,7 @@ userSchema.pre("save", async function (next) {
 
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 10);
-}
+  }
 
   next();
 });

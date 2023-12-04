@@ -100,3 +100,13 @@ input {
 .newSalus {
     margin-top: 10px;
 }
+.otp-form input[type="text"] {
+    width: 40px; /* Adjust width as needed */
+    margin: 0 5px;
+    height: 70px !important; /* Increased height */
+    font-size: 20px; /* Larger font size for better visibility */
+    /* Additional styles for better appearance */
+    border-radius: 5px;
+    text-align: center;
+  }
+  
