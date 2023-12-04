@@ -13,6 +13,7 @@ import Summary from './pages/summary';
 import SavingsSummary from './pages/savingsSummary';
 import TransactionSummary from './pages/transactionSummary.jsx';
 import Login from './pages/login';
+import HelpPage from './pages/help.jsx';
 import { AuthProvider, useAuth } from './AuthContext'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BudgetsProvider } from './contexts/BudgetsContext';
@@ -40,6 +41,7 @@ function App() {
         <div className='index'>
             {isLoggedIn && <Navbar />}
             <Routes>
+                <Route path="/help" element={<HelpPage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
