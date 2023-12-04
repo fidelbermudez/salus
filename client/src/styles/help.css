@@ -1,0 +1,43 @@
+.helpPageEverything {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.helpPageBox {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 10px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    height: fit-content;
+    width: 85%;
+}
+
+.helpPage {
+    margin: 0 auto;
+    width: 100%;
+    padding: 1rem;
+    text-align: justify;
+    font-family: 'Times New Roman', Times, serif;
+    background: white;
+    border-radius: 10px;
+}
+
+.helpTitle {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center; /* Center align the title */
+}
+
+.helpSubtitle {
+    font-size: 1.2rem; /* Adjust size as needed */
+    margin-bottom: 1rem;
+    text-align: left; /* Align subtitle text to left */
+    color: #333; /* Subtle color for easy reading */
+    line-height: 1.6; /* Spacing between lines for better readability */
+}

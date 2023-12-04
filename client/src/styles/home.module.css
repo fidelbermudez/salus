@@ -1,6 +1,14 @@
 /* home.module.css */
+html, body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .home {
-  height: 100vh;
+  box-sizing: border-box;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start; 
@@ -8,7 +16,6 @@
   background: linear-gradient(to bottom right, navy, lightblue);
   color: white;
 }
-
 .loginButton {
   margin-top: 100px; 
   padding: 20px 40px; 
@@ -36,7 +43,6 @@
 
 .home__header {
   text-align: center;
-  padding-top: 10px; /* Reduced padding-top */
 }
 
 .home__header h1 {
@@ -89,4 +95,20 @@
 .featureCardDescription {
   font-size: 1.2em; 
   text-align: center;
+}
+.home__nav a:hover {
+  color: navy!important;
+}
+.home__nav a {
+  text-decoration: none;
+  color: white !important;
+}
+.home__nav{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 70px;
+  font-size: 1.5rem;
+  font-family: 'Times New Roman', Times, serif;
+  gap: 40px;
 }

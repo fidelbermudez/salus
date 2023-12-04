@@ -2,9 +2,7 @@
 body {
     margin: 0;
     background-color: #F6F6F6;
-    height: 15px;
 }
-
 .nav {
     box-sizing: border-box;
     font-family:'Times New Roman', Times, serif;
@@ -26,6 +24,12 @@ body {
 .nav a, .nav button {
     border-radius: 0; /* Changed from 20px to 0 */
     /* Other styles remain unchanged */
+}
+.nav span{
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    margin-left: 15px;
 }
 
 .nav a:not(.app-name), .nav button, .nav button.logout {
@@ -136,4 +140,26 @@ body {
     background-color: transparent; /* Ensure background color does not change */
     border: 2px solid transparent; /* Keep the border transparent */
 }
-
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  

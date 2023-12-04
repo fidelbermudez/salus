@@ -2,6 +2,7 @@ import React from 'react';
 import styles from'../styles/home.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext'; 
+import { NavLink } from "react-router-dom";
 
 function Home() {
   const features = [
@@ -18,10 +19,15 @@ function Home() {
   };
   return (
     <div className={styles.home}>
+      <nav className={styles.home__nav}>
+        <NavLink to="/help">Help</NavLink>
+        <NavLink to="/login">Sign In</NavLink>
+      </nav>
       <header className={styles.home__header}>
         <h1>Salus</h1>
         <p className={styles.home__paragraph}>Your personal finance companion</p>
       </header>
+
       <section className={styles.features}>
         <div className={styles.featureCards}>
           {features.map((feature, idx) => (
