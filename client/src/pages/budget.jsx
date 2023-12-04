@@ -264,6 +264,7 @@ function Budget() {
  
   return (
     <>
+    <div style={{display: 'flex'}} >
     <div className="everything1">
     <Container className="my4">
     {/* this is where the static 'Current Month' is place at the top of page and center as well as the
@@ -341,8 +342,11 @@ function Budget() {
       </div>
     </Container>
     </div>
-    <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
-    <Summary />
+    <div className="everything1" style={{background: "white"}}>
+      <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+      <Summary key={currYear} yr={currYear} setCurrYear={setCurrYear} setCurrMonth={setCurrMonth}/>
+    </div>
+    </div>
   </>
   );
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import BarGraph from '../components/barGraph.jsx'; 
 import PieChart from '../components/pieChart.jsx';
 
-function Summary() {
-  const [year, setYear] = useState(new Date().getFullYear());
+function Summary({yr, setCurrYear, setCurrMonth}) {
+  const [year, setYear] = useState(yr);
   const [active, setActive] = useState(false);
   const [month, setMonth] = useState(null);
   const [limit, setLimit] = useState(0);
@@ -30,8 +30,8 @@ function Summary() {
         </h5>
       </div>
       <div style={{display: "flex", justifyContent: "center"}}>
-      <BarGraph key={year} year={year} setMonth={setMonth} setActive={setActive} setLimit={setLimit} setExpenses={setExpenses}/>
-      <PieChart month={month} year={year} active={active} limit={limit} expenses={expenses}/>
+      <BarGraph key={year} year={year} setMonth={setCurrMonth} setYear={setCurrYear} setActive={setActive} setLimit={setLimit} setExpenses={setExpenses}/>
+      {/* <PieChart month={month} year={year} active={active} limit={limit} expenses={expenses}/> */}
       </div>
     </div>
   );
