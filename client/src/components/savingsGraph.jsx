@@ -179,7 +179,7 @@ const SavingsGraph = ({ year }) => {
   return (
     <div>
       <svg ref={svgRef}></svg>
-      <div>
+      <div style={{display: "flex", flexWrap: "wrap"}}>
         {data.length > 0 && data.map((category, index) => (
           <div key={index}>
             <label>
