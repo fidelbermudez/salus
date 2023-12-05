@@ -3,13 +3,18 @@ import axios from 'axios';
 import { useAuth } from '../AuthContext'; 
 import * as d3 from "d3";
 
-const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
+const BarChart = ({year, setMonth, setActive, setLimit, setExpenses, setYear}) => {
   const { currentUser, isLoading: authLoading } = useAuth();
   const userId = localStorage?.userId;
   const svgRef = useRef(null); // Move the useRef here
   const [categoryInfo, setCategoryInfo] = useState([]);
   const [change, setChange] = useState(false);
   const [error, setError] = useState(null);
+
+  const monthNums = {
+    'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'June': 6,
+    'July': 7, 'Aug': 8, 'Sept': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+  };
 
   // Define the processData function to process data and create an array of objects
   const processData = () => {
@@ -112,7 +117,8 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
     const handleBarClick = (d) => {
       // d contains the data associated with the clicked bar
       // You can add your custom behavior here
-      setMonth(d.srcElement.__data__.name);
+      setMonth(monthNums[d.srcElement.__data__.name]);
+      setYear(year);
       setActive(true);
       setLimit(d.srcElement.__data__.value);
       setExpenses(d.srcElement.__data__.fill);
@@ -280,7 +286,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses}) => {
   }, [categoryInfo, change]);
 
   return (
-      <svg ref={svgRef} width="700" height="400" style={{marginLeft:"80px"}}>
+      <svg ref={svgRef} width="700" height="400">
       </svg>
   );
 };
