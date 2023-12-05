@@ -21,7 +21,7 @@ function Summary({yr, setCurrYear, setCurrMonth}) {
 
   return (
     <div style={{textAlign: 'center', margin: '2%'}}>
-      <h2>Budget History</h2>
+      <h2 style={{marginTop: "2%"}}>Budget History</h2>
       <div>
         <h5>
           <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>

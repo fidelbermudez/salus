@@ -122,7 +122,7 @@ const PieChart = ({ active, data, limit, expenses }) => {
   }
   return (
     <div style={{textAlign: "center" , paddingBottom: '4%', borderBottom:"1px solid black"}}>
-        <h2>Expense Breakdown This Month</h2>
+        <h2 style={{marginTop: "2%"}}>Expense Breakdown This Month</h2>
       {active ? <><svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
     </div>
   );
