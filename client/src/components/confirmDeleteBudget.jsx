@@ -15,6 +15,7 @@ function ConfirmDeleteCard(props) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  
 
   const handleClose = () => {
     props.onHide(); // Close the modal using the onHide prop from props

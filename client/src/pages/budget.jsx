@@ -55,6 +55,13 @@ function NewBudgetForm({bool, setBool}) {
         setIsSubmitting(false);
         setSuccess('Data successfully saved!');
         console.log('Data saved: ', response.data);
+
+        // Clear input fields after successful submission
+      setBudgetName('');
+      setBudgetMax('');
+      setMonth('');
+      setYear('');
+
         //window.location.reload();
         setBool(!bool)
       } catch (err) {
@@ -257,8 +264,9 @@ function Budget() {
  
   return (
     <>
-    <div className="everything">
-    <Container className="my-4">
+    <div style={{display: 'flex'}} >
+    <div className="everything1">
+    <Container className="my4">
     {/* this is where the static 'Current Month' is place at the top of page and center as well as the
     dynmaic current month and year which is just below it and in the center as well */}
     <div className="month-container">
@@ -283,12 +291,12 @@ function Budget() {
       />
     </div>
     
-      <Stack direction="horizontal" gap="2" className="mb-4">
+      <Stack direction="horizontal" gap="2" className="mb-3">
       <h2 className="me-auto"> Your Budgets </h2>
       
       {/* Plus icon to add new budget and make it show up when clicked */}
       <div class="pointer">
-      <AiOutlinePlus style={{ fontSize: '2rem' }} onClick={() => setModalShow(true)}/>
+      <AiOutlinePlus style={{ fontSize: '2rem', color: 'white' }} onClick={() => setModalShow(true)}/>
       </div>
       <NewBudgetModal
         show={modalShow}
@@ -297,6 +305,8 @@ function Budget() {
         bool={bool}
       />
       </Stack>
+
+      <hr />
  
       {/* Div with <BudgetCard is hardcoded example of how budgets should look like>*/}
       {/* <div style={{
@@ -331,8 +341,11 @@ function Budget() {
         ))}
       </div>
     </Container>
-    <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
-    <Summary />
+    </div>
+    <div className="everything1" style={{background: "white"}}>
+      <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+      <Summary key={`${currYear}-${bool}`} yr={currYear} setCurrYear={setCurrYear} setCurrMonth={setCurrMonth}/>
+    </div>
     </div>
   </>
   );

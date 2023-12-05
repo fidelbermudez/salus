@@ -1,90 +1,45 @@
 /* User.module.css */
 
 .userContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: calc(25px + 75px); 
-    padding: 40px;
-    border: 1px solid #e1e1e1;
-    border-radius: 8px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 600px;
-    box-sizing: border-box;
-  }
-  
-  .userInformation, .bankAccounts {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-  .userInformation {
-    width: 100%;
-    margin-bottom: 30px;
-    border: 1px solid #d1d1d1; 
-    padding: 15px; 
-    border-radius: 4px; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    background-color: #f2f2f2;
-    position: relative;
-    margin-top: 20px;
-  }
-  .iconButton {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 12.5px;
-    right: 15px;
-    z-index: 10; 
-    
-  }
-  .checkButton {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 12.5px;
-    right: 60px;
-    z-index: 10; 
-  }
-  
-  
-  .informationDetail {
-    background-color: #f9f9f9;
-    border: 1px solid #d1d1d1;
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #333;
-  }
-  .bankAccountsContainer {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-  
-  .bankAccountsList {
-    list-style: none;
-    padding: 0;
-    max-height: 200px; /* Adjust this value to fit your design */
-    overflow-y: auto; /* This will add a scrollbar to the list */
-    margin-top: 10px;
-  }
-  
-  .bankAccount {
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    margin-bottom: 10px;
-    position: relative;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: calc(25px + 75px); 
+  padding: 40px;
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
 
+.userInformation, .bankAccounts {
+  width: 100%;
+  margin-bottom: 30px;
+}
+.userInformation {
+  width: 100%;
+  margin-bottom: 30px;
+  border: 1px solid #d1d1d1; 
+  padding: 15px; 
+  border-radius: 4px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  background-color: #f2f2f2;
+  position: relative;
+  margin-top: 20px;
+}
+.iconButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 12.5px;
+  right: 15px;
+  z-index: 10; 
   
   .bankAccountHeader {
     margin-bottom: 20px;
@@ -114,31 +69,116 @@
     align-items: center;
     margin-top: 50px;
   }
+}
+.checkButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 12.5px;
+  right: 60px;
+  z-index: 10; 
+}
 
-  .addButton {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 525px;
-    right: 513px;
-    z-index: 10; 
-  }
+.informationDetail {
+  background-color: #f9f9f9;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #333;
+}
+.bankAccountsContainer {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.bankAccountsList {
+  list-style: none;
+  padding: 0;
+  max-height: 200px; /* Adjust this value to fit your design */
+  overflow-y: auto; /* This will add a scrollbar to the list */
+  margin-top: 10px;
+}
+
+.bankAccount {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.bankAccountsHeader {
+  display: flex;
+  align-items: center; /* Aligns items vertically in the center */
+  justify-content: space-between; /* Puts space between items */
+  width: 100%;
+  margin-bottom: 20px; /* Adjust as needed */
+}
+
+.bankAccountHeader {
+  margin-bottom: 0; /* Remove bottom margin if not needed */
+}
+.addButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  top: 525px;
+  margin-right: 15px;
+  z-index: 10; 
+}
+.label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.value {
+  display: block;
+}
+
+.message {
+  padding: 20px;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  color: #666;
+  margin-top: 20px;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+
 .twoButtons {
-    display: flex;
-    justify-content: center; /* Center the buttons */
-    margin-top: 15px;
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  margin-top: 15px;
 }
 
 .twoButtons button:first-child {
-    margin-right: 10px;
+  margin-right: 10px;
+}
+.confirmText{
+  display: flex;
+  margin-bottom: 10px;
+  text-align: center;
+  justify-content: center;
+  color: black23; 
 }
  .confirmText{
     display: flex;
     margin-bottom: 10px;
     text-align: center;
     justify-content: center;
-    color: black23;
+    color: black;
     
  }

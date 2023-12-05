@@ -30,7 +30,7 @@ const PieChart = ({ active, data, limit, expenses }) => {
     // Define the dimensions of the SVG container and the radius of the pie chart
     const containerWidth = 500;
     const containerHeight = 250;
-    const chartWidth = 250; // Adjust as needed
+    const chartWidth = 300; // Adjust as needed
     const chartHeight = 250;
     const legendWidth = 150; // Width of the legend
     const radius = Math.min(chartWidth, chartHeight) / 2;
@@ -42,7 +42,7 @@ const PieChart = ({ active, data, limit, expenses }) => {
   
     // Create a group element for the pie chart
     const chartGroup = svg.append("g")
-      .attr("transform", `translate(${containerWidth / 4},${containerHeight / 2})`);
+      .attr("transform", `translate(${containerWidth / 4 + 65},${containerHeight / 2})`);
   
     // Create a group element for the legend
     const legendGroup = svg.append("g")
@@ -62,7 +62,7 @@ const PieChart = ({ active, data, limit, expenses }) => {
       .enter()
       .append("path")
       .attr("d", arc)
-      .attr("fill", (d, i) => d3.schemeCategory10[i]);
+      .attr("fill", (d, i) => d3.schemeCategory10[i])
   
     // Create a key (legend) section with category labels and colors
     const keyRects = legendGroup.selectAll("rect")
@@ -72,13 +72,15 @@ const PieChart = ({ active, data, limit, expenses }) => {
       .attr("y", (d, i) => i * 20)
       .attr("width", 10)
       .attr("height", 10)
-      .attr("fill", (d, i) => d3.schemeCategory10[i]);
+      .attr("fill", (d, i) => d3.schemeCategory10[i])
+      .attr("x", 30) // Adjust the horizontal position
+      
   
     const keyText = legendGroup.selectAll("text")
       .data(data)
       .enter()
       .append("text")
-      .attr("x", 15) // Adjust the distance between color and label
+      .attr("x", 45) // Adjust the distance between color and label
       .attr("y", (d, i) => i * 20 + 10) // Adjust the vertical position
       .attr("font-size", "12px")
       .text(d => d.category_name);
@@ -86,17 +88,19 @@ const PieChart = ({ active, data, limit, expenses }) => {
     // Add the two values at the bottom of the key
     legendGroup
       .append("text")
-      .attr("x", 0) // Adjust the horizontal position
+      .attr("x", 30) // Adjust the horizontal position
       .attr("y", data.length * 20 + 20) // Adjust the vertical position
       .attr("font-size", "12px")
-      .text(`Total Expenses: $${Math.floor(expenses)}`); // Replace "Your Value" with your desired text
+      .text(`Total Expenses: $${Math.floor(expenses)}`) // Replace "Your Value" with your desired text
+      .attr("font-weight", "600"); 
   
     legendGroup
       .append("text")
-      .attr("x", 0) // Adjust the horizontal position
+      .attr("x", 30) // Adjust the horizontal position
       .attr("y", data.length * 20 + 40) // Adjust the vertical position
       .attr("font-size", "12px")
-      .text(`Total Limit: $${Math.floor(limit)}`); // Replace "Your Value" with your desired text
+      .text(`Total Limit: $${Math.floor(limit)}`) // Replace "Your Value" with your desired text
+      .attr("font-weight", "600"); 
   
     // Add labels to the pie slices
     // Add labels to the pie slices
@@ -117,7 +121,7 @@ const PieChart = ({ active, data, limit, expenses }) => {
     .attr("font-weight", "bold");
   }
   return (
-    <div style={{textAlign: "center" , margin: '2%'}}>
+    <div style={{textAlign: "center" , paddingBottom: '4%', borderBottom:"1px solid black"}}>
         <h2>Expense Breakdown This Month</h2>
       {active ? <><svg ref={svgRef}></svg></>: <h4>Click Bar Graph to See Monthly Breakdown</h4>}
     </div>
