@@ -573,6 +573,15 @@ function Transaction() {
           </div>
         </div>
         <div className="button-container2">
+          <div className="see-history">
+            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+              See history
+            </Button>
+            <NewIncomeModal
+              show={incomeModalShow}
+              onHide={() => setIncomeModalShow(false)}
+            />
+          </div>
           <div className="add-expense">
             <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
               Add expense
@@ -585,15 +594,6 @@ function Transaction() {
           <div className="add-income">
             <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
               Add income
-            </Button>
-            <NewIncomeModal
-              show={incomeModalShow}
-              onHide={() => setIncomeModalShow(false)}
-            />
-          </div>
-          <div className="add-income">
-            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
-              See history
             </Button>
             <NewIncomeModal
               show={incomeModalShow}
