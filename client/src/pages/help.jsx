@@ -64,6 +64,48 @@ function HelpPage() {
                     To contact customer support, please email salus@support.com.
                 </Accordion.Body>
                 </Accordion.Item>
+                <Accordion.Item eventKey="4">
+                <Accordion.Header>How do I add my transactions?</Accordion.Header>
+                <Accordion.Body>
+                    <p>
+                    Adding transactions <strong>individually</strong>:
+                    </p>
+                    <ul>
+                        <li>
+                            Go to the <strong>Transactions</strong> page
+                        </li>
+                        <li>
+                            At the top right of the page, you will see two buttons that say <strong>Add expense</strong> and <strong>Add income</strong>, click on them depending on what you would like to add.
+                        </li>
+                        <li>
+                            Fill out <strong>each</strong> field in the pop-up
+                        </li>
+                        <li>
+                            Once you are certain each field has been filled out correctly, click on the <strong>Add expense/income</strong> button in the bottom of the pop-up to finalize your changes!
+                        </li>
+                    </ul>
+                    <p>
+                    Adding multiple transactions at once with <strong>CSV Importing</strong>:
+                    </p>
+                    <ul>
+                        <li>
+                            Go to the <strong>Transactions</strong> page
+                        </li>
+                        <li>
+                            At the top left of the page, you will see a button that says <strong>CSV Templates</strong>, click on it to download a zip file containing two CSV files, one that has the headers needed for uploading expenses and the other with the headers needed for uploading your income. <strong>Note</strong>: If you already downloaded your expenses and/or income in a CSV file, just make sure you have the same headers as the templates provided.
+                        </li>
+                        <li>
+                            For each expense or income, <strong>all</strong> of the columns <strong>except</strong> for the first ones, which should say either <strong>expenses</strong> or <strong>income</strong>, must be filled out with their proper information.
+                        </li>
+                        <li>
+                            Once you have your CSV file(s) filled out with all of the transactions you would like to import, in the <strong>Transactions</strong> page, under the <strong>CSV Templates</strong> button you clicked, click on the <strong>Choose File</strong> to then select your CSV file. You can only upload one file at a time, so if you have expenses and income you would like to upload, you must select one first, then select the other after uploading the previous one.
+                        </li>
+                        <li>
+                            After selecting your file, which you can confirm if you did or didn't by ensuring that the text next to the <strong>Choose File</strong> button doesn't say <strong>No file chosen</strong>, you can then click on the <strong>Upload</strong> button below to upload your transactions.
+                        </li>
+                    </ul>
+                </Accordion.Body>
+                </Accordion.Item>
             </Accordion>
             </div>
         </div>
