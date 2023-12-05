@@ -344,7 +344,7 @@ function Budget() {
     </div>
     <div className="everything1" style={{background: "white"}}>
       <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
-      <Summary key={currYear} yr={currYear} setCurrYear={setCurrYear} setCurrMonth={setCurrMonth}/>
+      <Summary key={`${currYear}-${bool}`} yr={currYear} setCurrYear={setCurrYear} setCurrMonth={setCurrMonth}/>
     </div>
     </div>
   </>
