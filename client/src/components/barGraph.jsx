@@ -76,9 +76,9 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses, setYear}) =
     }
     const dataMap = processData();
 
-    const margin = { top: 20, right: 20, bottom: 30, left: 60 };
-    const width = 960 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 20, bottom: 10, left: 60 };
+    const width = 1060 - margin.left - margin.right;
+    const height = 570 - margin.top - margin.bottom;
 
     const x = d3.scaleBand().range([margin.left, width]).padding(0.1);
     const y = d3.scaleLinear().range([height, 0]);
@@ -286,7 +286,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses, setYear}) =
   }, [categoryInfo, change]);
 
   return (
-      <svg ref={svgRef} width="700" height="400">
+      <svg ref={svgRef} width="800" height="400">
       </svg>
   );
 };

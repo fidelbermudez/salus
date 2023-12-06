@@ -219,7 +219,7 @@ function Savings() {
          </div>
       </div>
       </div>
-      <div className="Saving" style={{background: "white"}}>
+      <div className="Saving" style={{background: "white", marginTop: "90px", paddingTop: "10px"}}>
           <SavingsSummary/>
       </div>
       </div>

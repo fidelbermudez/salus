@@ -38,7 +38,7 @@ const SavingsGraph = ({ year }) => {
   useEffect(() => {
     const svg = d3.select(svgRef.current);
   
-    const width = 625;
+    const width = 580;
     const height = 400;
     const margin = { top: 20, right: 110, bottom: 50, left: 80 };
   
@@ -185,14 +185,13 @@ const SavingsGraph = ({ year }) => {
             <div
               key={index}
               style={{
-                border: ".25px solid black",
                 minWidth: "10%",
                 width: "20%",
                 height: "20%",
                 minHeight: "10%"
               }}
             >
-              <label>
+              <label style={{fontWeight: "600", marginBottom: "0"}}>
                 <input
                   type="checkbox"
                   checked={showLines[category._id] || false}
