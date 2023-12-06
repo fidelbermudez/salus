@@ -14,7 +14,7 @@ const SavingsSummary = () => {
   
     return (
       <div style={{textAlign: 'center', margin: '3%', padding: '2%', borderRadius: '60px', border: '1px solid #d1d1d1', background: '#f2f2f2'}}>
-        <h2 style={{marginTop: '4%'}}>Savings History</h2>
+        <h2 style={{marginTop: '1%'}}>Savings History</h2>
         <div>
           <h5>
           <button
