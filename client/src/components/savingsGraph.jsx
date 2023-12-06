@@ -38,9 +38,9 @@ const SavingsGraph = ({ year }) => {
   useEffect(() => {
     const svg = d3.select(svgRef.current);
   
-    const width = 550;
+    const width = 580;
     const height = 400;
-    const margin = { top: 20, right: 120, bottom: 50, left: 60 };
+    const margin = { top: 20, right: 110, bottom: 50, left: 80 };
   
     svg.attr('width', width).attr('height', height);
   
@@ -147,24 +147,24 @@ const SavingsGraph = ({ year }) => {
       .attr('class', 'legend')
       .attr('transform', `translate(${width - margin.right + 10},${margin.top})`);
 
-    const legendEntries = legend.selectAll('.legendEntry')
+      const legendEntries = legend.selectAll('.legendEntry')
       .data(selectedData)
       .enter()
       .append('g')
       .attr('class', 'legendEntry')
       .attr('transform', (d, i) => `translate(0, ${i * 20})`);
-
+    
     legendEntries.append('rect')
       .attr('x', 0)
       .attr('y', 0)
       .attr('width', 10)
       .attr('height', 10)
       .attr('fill', (d, i) => d3.schemeCategory10[i % 10]);
-
+    
     legendEntries.append('text')
       .attr('x', 15)
       .attr('y', 10)
-      .text(d => d._id)
+      .text(d => d._id.length > 10 ? `${d._id.substring(0, 10)}...` : d._id)
       .style('font-size', '12px');
     }
   }, [data, showLines, year]);
@@ -179,19 +179,31 @@ const SavingsGraph = ({ year }) => {
   return (
     <div>
       <svg ref={svgRef}></svg>
-      <div>
-        {data.length > 0 && data.map((category, index) => (
-          <div key={index}>
-            <label>
-              <input
-                type="checkbox"
-                checked={showLines[category._id] || false}
-                onChange={() => handleCheckboxChange(category._id)}
-              />
-              {category._id}
-            </label>
-          </div>
-        ))}
+      <div style={{ display: "flex", flexWrap: "wrap", margin: "4%", marginBottom: "2%"}}>
+        {data.length > 0 &&
+          data.map((category, index) => (
+            <div
+              key={index}
+              style={{
+                minWidth: "10%",
+                width: "20%",
+                height: "20%",
+                minHeight: "10%"
+              }}
+            >
+              <label style={{fontWeight: "600", marginBottom: "0", paddingBottom: "6%"}}>
+                <input
+                  style={{width: "auto", marginRight: "5%"}}
+                  type="checkbox"
+                  checked={showLines[category._id] || false}
+                  onChange={() => handleCheckboxChange(category._id)}
+                />
+                {category._id.length > 10
+                  ? `${category._id.substring(0, 10)}...`
+                  : category._id}
+              </label>
+            </div>
+          ))}
       </div>
     </div>
   );
