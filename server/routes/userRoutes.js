@@ -244,6 +244,12 @@ const transporter = nodemailer.createTransport({
 });
 
 // Send the 2FA code to the user's email
+/**
+ * Sends a 2FA code to the specified email address.
+ * 
+ * @param {string} email - The email address to send the code to.
+ * @param {string} code - The 2FA code to send.
+ */
 function send2FACode(email, code) {
   const mailOptions = {
     from: '316salus@gmail.com',
