@@ -561,7 +561,7 @@ function Transaction() {
   };
 
   return (
-    <div className="everything">
+    <div className="everything" style={{padding: '2%', paddingBottom: "4%", width: '90%', marginLeft: '5%', marginTop: '8%', background: '#f2f2f2', borderRadius: '80px', border: '1px solid #d1d1d1'}}>
       <div className="add-both">
         <div className="upload-button-container">
           <div className="input-csv">
