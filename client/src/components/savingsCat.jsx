@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import {MdEdit} from 'react-icons/md';
 import {FiX} from 'react-icons/fi'
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import CloseButton from 'react-bootstrap/CloseButton';
@@ -25,7 +25,6 @@ function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
   const [amountUpdate, setAmountUpdate]  = useState(0);
   const [amountContributed, setAmountContributed] = useState(saved);
   const [pos, setPos] = useState(true);
-  const [completed, setCompleted] = useState(false);
 
 
   // updates during form submit
@@ -48,15 +47,15 @@ function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
     const updateGoal = async (e) => {
     // request to update entry to database
       const hasCompleted = (goalAmount - newSaved <= 0);
+      console.log("has completed the goal? ", hasCompleted)
       let completed = 0;
       if(hasCompleted){
-        setCompleted(true);
+        completed = 1;
       } else {
-        setCompleted(false);
+        completed = 0;
       }
 
       try {
-        console.log(catId)
         const editedGoal = {goal_amount: goalAmount, amount_contributed: newSaved, savings_category: goalName, completed: completed};
         const response = await axios.put(`http://localhost:8081/api/savings/update/${catId}`, editedGoal);
         console.log(response);
@@ -65,9 +64,11 @@ function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
         setIsSubmitting(false);
         setSuccess('Data successfully saved!');
         console.log('Data saved: ', response.data);
+        console.log(success)
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
+        console.log(error);
         console.error(err);
       }
     };
@@ -131,9 +132,13 @@ function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
     }
 
     setAmountContributed(newSaved);
+
+    //clear value fields after submit
+    setAmountUpdate(0);
+
   };
 
-  // Function to set 'pos' to true
+  // Function to set 'pos' to true; will be used to add or subtract from amount
   const setPosToTrue = () => {
     setPos(true);
   };
@@ -266,9 +271,6 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
   const num = saved/goal;
   const prog = Math.round(num * 100);
 
-  // function for deleting a category
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
 
   // show or close edit modal
   const [modalShow, setModalShow] = React.useState(false);
@@ -276,25 +278,6 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
   const [histShow, setHistShow] = React.useState(false);
   // show or close confirm delete modal 
   const[delShow, setDelShow] = React.useState(false);
-
-
-  // const handleDeleteElement = (catId) => {
-   
-    // console.log(catId, typeof(catId))
-    // try {
-    //   const response = await axios.delete(`http://localhost:8081/api/savings/delete/${catId}`);
-
-    //   if (response.status === 200) {
-    //     setSuccess('Element deleted successfully');
-    //   } else {
-    //     setError('Element not found');
-    //   }
-    // } catch (err) {
-    //   setError('Something went wrong! Please try again.');
-    //   console.error(err);
-    // }
-  // };
-
   
   return (
     <Card style={{ width: '500rem' }}  className ="card">
@@ -363,7 +346,10 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
     <ConfirmDelete 
       show={delShow}
       onHide={() => setDelShow(false)}
-      catID = {catId}>
+      userID = {userID}
+      catID = {catId}
+      catName = {name}
+      c_date = {date}>
     </ConfirmDelete>
 
     </Card>

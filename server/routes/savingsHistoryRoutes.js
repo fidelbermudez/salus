@@ -34,7 +34,6 @@ router.get('/show/:userId/:catName/:date', async (req, res) => {
 
 router.post('/insert', async (req, res) => {
   try {
-    console.log("posting")
     // Extract data from the request body
     let newDocument = new SavingsHistory({
       user_id: parseInt(req.body.user_id),
@@ -73,6 +72,25 @@ router.put('/update/:catName', async (req, res) => {
     }
 
     res.json(updatedDocument);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.delete('/delete/:user/:catName/:date', async (req, res) => {
+  try {
+    
+    const catName= req.params.catName;
+    const user_id = req.params.user;
+    const creation_date = decodeURIComponent(req.params.date);
+
+    let result = await SavingsHistory.deleteMany({user_id: user_id, savings_category: catName, creation_date: creation_date})
+
+    if (!result) {
+      return res.status(404).json({ message: 'Element not found' });
+    } 
+    res.json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });

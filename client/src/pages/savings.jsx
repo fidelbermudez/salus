@@ -8,13 +8,9 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
-import { useAuth } from '../AuthContext'; 
-// import { local } from 'd3';
-// import Alert from 'react-bootstrap/Alert';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-// import { local } from 'd3';
 
 
 function NewGoalForm() {
@@ -61,10 +57,12 @@ function NewGoalForm() {
       setIsSubmitting(false);
       setSuccess('Data successfully saved!');
       console.log('Data saved: ', response.data);
+      console.log(success);
     } catch (err) {
       setIsSubmitting(false);
       setError('Something went wrong! Please try again.');
       console.error(err);
+      console.log(error);
     }}
 
     const addToHist = async (e) => {
@@ -94,6 +92,11 @@ function NewGoalForm() {
 
     addGoal();
     addToHist();
+
+    // clear fields after goal is submitted
+    setGoalName('');
+    setGoalAmount('');
+    setAmountContributed(0);
   };
 
   return (
@@ -161,7 +164,7 @@ function NewGoalModal(props) {
 
 // main function in the page, in charge of display and combining all features
 function Savings() {
-  const { currentUser } = useAuth(); 
+  // const { currentUser } = useAuth(); 
   const userId = localStorage?.userId;
 
   // variable for showing or hiding modal
@@ -169,8 +172,6 @@ function Savings() {
   // variable for all goals belonging to user
   const [goals, setGoals] = React.useState([]);
 
-  // variable for setting keys
-  const [key, setKey] = useState('all');
 
   const sortDataByProperty = (data, property) => {
   const sorted = [...data].sort((a, b) => {
