@@ -16,8 +16,7 @@ import SavingsHist from './savingsHist';
 import ConfirmDelete from './confirmDelete';
 // import { currencyFormatter } from "./utils";
 
-function NewGoalForm({ userID, catId, name, saved, goal}) {
-
+function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
   // variables in the savings table
   const [goalName, setGoalName] = useState(name);
 
@@ -26,6 +25,7 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
   const [amountUpdate, setAmountUpdate]  = useState(0);
   const [amountContributed, setAmountContributed] = useState(saved);
   const [pos, setPos] = useState(true);
+  const [completed, setCompleted] = useState(false);
 
 
   // updates during form submit
@@ -33,13 +33,6 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  function getDate() {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const year = today.getFullYear();
-    const date = today.getDate();
-    return `${month}/${date}/${year}`;
-}
 
   // handle form submit
   const handleSubmit = async (e) => {
@@ -50,12 +43,21 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
     setSuccess(null);
 
     const newSaved = parseFloat(amountContributed) + (pos ? parseFloat(amountUpdate) : -parseFloat(amountUpdate));
+    
 
     const updateGoal = async (e) => {
     // request to update entry to database
+      const hasCompleted = (goalAmount - newSaved <= 0);
+      let completed = 0;
+      if(hasCompleted){
+        setCompleted(true);
+      } else {
+        setCompleted(false);
+      }
+
       try {
         console.log(catId)
-        const editedGoal = {goal_amount: goalAmount, amount_contributed: newSaved, savings_category: goalName};
+        const editedGoal = {goal_amount: goalAmount, amount_contributed: newSaved, savings_category: goalName, completed: completed};
         const response = await axios.put(`http://localhost:8081/api/savings/update/${catId}`, editedGoal);
         console.log(response);
         console.log("updated successfully ");
@@ -72,8 +74,22 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
 
     const addToHist = async (e) => {
     // request to add entry to database
+    const date = new Date();
+    const formattedDateTime = date.toLocaleDateString('en-US');
+    console.log(date);
+
+    const showTime = date.getHours() 
+        + ':' + date.getMinutes() 
+        + ":" + date.getSeconds();
+
+
+    let amount = parseFloat(amountUpdate);
+    if(!pos){
+      amount = -amount;
+    }
       try {
-        const newEntry = {user_id: userID, date: getDate(), amount: amountUpdate, savings_category: goalName};
+        const newEntry = {user_id: userID, date: formattedDateTime, timestamp:showTime, amount: amount, 
+                          savings_category: goalName, creation_date: c_date};
         const response = await axios.post(`http://localhost:8081/api/savingsHistory/insert`, newEntry);
         console.log(response);
         console.log("posted successfully ");
@@ -89,10 +105,11 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
     };
 
     const editHistName = async(e) => {
+      // const safeDate = encodeURIComponent(c_date);
+  
       try{
-        const updateEntry = {user_id: userID, new_name: goalName};
+        const updateEntry = {user_id: userID, new_name: goalName, creation_date: c_date};
         const response = await axios.put(`http://localhost:8081/api/savingsHistory/update/${name}`, updateEntry);
-        console.log(response);
         console.log("posted successfully ");
 
         setIsSubmitting(false);
@@ -113,7 +130,7 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
       editHistName();
     }
 
-    //need to make a request to post to SavingsHistory (only if newSaved != amount_contributed)
+    setAmountContributed(newSaved);
   };
 
   // Function to set 'pos' to true
@@ -197,7 +214,7 @@ function NewGoalForm({ userID, catId, name, saved, goal}) {
 
 //  modal for updating goal
 function UpdateGoalModal(props) {
-  const { show, onHide, userID,  catID, name, saved, goal } = props;
+  const { show, onHide, userID,  catID, name, saved, goal, date } = props;
   const handleClose = () => {
     props.onHide(); // Close the modal using the onHide prop from props
   };
@@ -217,7 +234,7 @@ function UpdateGoalModal(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body>
-        <NewGoalForm userID= {userID} catId={catID} name= {name} saved={saved} goal={goal}  />
+        <NewGoalForm userID= {userID} catId={catID} name= {name} saved={saved} goal={goal} c_date={date} />
       </Modal.Body>
     </Modal>
   );
@@ -297,6 +314,7 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
                   name = {name}
                   saved = {saved}
                   goal = {goal}
+                  date = {date}
                 />
               </div>
               <div className="removeCat">
@@ -317,7 +335,7 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
           </div>
         </Card.Title>
         <ProgressBar 
-          className="prog-bar-sav" 
+          className="prog-bar-save" 
           variant={getProgressBarVariant(saved, goal)}
           min={0}
           max={goal}
@@ -339,7 +357,8 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
       onHide={() => setHistShow(false)}
       catID = {catId}
       name = {name}
-      userID = {userID}/>
+      userID = {userID}
+      creation_date = {date}/>
 
     <ConfirmDelete 
       show={delShow}

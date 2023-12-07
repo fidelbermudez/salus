@@ -3,14 +3,23 @@ const router = express.Router();
 const SavingsHistory = require('../models/savingsHistory.js');
 
 
-router.get('/show/:userId/:catName', async (req, res) => {
+router.get('/show/:userId/:catName/:date', async (req, res) => {
   try {
-
     const userId = parseInt(req.params.userId);
     const savCat = req.params.catName;
+    const date = req.params.date;
+    // const {c_date } = req.body;
+
+    // console.log("test", c_date);
+
+    // const url_date = encodeURIComponent(req.params.date);
+    const creation_date = decodeURIComponent(req.params.date);
+    
+    // const {test, creation_date } = req.body; 
+    // console.log(savCat, creation_date);
 
     // Find the most recent expense entry in the database and return its 'expense_id'
-    const saveHistory = await SavingsHistory.find({user_id: userId, savings_category: savCat});
+    const saveHistory = await SavingsHistory.find({user_id: userId, savings_category: savCat, creation_date: creation_date});
 
     if(!saveHistory) {
       return res.status(404).json({ message: 'Element not found' });
@@ -30,8 +39,11 @@ router.post('/insert', async (req, res) => {
     let newDocument = new SavingsHistory({
       user_id: parseInt(req.body.user_id),
       date: req.body.date,
+      timestamp: req.body.timestamp,
       amount: parseInt(req.body.amount),
-      savings_category: req.body.savings_category
+      savings_category: req.body.savings_category,
+      creation_date: req.body.creation_date
+
     });
     
     let newData = await newDocument.save(); // Saving the new document in the DB
@@ -46,12 +58,12 @@ router.post('/insert', async (req, res) => {
 router.put('/update/:catName', async (req, res) => {
   try {
     const catName = req.params.catName;
-    const {user_id, new_name } = req.body; 
+    const {user_id, new_name, creation_date } = req.body;
 
 
     // Use the `findOneAndUpdate` method to find and update the document by _id
     const updatedDocument = await SavingsHistory.updateMany(
-      { user_id: user_id, savings_category: catName},
+      { user_id: user_id, savings_category: catName, creation_date: creation_date},
       {$set: { savings_category: new_name }},
       { new: true } // This option returns the updated document
     );
