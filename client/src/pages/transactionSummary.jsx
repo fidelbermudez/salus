@@ -19,10 +19,32 @@ const TransactionSummary = () => {
         <h2>Transaction History</h2>
         <div>
           <h5>
-            <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={decreaseYear}>{'<'}</button>
-            {`  ${year}  `}
-            <button style={{ backgroundColor: 'white', border: "1px solid black"}} onClick={increaseYear}>{'>'}</button>
-          </h5>
+          <button
+            style={{
+              backgroundColor: 'white',
+              border: "none",
+              transition: "background-color 0.3s",
+              cursor: "pointer"
+            }}
+            onClick={decreaseYear}
+            className="custom-button"
+          >
+            {'<'}
+          </button>
+          {`  ${year}  `}
+          <button
+            style={{
+              backgroundColor: 'white',
+              border: "none",
+              transition: "background-color 0.3s",
+              cursor: "pointer"
+            }}
+            onClick={increaseYear}
+            className="custom-button"
+          >
+            {'>'}
+          </button>
+        </h5>
         </div>
         <div style={{display: "flex", justifyContent: "center"}}>
             <TransactionsGraph key={year} year={year} />

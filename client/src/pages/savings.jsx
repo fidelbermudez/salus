@@ -11,6 +11,8 @@ import axios from 'axios';
 import { AiOutlinePlus } from 'react-icons/ai';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import SavingsSummary from './savingsSummary';
+// import { local } from 'd3';
 
 
 function NewGoalForm() {
@@ -192,7 +194,7 @@ function Savings() {
   })
   
   return (
-    <div className="all">
+    <div className="all" style={{display: "flex"}}>
     <div className="Saving">
       {/* <h1 id="savings-title"> Savings </h1> */}
     
@@ -273,6 +275,9 @@ function Savings() {
       </Tabs>
       
       </div>
+      </div>
+      <div className="Saving" style={{background: "white", marginTop: "90px", paddingTop: "10px"}}>
+          <SavingsSummary/>
       </div>
       </div>
   );

@@ -2,7 +2,7 @@
     background-color: #1C3879;
 } */
 .Saving{
-    height: 90vh;
+    min-height: 100vh;
     /* green */
     /* background-color: #eaf2d1; */
     /* background-color: #5164ba; */
@@ -126,6 +126,7 @@
     transform: translateX(-50%);
     /* color: #142857; */
     color: white;
+    width: max-content;
 }
 
 .modal-body{
@@ -148,10 +149,11 @@
 }
 
 .modal-body button{
+    background-color: #5e70c2;
     border-color: transparent;
     outline-color: white;
     margin: auto;
-    width: fit-content;
+    width: max-content;
     margin-left: auto;
     margin-right: auto;
     background-color: #4457ac;
@@ -209,7 +211,7 @@
 .cats{
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
-    gap: 20px;
+    /* gap: 20px; */
     margin: auto;
     width: fit-content;
     overflow:auto;
@@ -234,7 +236,7 @@
     margin-left: auto;
     margin-right: auto;
     min-height: 15vh;
-    max-width: 300px;
+    max-width: 280px;
     /* background-color: #F9F5EB; */
     /* background-color: #9ee0e9; */
     /* background-color: #74c495; */
@@ -242,7 +244,6 @@
     /* background-color: #cebff0; */
     border-color: transparent;
 }
-
 .btnastext{
     background:none;
     border:none;

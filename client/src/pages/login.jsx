@@ -23,6 +23,9 @@ const Login = () => {
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [showErrorAlert, setShowErrorAlert] = useState(false);
   const [errorAlertMessage, setErrorAlertMessage] = useState('');
+  const [isOtpVerificationMode, setIsOtpVerificationMode] = useState(false);
+  const [otp, setOtp] = useState('');
+
 
   const displayErrorAlert = (message) => {
     setErrorAlertMessage(message);
@@ -87,6 +90,35 @@ const Login = () => {
 
     }
   };
+  const handleOtpVerification = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('http://localhost:8081/api/users/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.email, otp }),
+      });
+  
+      if (response.status === 200) {
+        // OTP verification successful
+        const userData = await response.json();
+        localStorage.setItem("userId", userData.userId); // assuming the data has a userId property
+        localStorage.setItem('authToken', userData.token); // and a token
+        login(userData);  
+        navigate("/user");
+      } else {
+          const data = await response.json();
+          displayErrorAlert(data.message);
+      }
+    } catch (error) {
+        console.error(error);
+        displayErrorAlert('An error occurred. Please try again.');
+      }
+  };
+  
   
   
   const toggleMode = () => {
@@ -110,11 +142,7 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       if (response.status === 200) {
-        const userData = await response.json();
-        localStorage.setItem("userId", userData.userId); // assuming the data has a userId property
-        localStorage.setItem('authToken', userData.token); // and a token
-        login(userData);  
-        navigate("/user");
+        setIsOtpVerificationMode(true);
       } else {
         const data = await response.json();
         displayErrorAlert(data.message);
@@ -124,6 +152,26 @@ const Login = () => {
       displayErrorAlert('An error occurred. Please try again.');
     }
   };
+  const handleOtpChange = (e, index) => {
+    const value = e.target.value.slice(0, 1); // Take only the first character
+    setOtp(otp => {
+      const newOtp = otp.split('');
+      newOtp[index] = value;
+      return newOtp.join('');
+    });
+  
+    // Move to the next input if the current value is filled
+    if (value && index < 5) {
+      const nextSibling = document.querySelector(
+        `input[name='otp${index + 1}']`
+      );
+      if (nextSibling) {
+        nextSibling.focus();
+      }
+    }
+  };
+  
+  
 
 
   return (
@@ -144,9 +192,36 @@ const Login = () => {
         <div className={styles.loginContainer}>
             {authLoading ? (
                 <p>Loading...</p> 
-            ) : isSignUpMode ? (
-                <>
+            ) : isOtpVerificationMode ? (
+              <form onSubmit={handleOtpVerification} className="otp-form">
+                <h3>Enter OTP</h3>
+                <div className="otp-inputs d-flex justify-content-center mb-3">
+                  {[...Array(6)].map((_, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      name={`otp${index}`}
+                      className="form-control mx-1 text-center"
+                      maxLength="1"
+                      onChange={(e) => handleOtpChange(e, index)}
+                      value={otp[index] || ''}
+                      required
+                    />
+                  ))}
+                </div>
+                <div className="d-flex justify-content-center">
+                  <button 
+                    type="submit" 
+                    style={{ backgroundColor: '#5164ba', borderColor: '#5164ba' }} // Inline styles as an object
+                    className="btn btn-primary mr-2"
+                  >
+                    Verify OTP
+                  </button>
+                </div>
 
+              </form>
+            )  : isSignUpMode ? (
+                <>
             <h3>Sign up</h3>
                     <form>
                         <div>
@@ -261,6 +336,6 @@ const Login = () => {
             )}
         </div>
     </div>
-);
+  );
 };
 export default Login;

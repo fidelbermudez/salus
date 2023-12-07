@@ -2,9 +2,7 @@
 body {
     margin: 0;
     background-color: #F6F6F6;
-    height: 15px;
 }
-
 .nav {
     box-sizing: border-box;
     font-family:'Times New Roman', Times, serif;
@@ -26,6 +24,12 @@ body {
 .nav a, .nav button {
     border-radius: 0; /* Changed from 20px to 0 */
     /* Other styles remain unchanged */
+}
+.nav span{
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    margin-left: 15px;
 }
 
 .nav a:not(.app-name), .nav button, .nav button.logout {
@@ -52,7 +56,6 @@ body {
 
 .nav-icon {
     font-size: 1.5rem; /* Adjusts the font size */
-    
 }
 
 .nav ul {
@@ -65,10 +68,10 @@ body {
     font-family: Arial, sans-serif; /* Change the font family */
 }
 .nav a.active {
-    background-color: transparent; /* Background color for active tab */
+    background-color: #d6caf0; /* Background color for active tab */
     /* color: #1C3879; Text color for active tab */
-    color: #3926a1;
-    
+    border-radius: 20px;
+    color:#5164ba;
 }
 
 .nav a, .nav button {
@@ -95,17 +98,12 @@ body {
     font-size: 2.5rem; /* Adjust font size if necessary */
 }
 
-.nav a:hover, .nav button:hover {
-    color: #3926a1;
-    background-color: transparent; /* No background color change on hover */
+.nav a:not(.app-name):hover, .nav button:hover {
+    color: #5164ba;
+    background-color: #d6caf0; /* No background color change on hover */
     border: 2px solid transparent; /* Keep the border transparent on hover */
+    border-radius: 20px;
 }
-
-.nav li.active, .nav li:hover {
-    background-color: #BB2525 ;
-    border-radius: 20px; /* Changed from 20px to 0 */
-}
-
 .nav button {
     background: none;
     outline: none;
@@ -124,16 +122,33 @@ body {
     
 }
 
-/* Hover styles for links and buttons */
-.nav a:hover, .nav button:hover {
-    color: #3926a1; 
-    
-}
-
 /* Specific hover style for the logout button to maintain the white color */
 .nav button.logout:hover {
     color: #FFFFFF; /* Maintain white color on hover */
-    background-color: transparent; /* Ensure background color does not change */
+    background-color: #BB2525; /* Ensure background color does not change */
     border: 2px solid transparent; /* Keep the border transparent */
+    border-radius: 20px;
 }
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display:block;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1;
 
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+ 

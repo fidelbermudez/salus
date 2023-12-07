@@ -109,6 +109,7 @@ const PieChart = ({ active, month, year, limit, expenses }) => {
       .attr("x", 0) // Adjust the horizontal position
       .attr("y", data.length * 20 + 20) // Adjust the vertical position
       .attr("font-size", "12px")
+      .attr("font-weight", "600")
       .text(`Total Expenses: $${Math.floor(expenses)}`); // Replace "Your Value" with your desired text
   
     legendGroup
@@ -116,6 +117,7 @@ const PieChart = ({ active, month, year, limit, expenses }) => {
       .attr("x", 0) // Adjust the horizontal position
       .attr("y", data.length * 20 + 40) // Adjust the vertical position
       .attr("font-size", "12px")
+      .attr("font-weight", "600")
       .text(`Total Limit: $${Math.floor(limit)}`); // Replace "Your Value" with your desired text
   
     // Add labels to the pie slices

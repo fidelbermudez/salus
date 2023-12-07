@@ -15,8 +15,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Form from 'react-bootstrap/Form';
 import { AiOutlinePlus } from 'react-icons/ai';
  
-function NewBudgetForm() {
- 
+function NewBudgetForm({bool, setBool}) {
   const { currentUser } = useAuth();
   const user = localStorage?.userId;
   
@@ -39,9 +38,9 @@ function NewBudgetForm() {
       e.preventDefault();
       setIsSubmitting(true);
       setError(null);
-      setSuccess(null);
-  
+      setSuccess(null);  
       // document layout for new doc and post request to add new entry to database
+      const addBudget = async (e) => {
       try {
         const newBudget = {
           month: getMonth,
@@ -56,12 +55,21 @@ function NewBudgetForm() {
         setIsSubmitting(false);
         setSuccess('Data successfully saved!');
         console.log('Data saved: ', response.data);
-        window.location.reload();
+
+        // Clear input fields after successful submission
+      setBudgetName('');
+      setBudgetMax('');
+      setMonth('');
+      setYear('');
+
+        //window.location.reload();
+        setBool(!bool)
       } catch (err) {
         setIsSubmitting(false);
         setError('Something went wrong! Please try again.');
         console.error(err);
-      }
+      }};
+      addBudget();
     };
   
     return (
@@ -113,6 +121,7 @@ function NewBudgetForm() {
  
 //Modal function for adding a new budget
 function NewBudgetModal(props) {
+  console.log(props)
   const handleClose = () => {
     props.onHide();
   };
@@ -131,7 +140,7 @@ function NewBudgetModal(props) {
         <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
         </Modal.Header>
         <Modal.Body>
-          <NewBudgetForm/>
+          <NewBudgetForm bool={props.bool} setBool={props.setBool}/>
         </Modal.Body>
       </Modal>
     );
@@ -154,6 +163,10 @@ function Budget() {
   //using the two below to help show the current month and year and filter budget cards based on that; also used for graphs
   const [currYear, setCurrYear] = useState(new Date().getFullYear());
   const [currMonth, setCurrMonth] = useState(new Date().getMonth() + 1);
+  const [bool, setBool] = useState(false);
+  const [bool2, setBool2] = useState(true)
+  const [totalSpent, setTotalSpent] = useState(0)
+  const [totalBudget, setTotalBudget] = useState(0)
 
   //function takes monthNumber, which is a number representing a month, convert it to the month name and return to show on client
   const getMonthName = (monthNumber) => {
@@ -167,22 +180,35 @@ function Budget() {
 
   useEffect(() => {
     // Fetch budgets with category information based on the user
-    axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`)
-      .then(response => {
-        setBudgets(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching budgets:', error);
-      });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`);
+        const budgetData = response.data;
+        setBudgets(budgetData);
+        setTotalBudget(budgetData.reduce((total, budget) => total + parseInt(budget.limit || 0), 0));
+        setTotalSpent(budgetData.reduce((total, budget) => total + parseInt(budget.amount_spent || 0), 0));
+        setBool2(false)
+      } catch (e) {
+        if (e.response && e.response.status === 404) {
+          setBudgets([]);
+          setTotalSpent(0);
+          setTotalBudget(0);
+          setBool2(true)
+        } else {
+          console.error(e);
+        }
+      }
+    };
   
+    fetchData();
+  }, [userId, currMonth, currYear, bool]);
+  
+  useEffect(() => {
     const fetchData = async () => {
       try {
         if (currMonth != null) {
           const categoryResponse = await axios.get(`http://localhost:8081/api/category/user/${userId}/${currYear}/${currMonth}`);
-          const fetchedCategoryInfo = categoryResponse.data;
-          console.log(fetchedCategoryInfo)
-  
-          
+          const fetchedCategoryInfo = categoryResponse.data;  
           // Calculate total expenses and limits for total budget card
           let totalExpenses = 0;
           let totalLimit = 0;
@@ -200,6 +226,8 @@ function Budget() {
       } catch (e) {
         if (e.response && e.response.status === 404) {
           setCategoryInfo([]);
+          setLimit(0)
+          setExpenses(0)
         } else {
           console.error(e);
         }
@@ -207,39 +235,42 @@ function Budget() {
     };
   
     fetchData();
-  }, [userId, currMonth, currYear]);
+  }, [userId, currMonth, currYear, bool]);
 
   //function is used to handle changes to the current month in the budget page, also makes sure to to clear for duplicates
   const handleMonthChange = (change) => {
     const newMonth = currMonth + change;
     if (newMonth >= 1 && newMonth <= 12) {
       setCurrMonth(newMonth);
-      setBudgets([]);
     } else if (newMonth === 0) {
       setCurrMonth(12);
       setCurrYear(currYear - 1);
-      setBudgets([]);
     } else if (newMonth === 13) {
       setCurrMonth(1);
       setCurrYear(currYear + 1);
-      setBudgets([]);
     }
   };
 
  // Calculate total budget and total spent for the current month for total budget card
- const totalBudget = budgets.reduce((total, budget) => total + parseInt(budget.limit || 0), 0);
- const totalSpent = budgets.reduce((total, budget) => total + parseInt(budget.amount_spent || 0), 0);
+
+
+ //This allows for the total budget card to change the min-width to be different from the other budget cards
+ const [totalBudgetCardStyle, setTotalBudgetCardStyle] = useState({
+  minWidth: "60%", // Set your desired minWidth here
+  margin: "0 auto", // Center the card
+});
 
  
  
   return (
     <>
-    <div className="everything">
-    <Container className="my-4">
+    <div style={{display: 'flex'}} >
+    <div className="everything1">
+    <Container className="my4">
     {/* this is where the static 'Current Month' is place at the top of page and center as well as the
     dynmaic current month and year which is just below it and in the center as well */}
     <div className="month-container">
-      <h1> Current Month </h1>
+      {/* <h1> Current Month </h1> */}
       {/* Previous and Next Month Buttons */}
         <div className="month-buttons">
           <button onClick={() => handleMonthChange(-1)}>Prev</button>
@@ -247,19 +278,35 @@ function Budget() {
           <button onClick={() => handleMonthChange(1)}>Next</button>
         </div>
     </div>
+
+    {/* New budget card for total budget and amount spent */}
+    <div className="total-budget-card">
+      <BudgetCard
+        name="Total Budget"
+        amount={totalSpent}
+        max={totalBudget}
+        bool2={bool2}
+        grey={true}
+        customStyle={totalBudgetCardStyle}
+      />
+    </div>
     
-      <Stack direction="horizontal" gap="2" className="mb-4">
+      <Stack direction="horizontal" gap="2" className="mb-3">
       <h2 className="me-auto"> Your Budgets </h2>
       
       {/* Plus icon to add new budget and make it show up when clicked */}
       <div class="pointer">
-      <AiOutlinePlus style={{ fontSize: '2rem' }} onClick={() => setModalShow(true)}/>
+      <AiOutlinePlus style={{ fontSize: '2rem', color: 'white' }} onClick={() => setModalShow(true)}/>
       </div>
       <NewBudgetModal
         show={modalShow}
         onHide={() => setModalShow(false)}
+        setBool={setBool}
+        bool={bool}
       />
       </Stack>
+
+      <hr />
  
       {/* Div with <BudgetCard is hardcoded example of how budgets should look like>*/}
       {/* <div style={{
@@ -287,23 +334,18 @@ function Budget() {
               edit={editShow}
               categoryId={budget._id}
               deletable={true}
+              bool={bool}
+              setBool={setBool}
             ></BudgetCard>
           </div>
         ))}
-
-        {/* New budget card for total budget and amount spent */}
-        <div className="budget-card" key="total-budget">
-          <BudgetCard
-            name="Total Budget"
-            amount={totalSpent}
-            max={totalBudget}
-            grey={true} // You can customize the appearance for the total budget card
-          ></BudgetCard>
-        </div>
       </div>
     </Container>
-    <PieChart month={currMonth} year={currYear} data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
-    <Summary />
+    </div>
+    <div className="everything1" style={{background: "white"}}>
+      <PieChart data={categoryInfo} active={true} limit={limit} expenses={expenses}/>
+      <Summary key={`${currYear}-${bool}`} yr={currYear} setCurrYear={setCurrYear} setCurrMonth={setCurrMonth}/>
+    </div>
     </div>
   </>
   );

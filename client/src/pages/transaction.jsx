@@ -561,7 +561,10 @@ function Transaction() {
   };
 
   return (
-    <div className="everything">
+    <div className="everything" style={{padding: '2%', paddingBottom: "4%", width: '90%', marginLeft: '5%', marginTop: '8%', background: '#f2f2f2', borderRadius: '80px', border: '1px solid #d1d1d1'}}>
+      <div className = "transactions" style={{marginLeft: '40%', color: '#5e70c2', marginBottom: '1%'}}> 
+          <h3 id="transactions-title">Your Transactions </h3>
+      </div>
       <div className="add-both">
         <div className="upload-button-container">
           <div className="input-csv">
@@ -572,23 +575,34 @@ function Transaction() {
             <button onClick={handleUploadCsv}>Upload</button>
           </div>
         </div>
-        <div className="add-expense">
-          <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
-            Add expense
-          </Button>
-          <NewExpenseModal
-            show={expenseModalShow}
-            onHide={() => setExpenseModalShow(false)}
-          />
-        </div>
-        <div className="add-income">
-          <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
-            Add income
-          </Button>
-          <NewIncomeModal
-            show={incomeModalShow}
-            onHide={() => setIncomeModalShow(false)}
-          />
+        <div className="button-container2">
+          <div className="see-history">
+            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+              See history
+            </Button>
+            <NewIncomeModal
+              show={incomeModalShow}
+              onHide={() => setIncomeModalShow(false)}
+            />
+          </div>
+          <div className="add-expense">
+            <Button variant="primary" className="expense-button" onClick={() => setExpenseModalShow(true)}>
+              Add expense
+            </Button>
+            <NewExpenseModal
+              show={expenseModalShow}
+              onHide={() => setExpenseModalShow(false)}
+            />
+          </div>
+          <div className="add-income">
+            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+              Add income
+            </Button>
+            <NewIncomeModal
+              show={incomeModalShow}
+              onHide={() => setIncomeModalShow(false)}
+            />
+          </div>
         </div>
         <div className="search-income-expense">
           <div className="date-input-container">
