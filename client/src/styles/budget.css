@@ -50,7 +50,7 @@ h1 {
     /* width: fit-content; */
     overflow:auto;
     overflow-y: auto;
-    padding-bottom: 70px;
+    /* padding-bottom: 70px; */
 }
 
 /* Increase specificity to override styles from savings.css for the total budget card */
@@ -101,13 +101,13 @@ h1 {
 }
 
 .everything1{
-  height: 100vh;
+  /* height: 100vh; */
   background-color: #5164ba;
   width: 50%;
   margin-top: 90px;
   /* Padding for the top of the 'row' with Your Budgets text and plus symbol to add budgets to not touch the nav bar */
   padding-top: 10px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 /* where to change the padding for bottom of the screen for more space */
@@ -149,4 +149,8 @@ h1 {
     max-width: 20px;
     line-height: 10px;
     text-align: center;
+}
+
+.custom-button:hover{
+  border: 1px solid darkgray !important;
 }
