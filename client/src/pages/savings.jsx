@@ -71,7 +71,7 @@ function NewGoalForm() {
     // request to add entry to database
     const date = new Date();
     const formattedDate = date.toLocaleDateString('en-US');
-    console.log(date);
+
 
     const showTime = date.getHours() 
         + ':' + date.getMinutes() 
