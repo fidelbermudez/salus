@@ -16,7 +16,7 @@ import SavingsHist from './savingsHist';
 import ConfirmDelete from './confirmDelete';
 // import { currencyFormatter } from "./utils";
 
-function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
+function NewGoalForm({ setUpdate, update, userID, catId, name, saved, goal, c_date}) {
   // variables in the savings table
   const [goalName, setGoalName] = useState(name);
 
@@ -135,7 +135,7 @@ function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
 
     //clear value fields after submit
     setAmountUpdate(0);
-
+    setUpdate(!update);
   };
 
   // Function to set 'pos' to true; will be used to add or subtract from amount
@@ -219,7 +219,7 @@ function NewGoalForm({ userID, catId, name, saved, goal, c_date}) {
 
 //  modal for updating goal
 function UpdateGoalModal(props) {
-  const { show, onHide, userID,  catID, name, saved, goal, date } = props;
+  const { setUpdate, update, show, onHide, userID,  catID, name, saved, goal, date } = props;
   const handleClose = () => {
     props.onHide(); // Close the modal using the onHide prop from props
   };
@@ -239,7 +239,7 @@ function UpdateGoalModal(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body>
-        <NewGoalForm userID= {userID} catId={catID} name= {name} saved={saved} goal={goal} c_date={date} />
+        <NewGoalForm setUpdate={setUpdate} update={update} userID= {userID} catId={catID} name= {name} saved={saved} goal={goal} c_date={date} />
       </Modal.Body>
     </Modal>
   );
@@ -252,8 +252,7 @@ function getProgressBarVariant(saved, goal) {
     return "success"
 }
 
-function SavingsCategory({ userID, catId, name, saved, goal, date}) {
-
+function SavingsCategory({ setUpdate, update, userID, catId, name, saved, goal, date}) {
   // format currency 
   const currencyFormatter = new Intl.NumberFormat(undefined, {
     currency: "usd",
@@ -290,6 +289,8 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
                 <MdEdit id = "pencil"/>
                 </Button>
                 <UpdateGoalModal
+                  setUpdate = {setUpdate}
+                  update = {update}
                   show={modalShow}
                   onHide={() => setModalShow(false)}
                   userID = {userID}
@@ -343,13 +344,15 @@ function SavingsCategory({ userID, catId, name, saved, goal, date}) {
       userID = {userID}
       creation_date = {date}/>
 
-    <ConfirmDelete 
+    <ConfirmDelete       
+      setUpdate={setUpdate}
+      update={update}
       show={delShow}
       onHide={() => setDelShow(false)}
       userID = {userID}
       catID = {catId}
       catName = {name}
-      c_date = {date}>
+      c_date = {date} >
     </ConfirmDelete>
 
     </Card>
