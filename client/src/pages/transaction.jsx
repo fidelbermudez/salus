@@ -10,6 +10,7 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import CsvDownloadButton from '../components/transactionsDownload.jsx';
 import TransactionSummary from './transactionSummary.jsx';
+import '../styles/savings.css'
 
 function NewExpenseForm({ onSubmit }) {
 
@@ -332,6 +333,7 @@ function NewHistoryModal(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       className="modal"
+      id="modalHistory"
       style={{ color: "black" }}
     >
         <Modal.Header>
