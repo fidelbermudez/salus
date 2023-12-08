@@ -67,7 +67,7 @@ vertical scrolling if the content exceeds the container size. */
 
 /* handles the style and placement of the left side of the budget page to create a visual layout similar to rest of app */
 .everything1{
-  background-color: #5164ba;
+  background-color: rgb(152, 165, 224);
   width: 50%;
   margin-top: 90px;
   /* padding to create necessary space between top of page and nav bar */
