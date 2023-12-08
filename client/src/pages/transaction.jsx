@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import CsvDownloadButton from '../components/transactionsDownload.jsx';
+import TransactionSummary from './transactionSummary.jsx';
 
 function NewExpenseForm({ onSubmit }) {
 
@@ -315,6 +316,41 @@ function NewIncomeModal(props) {
   );
 }
 
+
+function NewHistoryModal(props) {
+  const handleClose = () => {
+    props.onHide(); // Close the modal using the onHide prop from props
+  };
+  const handleFormSubmit = () => {
+    // Close the modal after submission
+    handleClose();
+  };
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      className="modal"
+      style={{ color: "black" }}
+    >
+        <Modal.Header>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Add Income
+          </Modal.Title>
+          <CloseButton
+            className="btn-close-white"
+            onClick={handleClose}
+            style={{ color: 'white !important' }}
+          />
+        </Modal.Header>
+        <Modal.Body style={{ backgroundColor: "white" }}>
+          <TransactionSummary onSubmit={handleFormSubmit} />
+        </Modal.Body>
+    </Modal>
+  );
+}
+
 function Transaction() {
 
   const { currentUser, isLoading: authLoading } = useAuth();  // get isLoading state from AuthContext
@@ -340,6 +376,7 @@ function Transaction() {
   // variable for showing or hiding modal
   const [expenseModalShow, setExpenseModalShow] = useState(false);
   const [incomeModalShow, setIncomeModalShow] = useState(false);
+  const [historyModalShow, setHistoryModalShow] = useState(false);
 
   useEffect(() => {
     if (authLoading) return; // Return early if still determining auth status
@@ -577,12 +614,12 @@ function Transaction() {
         </div>
         <div className="button-container2">
           <div className="see-history">
-            <Button variant="primary" className="income-button" onClick={() => setIncomeModalShow(true)}>
+            <Button variant="primary" className="income-button" onClick={() => setHistoryModalShow(true)}>
               See history
             </Button>
-            <NewIncomeModal
-              show={incomeModalShow}
-              onHide={() => setIncomeModalShow(false)}
+            <NewHistoryModal
+              show={historyModalShow}
+              onHide={() => setHistoryModalShow(false)}
             />
           </div>
           <div className="add-expense">
