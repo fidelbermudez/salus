@@ -5,7 +5,9 @@
     min-height: 100vh;
     /* green */
     /* background-color: #eaf2d1; */
-    background-color: #5164ba;
+    /* background-color: #5164ba; */
+    /* background-color: #98a5e0; */
+    background-color: #98a5e0;
     /* dark blue */
     /* background-color: #181741; */
     width: 50%;
@@ -22,14 +24,6 @@
     vertical-align: middle;
 }
 
-.show-categories{
-    overflow: auto;
-    overflow-y: auto;
-    /* max-height: 78%; */
-    display: flex;
-    justify-content: center;
-}
-
 .plusbutton{
     color: white;
 }
@@ -37,9 +31,43 @@
     cursor: pointer;
     color: rgb(181, 191, 247);
 }
-.hr{
-    color: white;
+
+
+.show-tabs{
+    max-height: 80%;
+    width: 100%;
+    overflow: auto;
+    overflow-y: auto;
+
 }
+
+.show-categories{
+    width: 100%;
+    max-height: 100%;
+}
+
+.tab-group{
+    position: sticky;
+    width: 100%;
+    /* margin: auto; */
+    /* background-color: #5164ba; */
+    background-color: #98a5e0;
+    max-height: 15vh;
+    padding: 5px 0px;
+}
+
+.tab-group .nav-item{
+    margin-left: 40px;
+    margin-right: 60px;
+
+}
+
+.tab-group .nav-item:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+
 
 /* savings buttons  */
 .add button{
@@ -106,6 +134,7 @@
     /* background-color: #1c428d; */
     /* background-color: #83b0ff; */
     background-color: #d6caf0;
+    /* background-color: blue; */
 }
 
 .modal-body p{
@@ -308,7 +337,7 @@
 }
 
 .prog-bar-save{
-    height: 10px !important;
+    height: 25px !important;
 }
 
 .goalAmount{
@@ -355,9 +384,7 @@
 .btn-check{
     background-color: lime;
 }
-.addmoney button{
-    /* background-color: #5e70c2; */
-}
+
 
 .submoney button{
     background-color: lime;
@@ -396,11 +423,6 @@
 
 /* savingsHist */
 
-#hist-modal{
-}
-
-#hist-header{
-}
 
 #hist-body{
     background-color: #d6caf0;
@@ -438,6 +460,12 @@ td #posAmount  {
     color: green !important;
 }
 
+.search-hist{
+    /* background-color: tomato; */
+    /* margin: auto; */
+    width: fit-content;
+    margin-left: 30px;
+}
 /* words and headers */
 #savings-title{
     text-align: center;
@@ -478,21 +506,26 @@ label{
 }
 
 /* borrowed CSS */
+
+.histTableContainer{
+    background-color: yellow;
+}
+
 .histTable{
-    /* border-collapse: collapse; */
-    width: 90%;
-    background-color: #ffffff;
+    border-collapse: collapse;
+    width: 93%;
+    /* background-color: #ffffff; */
     overflow: auto;
     text-align: center;
     border: 1px solid rgb(32, 27, 27);
-    border-radius: 5px !important;
-
     overflow-y: auto;
     max-width: 600px;
     margin: auto;
     max-height: 100px;
-    background-color: tomato;
-    
+}
+
+.histTable-head{
+    border-radius: 10px;
 }
 
 .histTable thead {
@@ -504,8 +537,7 @@ label{
 
 .histTable th {
     padding: 8px 12px;
-    /* background-color: #023e8a; */
-    background-color: #26336b;
+    background-color: #5164ba;
     color: #fff;
     
 }
@@ -513,7 +545,13 @@ label{
 .histTable td{
     padding: 5px;
 }
-table tbody tr td {
+
+
+table thead{
+    border-color: none;
+}
+
+.histTable tbody tr td {
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 0px;
