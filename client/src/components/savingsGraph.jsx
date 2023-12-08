@@ -30,10 +30,21 @@ const SavingsGraph = ({ year }) => {
     };
 
     fetchData();
+
   }, [userId, authLoading, year]);
 
   const svgRef = useRef();
   const [showLines, setShowLines] = useState({});
+
+  useEffect(() => {
+  if (data.length > 0) {
+    const defaultShowLines = {};
+    data.forEach((category) => {
+      defaultShowLines[category._id] = true; // Set all categories to active by default
+    });
+    setShowLines(defaultShowLines);
+  }
+}, [data]);
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
