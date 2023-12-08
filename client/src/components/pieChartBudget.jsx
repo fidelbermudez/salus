@@ -20,9 +20,10 @@ const PieChart = ({ active, data, limit, expenses }) => {
   }, [userId, authLoading]);
 
   useEffect(() => {
-      createPieChart(data);
-  }, [data]);
-
+    // Filter data to include only items with amount_spent > 0
+    const filteredData = data.filter(item => item.amount_spent > 0);
+    createPieChart(filteredData);
+}, [data]);
   const createPieChart = (data) => {
     console.log("data", data)
     d3.select(svgRef.current).selectAll("*").remove();
