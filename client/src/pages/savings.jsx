@@ -8,15 +8,14 @@ import Form from 'react-bootstrap/Form';
 import CloseButton from 'react-bootstrap/CloseButton';
 import SavingsCategory from '../components/savingsCat';
 import axios from 'axios';
-import { useAuth } from '../AuthContext'; 
-import { local } from 'd3';
-import Alert from 'react-bootstrap/Alert';
 import { AiOutlinePlus } from 'react-icons/ai';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import SavingsSummary from './savingsSummary';
 // import { local } from 'd3';
 
 
-function NewGoalForm() {
+function NewGoalForm(props) {
 
   const userId = localStorage?.userId;
 
@@ -50,7 +49,7 @@ function NewGoalForm() {
     setError(null);
     setSuccess(null);
 
-    // post request to add new entry to database
+    // post request to add new entry to database 
     const addGoal = async(e) => {
     try {
       const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed,
@@ -60,16 +59,25 @@ function NewGoalForm() {
       setIsSubmitting(false);
       setSuccess('Data successfully saved!');
       console.log('Data saved: ', response.data);
+      console.log(success);
     } catch (err) {
       setIsSubmitting(false);
       setError('Something went wrong! Please try again.');
       console.error(err);
+      console.log(error);
     }}
 
     const addToHist = async (e) => {
     // request to add entry to database
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-US');
+
+
+    const showTime = date.getHours() 
+        + ':' + date.getMinutes() 
+        + ":" + date.getSeconds();
       try {
-        const newEntry = {user_id: userId, date: getDate(), amount: amountContributed, savings_category: goalName};
+        const newEntry = {user_id: userId, date: formattedDate, timestamp: showTime, amount: amountContributed, savings_category: goalName, creation_date: formattedDate };
         const response = await axios.post(`http://localhost:8081/api/savingsHistory/insert`, newEntry);
         console.log(response);
         console.log("posted successfully ");
@@ -86,6 +94,14 @@ function NewGoalForm() {
 
     addGoal();
     addToHist();
+
+    // clear fields after goal is submitted
+    setGoalName('');
+    setGoalAmount('');
+    setAmountContributed(0);    
+    console.log(props.update)
+    props.setUpdate(!props.update);
+    console.log(props.update)
   };
 
   return (
@@ -128,7 +144,8 @@ function NewGoalForm() {
 //  modal for adding new goal
 function NewGoalModal(props) {
   const handleClose = () => {
-    props.onHide(); // Close the modal using the onHide prop from props
+    props.onHide();
+    props.setUpdate(!props.update);
   };
   return (
     <Modal
@@ -145,7 +162,7 @@ function NewGoalModal(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body>
-        <NewGoalForm/>
+        <NewGoalForm setUpdate={props.setUpdate} update={props.update}/>
       </Modal.Body>
     </Modal>
   );
@@ -153,13 +170,14 @@ function NewGoalModal(props) {
 
 // main function in the page, in charge of display and combining all features
 function Savings() {
-  const { currentUser } = useAuth(); 
+  // const { currentUser } = useAuth(); 
   const userId = localStorage?.userId;
 
   // variable for showing or hiding modal
   const [modalShow, setModalShow] = React.useState(false);
   // variable for all goals belonging to user
   const [goals, setGoals] = React.useState([]);
+  const [update, setUpdate] = useState(false);
 
   const sortDataByProperty = (data, property) => {
   const sorted = [...data].sort((a, b) => {
@@ -170,18 +188,21 @@ function Savings() {
   };
 
   const sortedGoals = sortDataByProperty(goals, 'savings_category');
-  
+  const completedGoals = sortedGoals.filter(goal => goal.completed === 1);
+  const currGoals = sortedGoals.filter(goal => goal.completed === 0);
   // get requests to get all of the savings goals for a user
   useEffect(() => {
     axios.get('http://localhost:8081/api/savings/show/' + userId)
-    .then(goals => setGoals(goals.data))
-    .catch(err => console.log(err))
-  })
+      .then(response => setGoals(response.data))
+      .catch(err => console.log(err));
+      console.log("test");
+  }, [update]);
   
   return (
     <div className="all" style={{display: "flex"}}>
     <div className="Saving">
       {/* <h1 id="savings-title"> Savings </h1> */}
+    
     <div className= "float-container">   
       {/* display of existing savings goals and goal progress */}
         <div className = "goals"> 
@@ -198,29 +219,72 @@ function Savings() {
         <NewGoalModal
           show={modalShow}
           onHide={() => setModalShow(false)}
+          setUpdate = {setUpdate}
+          update = {update} 
         />
         </div>
         
       </div>
 
-       <hr />
 
-      {/* map over all goals and create individual displays */}
-      <div className = 'show-categories'>
-        <div className = "cats">
-          {
-            sortedGoals.map(goal =>{
-            return (
-              <div key = {goal._id} className = "goaldiv"> 
-                <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
-              </div>
-            );
-          })}
-         </div>
+      <div className= "show-tabs">
+      <Tabs
+        defaultActiveKey="curr"
+        id="uncontrolled-tab-example"
+        className="tab-group"
+        >
+        <Tab eventKey="curr" title="In Progress" className="tab">
+
+        {/* map over all goals and create individual displays */}
+          <div className = 'show-categories'>
+            <div className = "cats">
+              {
+                currGoals.map(goal =>{
+                return (
+                  <div key = {goal._id} className = "goaldiv"> 
+                    <SavingsCategory setUpdate={setUpdate} update={update} userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Tab>
+        <Tab eventKey="completed" title="Completed" className="tab">
+           {/* map over all goals and create individual displays */}
+          <div className = 'show-categories'>
+            <div className = "cats">
+              {
+                completedGoals.map(goal =>{
+                return (
+                  <div key = {goal._id} className = "goaldiv"> 
+                    <SavingsCategory setUpdate={setUpdate} update={update} userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Tab>
+        <Tab eventKey="all" title="All" className="tab">
+          {/* map over all goals and create individual displays */}
+          <div className = 'show-categories'>
+            <div className = "cats">
+              {
+                sortedGoals.map(goal =>{
+                return (
+                  <div key = {goal._id} className = "goaldiv"> 
+                    <SavingsCategory setUpdate={setUpdate} update={update} userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Tab>
+      </Tabs>
+      
       </div>
       </div>
       <div className="Saving" style={{background: "white", marginTop: "90px", paddingTop: "10px"}}>
-          <SavingsSummary/>
+          <SavingsSummary key={update}/>
       </div>
       </div>
   );

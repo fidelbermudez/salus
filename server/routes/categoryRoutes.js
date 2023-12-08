@@ -169,10 +169,10 @@ router.put('/incrementAmountCsv', upload.single('csvFile'), async (req, res) => 
   }
 });
  
-//POST request used to send a new budget to the DB from the client-side
+// POST request used to send a new budget to the DB from the client-side
 router.post('/insert', async (req, res) => {
   try {
-    // Extract data from the request body
+    // extract data from the request body
     let newBudget = new categories({
       month: req.body.month,
       year: req.body.year,
@@ -181,32 +181,57 @@ router.post('/insert', async (req, res) => {
       amount_spent: req.body.amount_spent,
       limit: req.body.limit
     });
-    
-    let newData = await newBudget.save(); // Save the new document in the DB
+    let newData = await newBudget.save(); // save the new document in the DB
   
-    res.status(201).json(newData); // Respond with the created budget
+    res.status(201).json(newData); // respond with the created budget
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 });
  
- 
- 
-////DELETE request used to delete a budget on the client side and that is reflected on the mongoleDB
+// DELETE request used to delete a budget on the client side and that is reflected on the mongoleDB
 router.delete('/delete/:categoryId', async (req, res) => {
   try {
     const categoryId = req.params.categoryId;
     console.log(categoryId);
- 
-    //needed to change category.deleteOne to categories.deleteOne for it to finally work
+    // change category.deleteOne to categories.deleteOne for it to work
     let result = await categories.deleteOne({_id: categoryId})
- 
+
     if (!result) {
       return res.status(404).json({ message: 'Element not found' });
     }
-    //window.location.reload();
     res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// PUT request used to update a budget on the client side and that is reflected on the mongoleDB
+router.put('/update/:categoryId', async (req, res) => {
+  try {
+    console.log("reached this point")
+    const categoryId = req.params.categoryId;
+    const { limit, category_name } = req.body; 
+    console.log(limit, category_name);
+
+    // create an object representing the updates that user would want to make
+    const updateData = {
+      limit,
+      category_name,
+    };
+
+    // use the `findOneAndUpdate` method to find and update the document by _id
+    const updatedDocument = await categories.findByIdAndUpdate(
+      categoryId,
+      updateData,
+      { new: true } // this option returns the updated document
+    );
+    if (!updatedDocument) {
+      return res.status(404).json({ message: 'Element not found' });
+    }
+    res.json(updatedDocument);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
