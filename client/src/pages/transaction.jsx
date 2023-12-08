@@ -563,7 +563,7 @@ function Transaction() {
   return (
     <div className="everything" style={{padding: '2%', paddingBottom: "4%", width: '90%', marginLeft: '5%', marginTop: '8%', background: '#f2f2f2', borderRadius: '80px', border: '1px solid #d1d1d1'}}>
       <div className = "transactions" style={{marginLeft: '40%', color: '#5e70c2', marginBottom: '1%'}}> 
-          <h3 id="transactions-title">Your Transactions </h3>
+          <h2 id="transactions-title">Your Transactions </h2>
       </div>
       <div className="add-both">
         <div className="upload-button-container">
