@@ -31,6 +31,9 @@ h1 {
   margin-top: 7px;
 
 }
+.month-buttons :first-child{
+  margin-left: 12px;
+}
 
 /* defines a grid container with two equal-width columns, centered on the page, and allows for
 vertical scrolling if the content exceeds the container size. */
