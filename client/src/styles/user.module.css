@@ -167,6 +167,9 @@
 .twoButtons button:first-child {
   margin-right: 10px;
 }
+.twoButtons button:last-child {
+  background-color: red;
+}
 .confirmText{
   display: flex;
   margin-bottom: 10px;

@@ -270,7 +270,7 @@ const User = () => {
               <Button variant="secondary" onClick={closeDeleteConfirmationModal}>
                 Cancel
               </Button>
-              <Button variant="danger" onClick={handleDeleteAccount}>
+              <Button className={styles.redButton} variant="danger" onClick={handleDeleteAccount}>
                 Yes, Delete
               </Button>
             </div>
