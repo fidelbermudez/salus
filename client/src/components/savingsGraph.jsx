@@ -30,10 +30,21 @@ const SavingsGraph = ({ year }) => {
     };
 
     fetchData();
+
   }, [userId, authLoading, year]);
 
   const svgRef = useRef();
   const [showLines, setShowLines] = useState({});
+
+  useEffect(() => {
+  if (data.length > 0) {
+    const defaultShowLines = {};
+    data.forEach((category) => {
+      defaultShowLines[category._id] = true; // Set all categories to active by default
+    });
+    setShowLines(defaultShowLines);
+  }
+}, [data]);
 
   useEffect(() => {
     const svg = d3.select(svgRef.current);
@@ -167,7 +178,7 @@ const SavingsGraph = ({ year }) => {
       .text(d => d._id.length > 10 ? `${d._id.substring(0, 10)}...` : d._id)
       .style('font-size', '12px');
     }
-  }, [data, showLines, year]);
+  }, [data, showLines]);
 
   const handleCheckboxChange = (categoryName) => {
     setShowLines(prevState => ({
@@ -176,10 +187,14 @@ const SavingsGraph = ({ year }) => {
     }));
   };
 
+  useEffect(() => {
+    setShowLines({});
+  }, [year]);
+
   return (
     <div>
       <svg ref={svgRef}></svg>
-      <div style={{ display: "flex", flexWrap: "wrap", margin: "4%", marginBottom: "2%"}}>
+      <div style={{ display: "flex", flexWrap: "wrap", margin: "4%", marginBottom: "2%", textAlign: "left"}}>
         {data.length > 0 &&
           data.map((category, index) => (
             <div
@@ -191,7 +206,7 @@ const SavingsGraph = ({ year }) => {
                 minHeight: "10%"
               }}
             >
-              <label style={{fontWeight: "600", marginBottom: "0", paddingBottom: "6%"}}>
+              <label style={{fontWeight: "600", marginBottom: "0", paddingBottom: "6%", color: "#555"}}>
                 <input
                   style={{width: "auto", marginRight: "5%"}}
                   type="checkbox"

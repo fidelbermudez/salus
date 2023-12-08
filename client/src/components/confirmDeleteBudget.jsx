@@ -1,21 +1,15 @@
 import React from 'react';
 import '../styles/budget.css';
 import Modal from 'react-bootstrap/Modal';
-import CloseButton from 'react-bootstrap/CloseButton';
 import Button from 'react-bootstrap/Button';
 import {useState} from 'react';
 import axios from 'axios';
-import Alert from 'react-bootstrap/Alert';
 
-
+// function is responsible for showing the window asking if a user wants to delete a budget card
 function ConfirmDeleteCard(props) {
   const {show, onHide, categoryId, bool, setBool} = props;
-  const [showDel, setShowDel] = useState(show);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
-  
 
   const handleClose = () => {
     props.onHide(); // Close the modal using the onHide prop from props
@@ -23,7 +17,6 @@ function ConfirmDeleteCard(props) {
 
   const handleDeleteBudget = async () => {
     console.log("delete element click");
-    
     console.log(categoryId, typeof(categoryId))
 
     const deleteBudget = async () => {
@@ -33,7 +26,6 @@ function ConfirmDeleteCard(props) {
       if (response.status === 200) {
         setSuccess('Element deleted successfully');
         setBool(!bool)
-        //window.location.reload();
       } else {
         setError('Element not found');
       }
@@ -44,6 +36,7 @@ function ConfirmDeleteCard(props) {
     }
     deleteBudget();
   };
+
 
   return (
     <Modal

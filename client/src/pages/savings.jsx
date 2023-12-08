@@ -15,7 +15,7 @@ import SavingsSummary from './savingsSummary';
 // import { local } from 'd3';
 
 
-function NewGoalForm() {
+function NewGoalForm(props) {
 
   const userId = localStorage?.userId;
 
@@ -98,7 +98,10 @@ function NewGoalForm() {
     // clear fields after goal is submitted
     setGoalName('');
     setGoalAmount('');
-    setAmountContributed(0);
+    setAmountContributed(0);    
+    console.log(props.update)
+    props.setUpdate(!props.update);
+    console.log(props.update)
   };
 
   return (
@@ -141,7 +144,9 @@ function NewGoalForm() {
 //  modal for adding new goal
 function NewGoalModal(props) {
   const handleClose = () => {
-    props.onHide(); // Close the modal using the onHide prop from props
+    props.onHide();
+    console.log(props.update)
+    props.setUpdate(!props.update);
   };
   return (
     <Modal
@@ -158,7 +163,7 @@ function NewGoalModal(props) {
       <CloseButton className="btn-close-white" onClick = {handleClose} style={{ color: 'white !important' }} />
       </Modal.Header>
       <Modal.Body>
-        <NewGoalForm/>
+        <NewGoalForm setUpdate={props.setUpdate} update={props.update}/>
       </Modal.Body>
     </Modal>
   );
@@ -173,7 +178,7 @@ function Savings() {
   const [modalShow, setModalShow] = React.useState(false);
   // variable for all goals belonging to user
   const [goals, setGoals] = React.useState([]);
-
+  const [update, setUpdate] = useState(false);
 
   const sortDataByProperty = (data, property) => {
   const sorted = [...data].sort((a, b) => {
@@ -189,9 +194,10 @@ function Savings() {
   // get requests to get all of the savings goals for a user
   useEffect(() => {
     axios.get('http://localhost:8081/api/savings/show/' + userId)
-    .then(goals => setGoals(goals.data))
-    .catch(err => console.log(err))
-  })
+      .then(response => setGoals(response.data))
+      .catch(err => console.log(err));
+      console.log("test");
+  }, [update]);
   
   return (
     <div className="all" style={{display: "flex"}}>
@@ -214,6 +220,8 @@ function Savings() {
         <NewGoalModal
           show={modalShow}
           onHide={() => setModalShow(false)}
+          setUpdate = {setUpdate}
+          update = {update} 
         />
         </div>
         
@@ -235,7 +243,7 @@ function Savings() {
                 currGoals.map(goal =>{
                 return (
                   <div key = {goal._id} className = "goaldiv"> 
-                    <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
+                    <SavingsCategory setUpdate={setUpdate} update={update} userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
                   </div>
                 );
               })}
@@ -250,7 +258,7 @@ function Savings() {
                 completedGoals.map(goal =>{
                 return (
                   <div key = {goal._id} className = "goaldiv"> 
-                    <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
+                    <SavingsCategory setUpdate={setUpdate} update={update} userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
                   </div>
                 );
               })}
@@ -265,7 +273,7 @@ function Savings() {
                 sortedGoals.map(goal =>{
                 return (
                   <div key = {goal._id} className = "goaldiv"> 
-                    <SavingsCategory userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
+                    <SavingsCategory setUpdate={setUpdate} update={update} userID = {userId} catId = {goal._id} name={goal.savings_category} saved={goal.amount_contributed} goal={goal.goal_amount} date={goal.date_created}/> 
                   </div>
                 );
               })}
@@ -277,7 +285,7 @@ function Savings() {
       </div>
       </div>
       <div className="Saving" style={{background: "white", marginTop: "90px", paddingTop: "10px"}}>
-          <SavingsSummary/>
+          <SavingsSummary key={update}/>
       </div>
       </div>
   );

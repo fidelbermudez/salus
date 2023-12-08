@@ -7,7 +7,7 @@ import axios from 'axios';
 
 
 function ConfirmDelete(props) {
-  const {show, onHide, userID, catID, catName, c_date} = props;
+  const {setUpdate, update, show, onHide, userID, catID, catName, c_date} = props;
   // const [showDel, setShowDel] = useState(show);
   // const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -61,6 +61,7 @@ function ConfirmDelete(props) {
     //call the delete functions
     deleteGoal();
     deleteGoalHistory();
+    setUpdate(!update);
   };
 
   return (

@@ -30,6 +30,7 @@
 .show-tabs{
     max-height: 80%;
     width: 100%;
+    position: sticky;
     overflow: auto;
     overflow-y: auto;
 

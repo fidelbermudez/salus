@@ -107,12 +107,14 @@ router.get('/year/:year/:userid', async (req, res) => {
       {
         $addFields: {
           year: { $year: { $dateFromString: { dateString: '$date', format: '%m/%d/%Y' } } },
-          // Convert date to ISO 8601 format for sorting purposes
           isoDate: { $dateFromString: { dateString: '$date', format: '%m/%d/%Y' } }
         }
       },
       {
         $match: { year: requestedYear, user_id: userId }
+      },
+      {
+        $sort: { savings_category: 1 } // Sort by savings_category
       },
       {
         $sort: { isoDate: 1 } // Sort using the newly created isoDate field
@@ -124,6 +126,24 @@ router.get('/year/:year/:userid', async (req, res) => {
             $push: {
               date: '$date',
               amount: '$amount'
+            }
+          }
+        }
+      },
+      {
+        $sort: { _id: 1 } // Sort by savings_category (_id)
+      },
+      {
+        $project: {
+          _id: 1,
+          data: {
+            $map: {
+              input: '$data',
+              as: 'item',
+              in: {
+                date: '$$item.date',
+                amount: '$$item.amount'
+              }
             }
           }
         }
