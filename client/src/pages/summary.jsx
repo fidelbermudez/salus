@@ -20,7 +20,7 @@ function Summary({yr, setCurrYear, setCurrMonth}) {
   };
 
   return (
-    <div style={{textAlign: 'center', margin: '3%', padding: '3%', borderRadius: '60px', border: '1px solid #d1d1d1', background: '#f2f2f2'}}>
+    <div style={{textAlign: 'center', margin: '3%', padding: '3%', borderRadius: '30px', border: '1px solid #d1d1d1', background: '#f2f2f2'}}>
       <h2 style={{marginTop: '1%'}}>Budget History</h2>
       <div>
         <h5>
