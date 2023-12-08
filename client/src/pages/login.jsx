@@ -210,8 +210,15 @@ const Login = () => {
                   ))}
                 </div>
                 <div className="d-flex justify-content-center">
-                  <button type="submit" className="btn btn-primary mr-2">Verify OTP</button>
+                  <button 
+                    type="submit" 
+                    style={{ backgroundColor: '#5164ba', borderColor: '#5164ba' }} // Inline styles as an object
+                    className="btn btn-primary mr-2"
+                  >
+                    Verify OTP
+                  </button>
                 </div>
+
               </form>
             )  : isSignUpMode ? (
                 <>

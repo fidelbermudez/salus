@@ -13,7 +13,7 @@ html, body{
   flex-direction: column;
   justify-content: flex-start; 
   padding: 20px;
-  background: linear-gradient(to bottom right, navy, lightblue);
+  background: linear-gradient(to bottom right, #5164ba, #d6caf0);
   color: white;
 }
 .loginButton {
@@ -21,7 +21,7 @@ html, body{
   padding: 20px 40px; 
   border: none;
   border-radius: 10px;
-  background-color: navy;
+  background-color: #5164ba;
   color: white;
   cursor: pointer;
   font-size: 20px; 
@@ -30,7 +30,7 @@ html, body{
 }
 
 .loginButton:hover {
-  background-color: lightblue;
+  background-color: #d6caf0;
   color: navy;
 }
 
@@ -97,7 +97,7 @@ html, body{
   text-align: center;
 }
 .home__nav a:hover {
-  color: navy!important;
+  color: #5164ba!important;
 }
 .home__nav a {
   text-decoration: none;
