@@ -264,9 +264,9 @@ function Budget() {
     <div className="month-container">
       {/* previous and Next Month Buttons */}
         <div className="month-buttons">
-          <button onClick={() => handleMonthChange(-1)}>Prev</button>
+          <Button variant='primary' onClick={() => handleMonthChange(-1)}>Prev</Button>
           <h1>{getMonthName(currMonth)} {currYear}</h1>
-          <button onClick={() => handleMonthChange(1)}>Next</button>
+          <Button variant='primary'onClick={() => handleMonthChange(1)}>Next</Button>
         </div>
     </div>
 
