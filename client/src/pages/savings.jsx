@@ -49,7 +49,7 @@ function NewGoalForm() {
     setError(null);
     setSuccess(null);
 
-    // post request to add new entry to database
+    // post request to add new entry to database 
     const addGoal = async(e) => {
     try {
       const newGoal = {user_id: userId, goal_amount: goalAmount, amount_contributed: amountContributed,
