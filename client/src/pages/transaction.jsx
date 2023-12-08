@@ -338,7 +338,7 @@ function NewHistoryModal(props) {
     >
         <Modal.Header>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Income
+            Summary
           </Modal.Title>
           <CloseButton
             className="btn-close-white"
