@@ -106,6 +106,154 @@ function HelpPage() {
                     </ul>
                 </Accordion.Body>
                 </Accordion.Item>
+                <Accordion.Item eventKey="5">
+                <Accordion.Header>How do I add a savings goal?</Accordion.Header>
+                <Accordion.Body>
+                    <ul>
+                        <li>
+                            Go to the <strong>Savings</strong> page
+                        </li>
+                        <li>
+                            Click the <strong>plus sign</strong> next to where it says "Your Savings"
+                        </li>
+                        <li>
+                            Fill out the appropriate information for your goal such as the <strong>name of the goal</strong>, <strong> the amount you want to save for </strong>, and <strong>how much you have already contributed </strong>. If you do not specify a contributed amount, this value will default to 0.
+                        </li>
+                        <li>
+                            Press <strong>submit</strong> and close the "Add a New Goal" window. If you do not see your new goal appear, refresh the page.
+                        </li>
+                    </ul>
+                     See "How do I manage my savings?" for more information on editing goals and accessing the history of your savings contributions.
+                </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="6">
+                <Accordion.Header>How do I manage my savings?</Accordion.Header>
+                <Accordion.Body>
+                    <p>
+                    <strong>Editing Goals and Making Contributions</strong>:
+                    </p>
+                    <ul>
+                        <li>
+                            Go to the <strong>Savings</strong> page
+                        </li>
+                        <li>
+                            Click the <strong>pencil icon</strong> on any of your goals.
+                        </li>
+                        <li>
+                            Change the appropriate information for your goal such as the <strong>name of the goal</strong>, <strong> the amount you want to save for </strong>, or how much you want to <strong>add to or subtract from the contributed amount</strong>.
+                        </li>
+                        <li>
+                            Press <strong>submit</strong> and close the "Edit Goal" window. If you do not see your changes appear, refresh the page.
+                        </li>
+                    </ul>
+                    <p>
+                    <strong>Deleting Goals</strong>:
+                    </p>
+                     <ul>
+                        <li>
+                            Go to the <strong>Savings</strong> page
+                        </li>
+                        <li>
+                            Click the <strong>"X"</strong> on any of your goals.
+                        </li>
+                        <li>
+                           Press <strong>"Delete"</strong> in the pop up to delete. Otherwise, press  <strong>"Cancel"</strong> to cancel this action.
+                        </li>
+                        <li>
+                            If you do not see your goal delete, refresh the page.
+                        </li>
+                    </ul>
+                    <p>
+                    <strong>See History of Savings Transactions</strong>:
+                    </p>
+                     <ul>
+                        <li>
+                            Go to the <strong>Savings</strong> page
+                        </li>
+                        <li>
+                            <strong>Click on any of your goals. </strong> You will see a pop up with a table of your savings transactions.
+                        </li>
+                        <li>
+                           Specify a <strong>start date</strong> or an <strong>end date </strong> to see a more specific range of transaction dates.
+                        </li>
+                        <li>
+                            Press the <strong>up or down arrows</strong> if you want to sort by ascending or descending, respectively.
+                        </li>
+                        <li>
+                            Close the pop up when you are done by pressing X or clicking outside of the pop up.
+                        </li>
+                    </ul>
+                     
+                </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="7">
+                <Accordion.Header>How do I add a budget?</Accordion.Header>
+                <Accordion.Body>
+                    <ul>
+                        <li>
+                            Go to the <strong>Budget</strong> page.
+                        </li>
+                        <li>
+                            Click the <strong>plus sign</strong> across the section where it says "Your Budgets".
+                        </li>
+                        <li>
+                            Fill out the appropriate information for your new budget such as the name of the budget, the limit for the budget, and the month and year for the budget.
+                        </li>
+                        <li>
+                            Once every input field is filled, click on the <strong>Add Budget</strong> button at the bottom of the window to finalize your new budget's information.
+                        </li>
+                    </ul>
+                    See "How do I add my transactions?" for more information on filling your budgets.
+                </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="8">
+                <Accordion.Header>How do I manage my budgets?</Accordion.Header>
+                <Accordion.Body>
+                <p>
+                    <strong>Editing Budgets</strong>:
+                </p>
+                <ul>
+                    <li>
+                        Go to the <strong>Budget</strong> page.
+                    </li>
+                    <li>
+                        Click the <strong>pencil icon</strong> on any of your budgets.
+                    </li>
+                    <li>
+                        In the window that appears, you are able to change the <strong>name</strong> and the <strong>limit</strong> for your budget.
+                    </li>
+                    <li>
+                        Once you are satisfied with the changes, make sure to finalize them by pressing the <strong>Update Budget</strong> button and close the "Edit Budget" window.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Deleting Budgets</strong>
+                </p>
+                <ul>
+                    <li>
+                        Go to the <strong>Budget</strong> page.
+                    </li>
+                    <li>
+                        Click the <strong>"X"</strong> on any of your budgets.
+                    </li>
+                    <li>
+                        Press <strong>"Delete"</strong> in the pop up window to delete. Otherwise, press  <strong>"Cancel"</strong> to cancel this action.
+                    </li>
+                </ul>
+                </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="9">
+                <Accordion.Header>How do I manage the total budget?</Accordion.Header>
+                <Accordion.Body>
+                    The <strong>Total Budget</strong> where you'll be able to see how much money you have total in the form of a monthly budget and it shows how much is left. Every change, whether it is adding a budget, deleting a budget, or editing a budget, will cause the total budget to change to reflect that. See previous help sections if need be.
+                </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="10">
+                <Accordion.Header>How do I find all my budgets?</Accordion.Header>
+                <Accordion.Body>
+                    The defualt view of your budgets are those created for the <strong>current month and year</strong>. Use the <strong>Prev</strong> button and the <strong>Next</strong> button to switch to different months to view other budgets assigned to their respective month and year.
+                </Accordion.Body>
+                </Accordion.Item>
             </Accordion>
             </div>
         </div>

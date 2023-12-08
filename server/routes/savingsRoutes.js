@@ -84,7 +84,7 @@ router.delete('/delete/:categoryId', async (req, res) => {
 router.put('/update/:categoryId', async (req, res) => {
   try {
     const catId = req.params.categoryId;
-    const { goal_amount, amount_contributed, savings_category } = req.body; 
+    const { goal_amount, amount_contributed, savings_category, completed } = req.body; 
 
 
     // Create an object representing the updates you want to make
@@ -92,6 +92,7 @@ router.put('/update/:categoryId', async (req, res) => {
       goal_amount,
       amount_contributed,
       savings_category,
+      completed
     };
 
     // Use the `findOneAndUpdate` method to find and update the document by _id
@@ -111,5 +112,6 @@ router.put('/update/:categoryId', async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 module.exports = router;
