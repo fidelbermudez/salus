@@ -3,11 +3,7 @@
 } */
 .Saving{
     min-height: 100vh;
-    /* green */
-    /* background-color: #eaf2d1; */
-    background-color: #5164ba;
-    /* dark blue */
-    /* background-color: #181741; */
+    background-color: #98a5e0;
     width: 50%;
 }
 
@@ -22,14 +18,6 @@
     vertical-align: middle;
 }
 
-.show-categories{
-    overflow: auto;
-    overflow-y: auto;
-    /* max-height: 78%; */
-    display: flex;
-    justify-content: center;
-}
-
 .plusbutton{
     color: white;
 }
@@ -37,14 +25,50 @@
     cursor: pointer;
     color: rgb(181, 191, 247);
 }
-.hr{
-    color: white;
+
+
+.show-tabs{
+    max-height: 80%;
+    width: 100%;
+    overflow: auto;
+    overflow-y: auto;
+
+}
+
+.show-categories{
+    width: 100%;
+    max-height: 100%;
+}
+
+.tab-group{
+    position: sticky;
+    width: 100%;
+    background-color: #98a5e0;
+    max-height: 15vh;
+    padding: 5px 0px;
+}
+
+.tab-group .nav-item{
+    margin-left: 40px;
+    margin-right: 60px;
+
+}
+
+.tab-group .nav-item:hover {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.tab-group .nav-item button:hover {
+    background-color: white;
+    border-radius: 0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 /* savings buttons  */
 .add button{
     background-color: white;
-    /* border-color: #023E8A; */
     position: absolute;
     float: left;
     vertical-align: middle;
@@ -52,22 +76,12 @@
 }
 
  .edit button{
-     /* original blue: #023e8a */
     background-color: transparent;
     border-color: transparent;
     max-height: 20px;
     max-width: 20px;
 }
 
-/*
-#editing{
-    background-color: #d43c33;
-    border-color: #d43c33;
-}
-
-#editing:hover{
-    background-color: #e65850;
-} */
 
 /* modal */
 
@@ -81,12 +95,6 @@
     margin: auto;
 }
 .modal-header{
-    /* background-color: #122a5a; */
-    /* background-color: #98e0e0; */
-    /* background-color: #427D9D; */
-    /* background-color: red; */
-    /* background-color: #4a9ca7; */
-    /* background-color: #2c2aaf; */
     background-color: #4457ac;
     position: relative;
     width:auto;
@@ -102,9 +110,6 @@
 }
 
 .modal-body{
-    /* background-color: #023E8A; */
-    /* background-color: #1c428d; */
-    /* background-color: #83b0ff; */
     background-color: #d6caf0;
 }
 
@@ -159,25 +164,6 @@
 
 /* savings categories div format*/
 
-/* .cats{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 20px;
-    margin-left: 5rem;
-    width: 100%; 
-}
-
- #catsul{
-    width: 18%;
-
-} 
-
-.goaldiv{
-    margin: 1rem;
-    max-width: 300px;
-
-} 
-*/
 
 .cats{
     display: grid;
@@ -190,10 +176,7 @@
     /* width: 100%; */
 }
 
-/* #catsul{
-    width: 18%;
 
-} */
 
 .goaldiv{
     margin: 1rem;
@@ -208,11 +191,6 @@
     margin-right: auto;
     min-height: 15vh;
     max-width: 280px;
-    /* background-color: #F9F5EB; */
-    /* background-color: #9ee0e9; */
-    /* background-color: #74c495; */
-    /* background-color: #caaff8; */
-    /* background-color: #cebff0; */
     border-color: transparent;
 }
 .btnastext{
@@ -308,7 +286,7 @@
 }
 
 .prog-bar-save{
-    height: 10px !important;
+    height: 25px !important;
 }
 
 .goalAmount{
@@ -355,9 +333,7 @@
 .btn-check{
     background-color: lime;
 }
-.addmoney button{
-    /* background-color: #5e70c2; */
-}
+
 
 .submoney button{
     background-color: lime;
@@ -396,11 +372,6 @@
 
 /* savingsHist */
 
-#hist-modal{
-}
-
-#hist-header{
-}
 
 #hist-body{
     background-color: #d6caf0;
@@ -438,6 +409,12 @@ td #posAmount  {
     color: green !important;
 }
 
+.search-hist{
+    /* background-color: tomato; */
+    /* margin: auto; */
+    width: fit-content;
+    margin-left: 30px;
+}
 /* words and headers */
 #savings-title{
     text-align: center;
@@ -478,21 +455,26 @@ label{
 }
 
 /* borrowed CSS */
+
+.histTableContainer{
+    background-color: yellow;
+}
+
 .histTable{
-    /* border-collapse: collapse; */
-    width: 90%;
-    background-color: #ffffff;
+    border-collapse: collapse;
+    width: 93%;
+    /* background-color: #ffffff; */
     overflow: auto;
     text-align: center;
     border: 1px solid rgb(32, 27, 27);
-    border-radius: 5px !important;
-
     overflow-y: auto;
     max-width: 600px;
     margin: auto;
     max-height: 100px;
-    background-color: tomato;
-    
+}
+
+.histTable-head{
+    border-radius: 10px;
 }
 
 .histTable thead {
@@ -504,8 +486,7 @@ label{
 
 .histTable th {
     padding: 8px 12px;
-    /* background-color: #023e8a; */
-    background-color: #26336b;
+    background-color: #5164ba;
     color: #fff;
     
 }
@@ -513,7 +494,13 @@ label{
 .histTable td{
     padding: 5px;
 }
-table tbody tr td {
+
+
+table thead{
+    border-color: none;
+}
+
+.histTable tbody tr td {
     border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 0px;
