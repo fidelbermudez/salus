@@ -55,7 +55,7 @@ function HelpPage() {
                 <Accordion.Item eventKey="2">
                 <Accordion.Header>How do I reset my password?</Accordion.Header>
                 <Accordion.Body>
-                    To reset your password, click on the "Forgot Password" link and follow the instructions sent to your email.
+                    To reset your password, click on the pencil icon on your user page. From here you will be able to change your password.
                 </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="3">
