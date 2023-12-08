@@ -178,7 +178,7 @@ const SavingsGraph = ({ year }) => {
       .text(d => d._id.length > 10 ? `${d._id.substring(0, 10)}...` : d._id)
       .style('font-size', '12px');
     }
-  }, [data, showLines, year]);
+  }, [data, showLines]);
 
   const handleCheckboxChange = (categoryName) => {
     setShowLines(prevState => ({
@@ -186,6 +186,10 @@ const SavingsGraph = ({ year }) => {
       [categoryName]: !prevState[categoryName],
     }));
   };
+
+  useEffect(() => {
+    setShowLines({});
+  }, [year]);
 
   return (
     <div>
