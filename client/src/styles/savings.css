@@ -67,6 +67,26 @@
     border-top-right-radius: 5px;
 }
 
+.tab-group .nav-item button:active{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+}
+
+.tab-group .nav-item button:focus {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+}
+
+
+
+
+
 /* savings buttons  */
 .add button{
     background-color: white;
