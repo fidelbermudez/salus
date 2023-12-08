@@ -13,9 +13,9 @@ const TransactionSummary = () => {
     };
   
     return (
-    <div style={{textAlign: 'center', margin: '2%'}}>
-        <h1>Welcome to your Summary!</h1>
-        <br />
+    <div style={{textAlign: 'center', margin: '2%', marginTop: '0'}}>
+        {/* <h1>Welcome to your Summary!</h1> */}
+        {/* <br /> */}
         <h2>Transaction History</h2>
         <div>
           <h5>

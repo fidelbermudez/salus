@@ -170,6 +170,15 @@
 .modal-dialog{
     background-color: transparent;
 }
+
+#modalHistory .modal-dialog{
+    max-width: unset;
+}
+
+#modalHistory {
+    max-width: unset;
+}
+
 .modal-footer{
     background-color: #023E8A;
    }
