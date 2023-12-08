@@ -179,7 +179,7 @@ const SavingsGraph = ({ year }) => {
   return (
     <div>
       <svg ref={svgRef}></svg>
-      <div style={{ display: "flex", flexWrap: "wrap", margin: "4%", marginBottom: "2%"}}>
+      <div style={{ display: "flex", flexWrap: "wrap", margin: "4%", marginBottom: "2%", textAlign: "left"}}>
         {data.length > 0 &&
           data.map((category, index) => (
             <div
@@ -191,7 +191,7 @@ const SavingsGraph = ({ year }) => {
                 minHeight: "10%"
               }}
             >
-              <label style={{fontWeight: "600", marginBottom: "0", paddingBottom: "6%"}}>
+              <label style={{fontWeight: "600", marginBottom: "0", paddingBottom: "6%", color: "#555"}}>
                 <input
                   style={{width: "auto", marginRight: "5%"}}
                   type="checkbox"

@@ -145,6 +145,7 @@ function NewGoalForm(props) {
 function NewGoalModal(props) {
   const handleClose = () => {
     props.onHide();
+    props.setUpdate(!props.update);
   };
   return (
     <Modal
