@@ -22,7 +22,7 @@ body {
 
 /* This is to remove the bubbles */
 .nav a, .nav button {
-    border-radius: 0; /* Changed from 20px to 0 */
+    border-radius: 20px; /* Changed from 20px to 0 */
     /* Other styles remain unchanged */
 }
 .nav span{
@@ -108,6 +108,7 @@ body {
     background: none;
     outline: none;
     padding: 0; 
+    border-radius: 20px;
 }
 
 .nav button:focus {
