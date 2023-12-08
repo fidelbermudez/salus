@@ -21,16 +21,11 @@ function SavingsHist(props) {
 
 
   useEffect(() => {
-    // axios.get(`http://localhost:8081/api/savingsHistory/show/${userID}/${name}`)
-    // .then(history => setHistory(history.data.sort((a, b) => new Date(b.date) - new Date(a.date))))
-    // .catch(err => console.log(err))
+  
 
     const displayHist = async () => {
       const safeDate = encodeURIComponent(creation_date);
-      console.log(safeDate);
         try {
-            // const data = {c_date: creation_date};
-            // const response = await axios.get(`http://localhost:8081/api/savingsHistory/show/${userID}/${name}`, data);
             const response = await axios.get(`http://localhost:8081/api/savingsHistory/show/${userID}/${name}/${safeDate}`);
             // const sortedHist = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
             const sortedHist = response.data.sort((a, b) => {
