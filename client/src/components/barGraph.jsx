@@ -286,7 +286,7 @@ const BarChart = ({year, setMonth, setActive, setLimit, setExpenses, setYear}) =
   }, [categoryInfo, change]);
 
   return (
-      <svg ref={svgRef} width="800" height="450">
+      <svg ref={svgRef} width="800" height="475">
       </svg>
   );
 };
