@@ -41,7 +41,7 @@ Summary of Progress:
 - Kelvin Bueno: User is able to login and make a new user with validation of user entries. I was able to keep user authentication throughout pages without losing validation and lose user access. There is also new css throughout the website. Also worked on a new website design.
 - Johnny Cortez: Filtered the bar graph using a new route getting userdata based on year to allow users to see their budget summary for a given year sorted from January to December. Additionally, users can see if they are going over their montly budget limit based on a red barchart fill. Implemented a piechart to allow users to see a visualiation of their category expense breakdown for a given month using a new route fetching data based on year and month. In total, created two new routes for the cateogry collection. For future work, I need to convert styling from pixels to precentages and create saving summary graph.
 
-###Final Project
+### Final Project
 The majority of the work was completed by Milestone 4. Changes between Milestone 4 and the Final Milestone mostly involved refining stylistic choices and implementations and ensuring that all components functioned smoothly.
 
 
