@@ -1,5 +1,7 @@
 # Salus
 
+Final Product Demo: https://drive.google.com/file/d/1YV0KmLVmkDZimmn6aaVDu0EHS_9dn8ux/view?usp=sharing 
+
 ## Team and Project Overview:
 
 Project type: Open Project
@@ -15,7 +17,6 @@ Team members:
 - Israel Briones Jr
 - Johnny Cortez
 
-Final Product Demo: https://drive.google.com/file/d/1YV0KmLVmkDZimmn6aaVDu0EHS_9dn8ux/view?usp=sharing 
 
 ### Milestone 2:
 
